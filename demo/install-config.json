@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "release": {
+    "version": "0.2.0",
+    "zipUrl": "https://github.com/jakezwang/openplainenglish/releases/download/v0.2.0/openplainenglish-0.2.0.zip"
+  },
+  "stores": {
+    "chrome": { "url": null, "verifiedAt": null },
+    "edge": { "url": null, "verifiedAt": null }
+  }
+}

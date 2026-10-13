@@ -4,13 +4,15 @@
 
 OpenPlainEnglish 是一个开源的英文医疗阅读辅助工具。你主动开启后，它会在网页中标记词库里的医疗术语，点击即可查看简短释义、完整解释、适用语境和来源。原文保留，处理在本机完成。目前词库包含 100 个英文医疗词条。
 
-[English README](README.md) · [在线演示](https://jakezwang.github.io/openplainenglish/) · [下载版本](https://github.com/jakezwang/openplainenglish/releases) · [更新与反馈恢复](docs/UPGRADING.md)
+[安装 OpenPlainEnglish](https://jakezwang.github.io/openplainenglish/demo/install.html) · [在线演示](https://jakezwang.github.io/openplainenglish/) · [English README](README.md) · [更新与反馈恢复](docs/UPGRADING.md)
 
 ![本地网页演示：标记医疗术语，点击后显示解释](docs/images/reader-demo.jpg)
 
 *截图来自网页演示。网页演示及模拟浏览器接口的预览，不能证明真实扩展的安装、权限和消息处理已通过验收；请查看相应版本的验证记录。*
 
 ## 安装
+
+[打开安装页面](https://jakezwang.github.io/openplainenglish/demo/install.html)。**商店安装尚未上线**，还需要开发者账号注册和商店审核；上线后这里会连接已验证的官方商店地址，由浏览器确认安装。下载 ZIP 本身不会安装扩展。
 
 适用于桌面端 Chromium 浏览器，例如 Chrome、Edge；最低要求 Chromium 116。当前通过解压扩展安装，没有浏览器商店安装或自动更新。
 

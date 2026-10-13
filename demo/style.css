@@ -7,6 +7,11 @@ button, a, input { -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 3px solid #b45416; outline-offset: 4px; }
 .masthead { max-width: 1240px; margin: 0 auto; height: 96px; padding: 0 48px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); }
 .masthead > a:last-child { font-size: 13px; text-decoration: none; }
+.install-link { display: inline-flex; align-items: center; gap: 7px; padding: 12px 18px; border-radius: 7px; background: #23513f; color: #fffdf7; font-size: 13px; font-weight: 650; text-decoration: none; }
+.install-link:hover { background: #123d2d; }
+.intro-actions { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; margin-top: 26px; font-size: 13px; }
+.intro-actions .install-link { padding: 15px 20px; }
+#reading-demo { scroll-margin-top: 20px; }
 .brand { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 650; text-decoration: none; letter-spacing: -.5px; }
 .book { background: var(--ink); color: #fffdf4; width: 35px; height: 35px; border-radius: 11px 11px 4px 11px; font-family: Georgia, serif; font-size: 26px; line-height: 1; text-align: center; letter-spacing: -4px; padding-right: 5px; }
 .book span { font-style: italic; }

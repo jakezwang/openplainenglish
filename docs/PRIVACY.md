@@ -42,6 +42,10 @@ Choosing a source link similarly opens the source website in your browser. Its p
 
 The manifest does not request access to all websites, browsing history, cookies, or accounts. Browser-internal pages, PDF files and the built-in PDF viewer, iframes, and shadow roots are outside the supported reading surface. Matching runs within individual text nodes rather than across separate HTML elements.
 
+## Limited Use
+
+OpenPlainEnglish's use of page text, the active tab's URL, and feedback data follows the [Chrome Web Store User Data Policy](https://developer.chrome.com/docs/webstore/program-policies/limited-use), including its Limited Use requirements. This data is used only to provide the reading explanations and user-directed feedback features. It is not sold or used for advertising, profiling, or credit decisions. The extension does not transmit page text or the active tab's URL. Feedback is sent to GitHub only when the user chooses to open a prepared issue after reviewing its contents. A user can also export feedback to a local file under their own control.
+
 ## Questions and changes
 
 Raise a general privacy question in [GitHub issues](https://github.com/jakezwang/openplainenglish/issues/new/choose) without including private information. Report a suspected disclosure through [SECURITY.md](../SECURITY.md). Any change to these boundaries should update this policy and the relevant tests before release.

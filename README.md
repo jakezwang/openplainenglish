@@ -2,7 +2,7 @@
 
 [![Checks](https://github.com/jakezwang/openplainenglish/actions/workflows/ci.yml/badge.svg)](https://github.com/jakezwang/openplainenglish/actions/workflows/ci.yml)
 
-[Try the online demo](https://jakezwang.github.io/openplainenglish/) · [Download a release](https://github.com/jakezwang/openplainenglish/releases) · [中文入门](README.zh-CN.md)
+[Install OpenPlainEnglish](https://jakezwang.github.io/openplainenglish/demo/install.html) · [Try the online demo](https://jakezwang.github.io/openplainenglish/) · [中文入门](README.zh-CN.md)
 
 Understand health information without losing the original words.
 
@@ -29,6 +29,10 @@ The dictionary matches written terms and aliases; it does not infer whether a st
 The first release supports ordinary web-page text. Browser internal pages, extension stores, local files, PDF files and the browser's PDF viewer, scanned images, embedded documents, iframes, and shadow roots are outside its supported scope. Matching happens within each text node, so a phrase split across separate HTML elements may not be marked. Forms, editable areas, links, buttons, code, hidden content, and explicitly non-English passages are skipped. Very large pages may receive only partial marking; the interface reports this limit.
 
 ## Install a release in Chrome or Edge
+
+[Open the installation page](https://jakezwang.github.io/openplainenglish/demo/install.html). **A store installation is not available yet:** developer registration and store review are still pending. The installation page will link to verified Chrome/Edge store listings when published. Browser confirmation is required. Downloading a ZIP does not install the extension.
+
+For the current developer preview:
 
 1. Download the versioned extension ZIP from [Releases](https://github.com/jakezwang/openplainenglish/releases).
 2. Extract the ZIP into a folder you can keep. Use the extracted folder containing `manifest.json`; do not select the ZIP itself.

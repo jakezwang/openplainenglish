@@ -7,7 +7,7 @@ import { root } from './build.mjs';
 export async function buildSite(output = path.join(root, 'site')) {
   await rm(output, { recursive: true, force: true });
   await mkdir(output, { recursive: true });
-  const files = ['demo/index.html', 'demo/style.css', 'demo/demo.js', 'demo/preview.html', 'demo/preview.js', 'data/health.json', 'data/LICENSE', 'LICENSE', 'src/background/actions.js', 'src/content/controller.js', 'src/content/panel.js'];
+  const files = ['demo/index.html', 'demo/style.css', 'demo/demo.js', 'demo/preview.html', 'demo/preview.js', 'demo/install.html', 'demo/install.css', 'demo/install.js', 'demo/install-config.json', 'data/health.json', 'data/LICENSE', 'LICENSE', 'src/background/actions.js', 'src/content/controller.js', 'src/content/panel.js'];
   for (const file of files) {
     await mkdir(path.dirname(path.join(output, file)), { recursive: true });
     await cp(path.join(root, file), path.join(output, file));

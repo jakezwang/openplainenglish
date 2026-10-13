@@ -95,4 +95,16 @@ test('public demo builds under a repository URL prefix without shipping extensio
     assert.doesNotMatch(source, /(?:from\s*|fetch\(\s*)['"]\//, 'no origin-root module or data requests');
   }
   assert.match(await readFile(path.join(temporary, 'demo/preview.js'), 'utf8'), /Browser preview · Test data only/);
+  const installUrl = new URL(document.querySelector('a.install-link').href);
+  assert.equal(installUrl.pathname, '/openplainenglish/demo/install.html');
+  const installHtml = await readFile(path.join(temporary, 'demo/install.html'), 'utf8');
+  const install = new JSDOM(installHtml, { url: installUrl.href }).window.document;
+  for (const element of install.querySelectorAll('script[src], link[rel=stylesheet]')) {
+    const url = new URL(element.src || element.href);
+    assert.ok(url.pathname.startsWith('/openplainenglish/demo/'));
+    await readFile(path.join(temporary, url.pathname.slice('/openplainenglish/'.length)));
+  }
+  const installConfig = JSON.parse(await readFile(path.join(temporary, 'demo/install-config.json'), 'utf8'));
+  const pkg = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
+  assert.equal(installConfig.release.version, pkg.version, 'installation fallback follows the current extension release');
 });
