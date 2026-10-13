@@ -5,6 +5,9 @@ import {
   createFeedbackIssueUrl,
   FEEDBACK_KINDS,
   FEEDBACK_LIMIT,
+  FEEDBACK_IMPORT_MAX_BYTES,
+  parseFeedbackImport,
+  mergeFeedbackRecords,
 } from '../shared/feedback.js';
 
 const $ = (id) => document.getElementById(id);
@@ -13,10 +16,12 @@ const kindLabels = {
   inaccurate: 'May be inaccurate',
   suggestion: 'Suggestion or new term',
 };
-let lexicon = { version: '0.1.0', entries: [] };
+let lexicon = { version: '', entries: [] };
 let drafts = [];
 let pendingDelete = null;
 let activeEntryId = '';
+let pendingImport = null;
+let importBusy = false;
 
 function node(tag, className, text) {
   const element = document.createElement(tag);
@@ -28,6 +33,8 @@ function node(tag, className, text) {
 function error(message) {
   $('page-error').textContent = message;
   $('page-error').hidden = false;
+  $('page-error').setAttribute('tabindex', '-1');
+  $('page-error').focus();
 }
 
 function feedbackLink(entry, label = 'Could this be clearer?') {
@@ -240,6 +247,87 @@ $('export-feedback').addEventListener('click', async () => {
     $('feedback-status').textContent = 'Export prepared. Your local drafts are still saved.';
   } catch {
     error('Unable to export drafts. Please try again.');
+  }
+});
+
+function previewImport(records, name) {
+  const preview = mergeFeedbackRecords(drafts, records);
+  $('import-file-name').textContent = name;
+  $('import-file-count').textContent = String(records.length);
+  $('import-new-count').textContent = String(preview.importedCount);
+  $('import-duplicate-count').textContent = String(preview.duplicateCount);
+  $('import-total-count').textContent = String(preview.totalCount);
+  $('import-overflow').hidden = preview.discardedCount === 0;
+  $('import-overflow').textContent = `The 100-draft limit leaves out ${preview.localDiscardedCount} existing drafts and ${preview.importDiscardedCount} drafts from this file. Export your current drafts first if you want to keep them all.`;
+  const fragment = document.createDocumentFragment();
+  for (const item of records) {
+    const record = node('article', 'import-record');
+    record.append(node('h3', '', item.term), node('p', 'review-status', `${kindLabels[item.kind]} · ${item.createdAt.slice(0, 10)}`), node('p', 'draft-note', item.note));
+    fragment.append(record);
+  }
+  $('import-records').replaceChildren(fragment);
+}
+
+$('import-feedback').addEventListener('click', () => $('import-file').click());
+$('import-file').addEventListener('change', async () => {
+  const file = $('import-file').files?.[0];
+  if (!file) return;
+  $('import-feedback').disabled = true;
+  $('page-error').hidden = true;
+  $('import-status').textContent = 'Reading your backup on this device…';
+  pendingImport = null;
+  try {
+    if (file.size > FEEDBACK_IMPORT_MAX_BYTES) throw new RangeError('This file is too large. Choose a feedback export no larger than 1 MiB.');
+    const json = await file.text();
+    const records = parseFeedbackImport(json);
+    if (!records.length) throw new Error('This backup contains no drafts to restore.');
+    await refreshDrafts();
+    pendingImport = { json };
+    previewImport(records, file.name);
+    $('import-error').hidden = true;
+    $('import-dialog').showModal();
+    $('import-status').textContent = 'Backup ready for review. Your drafts have not changed.';
+  } catch (failure) {
+    $('import-status').textContent = '';
+    error(failure.message || 'Unable to read this backup. Your drafts have not changed.');
+  } finally {
+    $('import-feedback').disabled = false;
+    $('import-file').value = '';
+  }
+});
+
+$('cancel-import').addEventListener('click', () => $('import-dialog').close());
+$('import-dialog').addEventListener('cancel', (event) => { if (importBusy) event.preventDefault(); });
+$('import-dialog').addEventListener('close', () => {
+  if (!importBusy) pendingImport = null;
+  $('import-feedback').focus();
+});
+$('confirm-import').addEventListener('click', async () => {
+  if (!pendingImport || importBusy) return;
+  importBusy = true;
+  $('confirm-import').disabled = true;
+  $('cancel-import').disabled = true;
+  $('confirm-import').textContent = 'Restoring…';
+  $('import-error').hidden = true;
+  try {
+    const result = await chrome.runtime.sendMessage({ type: 'OPE_IMPORT_FEEDBACK', json: pendingImport.json });
+    if (!result?.ok) throw new Error(result?.error || 'The backup could not be restored.');
+    await refreshDrafts();
+    pendingImport = null;
+    $('import-dialog').close();
+    $('import-status').textContent = `Restored ${result.importedCount} drafts. Skipped ${result.duplicateCount} duplicates; ${result.discardedCount} older drafts left out by the 100-draft limit. ${result.totalCount} drafts are now stored on this device.`;
+    $('import-status').setAttribute('tabindex', '-1');
+    $('import-status').focus();
+  } catch (failure) {
+    $('import-error').textContent = failure.message || 'Unable to restore the backup. Please try again.';
+    $('import-error').hidden = false;
+    $('import-error').setAttribute('tabindex', '-1');
+    $('import-error').focus();
+  } finally {
+    importBusy = false;
+    $('confirm-import').disabled = false;
+    $('cancel-import').disabled = false;
+    $('confirm-import').textContent = 'Merge local drafts';
   }
 });
 

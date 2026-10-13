@@ -1,10 +1,10 @@
-import { createReader } from '/src/content/controller.js';
+import { createReader } from '../src/content/controller.js';
 
 const toggle = document.querySelector('#toggle');
 const status = document.querySelector('#status');
 let reader;
 try {
-  const response = await fetch('/data/health.json');
+  const response = await fetch(new URL('../data/health.json', import.meta.url));
   if (!response.ok) throw new Error('Dictionary unavailable.');
   const lexicon = await response.json();
   reader = createReader({
@@ -17,7 +17,7 @@ try {
     },
     onFeedback(entry, kind) {
       const params = new URLSearchParams({ entry: entry.id, kind });
-      window.open(`/demo/preview.html?view=options#feedback?${params}`, '_blank', 'noopener,noreferrer');
+      window.open(new URL(`./preview.html?view=options#feedback?${params}`, import.meta.url), '_blank', 'noopener,noreferrer');
     },
   });
   toggle.disabled = false;

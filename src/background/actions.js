@@ -1,4 +1,4 @@
-import { createFeedback } from '../shared/feedback.js';
+import { createFeedback, mergeFeedbackRecords, parseFeedbackImport } from '../shared/feedback.js';
 
 const OFF = { enabled: false, count: 0, truncated: false };
 const FEEDBACK_KINDS = new Set(['unclear', 'inaccurate', 'suggestion']);
@@ -15,9 +15,27 @@ export function isSupportedUrl(url = '') {
 
 export function createActions(chrome, getLexicon) {
   let saveQueue = Promise.resolve();
+  function queued(operation) {
+    const result = saveQueue.then(operation, operation);
+    saveQueue = result.catch(() => {});
+    return result;
+  }
+  async function records() {
+    const stored = await chrome.storage.local.get('opeFeedback');
+    const valid = [];
+    for (const item of Array.isArray(stored.opeFeedback) ? stored.opeFeedback : []) {
+      try {
+        if (!FEEDBACK_KINDS.has(item?.kind)) continue;
+        valid.push(createFeedback(item));
+      } catch { /* Old or damaged local records must not propagate unknown fields. */ }
+    }
+    return valid.slice(-100);
+  }
   async function activeTab() {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    if (!tab?.id || !isSupportedUrl(tab.url)) throw new Error('Open a regular web page first. Browser settings, extension stores, PDFs and local files cannot be annotated.');
+    if (!Number.isInteger(tab?.id) || tab.id < 0) throw new Error('Open a regular web page first.');
+    if (typeof tab.url !== 'string' || !tab.url) throw new Error('Open OpenPlainEnglish from the browser toolbar on the page you want to read, then try again.');
+    if (!isSupportedUrl(tab.url)) throw new Error('Open a regular web page first. Browser settings, extension stores, PDFs and local files cannot be annotated.');
     return tab;
   }
   async function state(tabId) {
@@ -27,6 +45,9 @@ export function createActions(chrome, getLexicon) {
     } catch { return { ...OFF }; }
   }
   async function handle(message) {
+    if (!message || typeof message !== 'object' || Array.isArray(message) || typeof message.type !== 'string') {
+      throw new TypeError('Choose an OpenPlainEnglish action.');
+    }
     switch (message.type) {
       case 'OPE_GET_LEXICON': return { ok: true, lexicon: await getLexicon() };
       case 'OPE_GET_ACTIVE_STATE': {
@@ -54,31 +75,38 @@ export function createActions(chrome, getLexicon) {
         return { ok: true };
       }
       case 'OPE_SAVE_FEEDBACK': {
+        const feedback = message.feedback;
+        if (!feedback || typeof feedback !== 'object' || Array.isArray(feedback) || !FEEDBACK_KINDS.has(feedback.kind)) throw new TypeError('Choose a feedback category and write a note.');
+        if (typeof feedback.note !== 'string' || feedback.note.length > 4000 || Array.from(feedback.note).length > 2000) throw new TypeError('Feedback notes must be text of at most 2,000 characters.');
         const save = async () => {
           const lexicon = await getLexicon();
-          const entry = lexicon.entries.find((item) => item.id === message.feedback?.entryId);
-          if (!entry && (message.feedback?.kind !== 'suggestion' || message.feedback?.entryId)) throw new Error('This term is not in the current lexicon.');
-          const record = createFeedback({ ...message.feedback, entryId: entry?.id || '', term: entry?.term || message.feedback?.term, lexiconVersion: lexicon.version }, { id: crypto.randomUUID(), createdAt: new Date().toISOString() });
-          const stored = await chrome.storage.local.get('opeFeedback');
-          const records = Array.isArray(stored.opeFeedback) ? stored.opeFeedback : [];
-          await chrome.storage.local.set({ opeFeedback: [...records.filter((item) => item.id !== record.id), record].slice(-100) });
+          const entry = lexicon.entries.find((item) => item.id === feedback.entryId);
+          if (!entry && (feedback.kind !== 'suggestion' || feedback.entryId)) throw new Error('This term is not in the current lexicon.');
+          if (!entry && (typeof feedback.term !== 'string' || feedback.term.length > 240 || Array.from(feedback.term).length > 120)) throw new TypeError('A suggested term must be text of at most 120 characters.');
+          const record = createFeedback({ ...feedback, entryId: entry?.id || '', term: entry?.term || feedback.term, lexiconVersion: lexicon.version }, { id: crypto.randomUUID(), createdAt: new Date().toISOString() });
+          const existing = await records();
+          await chrome.storage.local.set({ opeFeedback: [...existing, record].slice(-100) });
           return { ok: true, feedback: record };
         };
-        const result = saveQueue.then(save, save);
-        saveQueue = result.catch(() => {});
-        return await result;
+        return await queued(save);
       }
       case 'OPE_DELETE_FEEDBACK': {
         if (message.id !== null && (typeof message.id !== 'string' || !message.id)) throw new Error('Choose a draft to delete.');
         const remove = async () => {
-          const stored = await chrome.storage.local.get('opeFeedback');
-          const records = Array.isArray(stored.opeFeedback) ? stored.opeFeedback : [];
-          await chrome.storage.local.set({ opeFeedback: message.id === null ? [] : records.filter((record) => record.id !== message.id) });
+          const existing = await records();
+          await chrome.storage.local.set({ opeFeedback: message.id === null ? [] : existing.filter((record) => record.id !== message.id) });
           return { ok: true };
         };
-        const result = saveQueue.then(remove, remove);
-        saveQueue = result.catch(() => {});
-        return await result;
+        return await queued(remove);
+      }
+      case 'OPE_IMPORT_FEEDBACK': {
+        const imported = parseFeedbackImport(message.json);
+        return await queued(async () => {
+          const result = mergeFeedbackRecords(await records(), imported);
+          await chrome.storage.local.set({ opeFeedback: result.feedback });
+          const { feedback: _feedback, ...counts } = result;
+          return { ok: true, ...counts };
+        });
       }
       default: throw new Error('Unknown OpenPlainEnglish action.');
     }

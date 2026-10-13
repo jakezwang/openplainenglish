@@ -1,4 +1,4 @@
-# Health lexicon v0.1
+# Health lexicon v0.2
 
 The bundled [health.json](../data/health.json) contains 100 entries for reading English health information. Each keeps the original term, a short meaning, an explanation, a context note, sources, and a review record. Topics include symptoms and conditions, blood and immune-system vocabulary, imaging and other tests, cancer treatment, and public-health research. It is a small editorial seed, not a complete medical dictionary.
 
@@ -53,7 +53,7 @@ The root object has `schemaVersion`, semantic release `version`, `license`, and 
 | `explanation` | Fuller plain-text explanation, at most 500 characters. |
 | `context` | Scope or a relevant distinction, at most 500 characters. |
 | `sources` | At least one `{label, url, license}` record; HTTPS primary-source host; no URL credentials/custom ports; no licensed MedlinePlus encyclopedia/drug-monograph paths. |
-| `review` | Only `source-checked` is accepted in v0.1, with a real ISO date and the exact limitation-bearing method above. |
+| `review` | Only `source-checked` is accepted in v0.2, with a real ISO date and the exact limitation-bearing method above. |
 
 Run `node scripts/validate-lexicon.mjs` and `node --test tests/lexicon.test.mjs`. The validator also exports `validateLexicon` (returns an array of errors) and `assertValidLexicon` (returns the data or throws). Tests exercise collisions, malformed structures, missing metadata, unsafe/unsupported source URLs, excessive lengths, unearned review claims, and several important semantic distinctions.
 
@@ -127,7 +127,7 @@ This ledger records source comparison, not an independent expert review. Each en
 | `immunization` | [CDC Everyday Words: Immunization](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Immunization) |
 | `immunosuppression` | [National Cancer Institute: immunosuppression](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/immunosuppression) |
 | `immunotherapy` | [National Cancer Institute: immunotherapy](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/immunotherapy) |
-| `incidence-rate` | [CDC Everyday Words: Incidence rate](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Incidence%20rate) |
+| `incidence-rate` | [CDC Everyday Words: Incidence rate](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Incidence%20rate); [CDC epidemiology glossary: incidence rate](https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/glossary.html) |
 | `incubation-period` | [CDC Everyday Words: Incubation period](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Incubation%20period) |
 | `infection` | [CDC Everyday Words: Infection](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Infection); [CDC Everyday Words: Infectious diseases](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Infectious%20diseases) |
 | `infection-transmission` | [CDC Everyday Words: Transmit, transmission](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Transmit); [CDC Everyday Words: Infectious diseases](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Infectious%20diseases) |

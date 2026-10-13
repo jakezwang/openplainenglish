@@ -1,11 +1,11 @@
-// DEMO ONLY: a localhost adapter for inspecting the real extension UI.
+// DEMO ONLY: a browser adapter for inspecting the real extension UI.
 // This module is never bundled into or copied to the extension artifact.
-import { createFeedback, sanitizeFeedback, FEEDBACK_LIMIT } from '/src/shared/feedback.js';
+import { sanitizeFeedback, FEEDBACK_LIMIT } from '../src/shared/feedback.js';
+import { createActions } from '../src/background/actions.js';
 
 const view = new URL(location.href).searchParams.get('view') === 'popup' ? 'popup' : 'options';
 const STORAGE_KEY = 'opeDemoFeedback';
 const listeners = new Set();
-let memoryDrafts = [];
 let state = { enabled: false, count: 0, truncated: false };
 let lexicon;
 
@@ -14,16 +14,15 @@ function readDrafts() {
     const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
     return Array.isArray(stored) ? stored.slice(-FEEDBACK_LIMIT).map(sanitizeFeedback) : [];
   } catch {
-    return memoryDrafts;
+    return [];
   }
 }
 
 function writeDrafts(drafts) {
   const oldValue = readDrafts();
   const newValue = drafts.slice(-FEEDBACK_LIMIT).map(sanitizeFeedback);
-  memoryDrafts = newValue;
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(newValue)); }
-  catch { /* The preview remains usable when browser storage is unavailable. */ }
+  catch { throw new Error('Browser storage is unavailable or full. This preview could not save your drafts.'); }
   for (const listener of listeners) listener({ opeFeedback: { oldValue, newValue } }, 'local');
 }
 
@@ -33,37 +32,27 @@ function announce(message) {
 }
 
 function installMockChrome() {
-  window.chrome = {
+  const mock = {
     runtime: {
       getURL(path) {
-        if (path === 'options.html') return new URL('/demo/preview.html?view=options', location.origin).href;
-        return new URL(`/${path}`, location.origin).href;
-      },
-      async sendMessage(message) {
-        switch (message.type) {
-          case 'OPE_GET_LEXICON': return { ok: true, lexicon };
-          case 'OPE_GET_ACTIVE_STATE': return { ok: true, state: { ...state } };
-          case 'OPE_TOGGLE_ACTIVE':
-            state = { enabled: !state.enabled, count: state.enabled ? 0 : 7, truncated: false };
-            announce(state.enabled ? 'Preview only · 7 example matches' : 'Browser preview · Test data only');
-            return { ok: true, state: { ...state } };
-          case 'OPE_OPEN_FIRST_ACTIVE':
-            announce('Preview only · In the extension, this opens the first marked term.');
-            return { ok: true, state: { ...state } };
-          case 'OPE_SAVE_FEEDBACK': {
-            try {
-              const record = createFeedback(message.feedback, { id: crypto.randomUUID(), createdAt: new Date().toISOString() });
-              writeDrafts([...readDrafts(), record]);
-              return { ok: true };
-            } catch (error) { return { ok: false, error: error.message }; }
-          }
-          case 'OPE_DELETE_FEEDBACK':
-            writeDrafts(message.id === null ? [] : readDrafts().filter((item) => item.id !== message.id));
-            return { ok: true };
-          default: return { ok: false, error: 'This action is not available in the browser preview.' };
-        }
+        if (path.startsWith('options.html')) return new URL(`./preview.html?view=options${path.slice('options.html'.length)}`, import.meta.url).href;
+        return new URL(`../${path}`, import.meta.url).href;
       },
     },
+    tabs: {
+      async query() { return [{ id: 1, url: location.href }]; },
+      async sendMessage(_id, message) {
+        if (message.type === 'OPE_ENABLE' || message.type === 'OPE_DISABLE') {
+          const enabled = message.type === 'OPE_ENABLE';
+          state = { enabled, count: enabled ? 7 : 0, truncated: false };
+          announce(enabled ? 'Preview only · 7 example matches' : 'Browser preview · Test data only');
+        }
+        if (message.type === 'OPE_OPEN_FIRST') announce('Preview only · In the extension, this opens the first marked term.');
+        return { ok: true, state: { ...state }, opened: state.enabled };
+      },
+      async create({ url }) { window.open(url, '_blank', 'noopener,noreferrer'); },
+    },
+    scripting: { async executeScript() { return [{ documentId: 'preview' }]; } },
     storage: {
       local: {
         async get() { return { opeFeedback: readDrafts() }; },
@@ -75,6 +64,12 @@ function installMockChrome() {
       },
     },
   };
+  const actions = createActions(mock, async () => lexicon);
+  mock.runtime.sendMessage = async (message) => {
+    try { return await actions.handle(message); }
+    catch (error) { return { ok: false, error: error.message }; }
+  };
+  window.chrome = mock;
   // The actual popup closes after moving focus to the page; this preview stays open.
   window.close = () => {};
 }
@@ -90,8 +85,8 @@ function insertPreviewBanner() {
   status.textContent = 'Browser preview · Test data only';
   const links = document.createElement('span');
   for (const [label, url] of [
-    ['Reading demo', '/demo/index.html'],
-    [view === 'options' ? 'Popup preview' : 'Glossary preview', `/demo/preview.html?view=${view === 'options' ? 'popup' : 'options'}`],
+    ['Reading demo', './index.html'],
+    [view === 'options' ? 'Popup preview' : 'Glossary preview', `./preview.html?view=${view === 'options' ? 'popup' : 'options'}`],
   ]) {
     const link = document.createElement('a');
     link.textContent = label;
@@ -115,27 +110,24 @@ function insertPreviewBanner() {
 }
 
 async function boot() {
-  if (!['127.0.0.1', 'localhost', '[::1]'].includes(location.hostname)) {
-    throw new Error('This test adapter is available only on localhost.');
-  }
   const [htmlResponse, dataResponse] = await Promise.all([
-    fetch(`/src/${view}/${view}.html`),
-    fetch('/data/health.json'),
+    fetch(new URL(`../src/${view}/${view}.html`, import.meta.url)),
+    fetch(new URL('../data/health.json', import.meta.url)),
   ]);
-  if (!htmlResponse.ok || !dataResponse.ok) throw new Error('Preview files could not be loaded. Start the local development server.');
+  if (!htmlResponse.ok || !dataResponse.ok) throw new Error('Preview files could not be loaded. Please reload or try again later.');
   const [html, data] = await Promise.all([htmlResponse.text(), dataResponse.json()]);
   lexicon = data;
   const parsed = new DOMParser().parseFromString(html, 'text/html');
   for (const script of parsed.querySelectorAll('script')) script.remove();
   for (const stylesheet of parsed.querySelectorAll('link[rel=stylesheet]')) {
-    stylesheet.href = `/src/${view}/${view}.css`;
+    stylesheet.href = new URL(`../src/${view}/${view}.css`, import.meta.url).href;
   }
   document.head.replaceChildren(...parsed.head.childNodes);
   document.body.replaceChildren(...parsed.body.childNodes);
   document.body.dataset.previewView = view;
   insertPreviewBanner();
   installMockChrome();
-  await import(`/src/${view}/${view}.js`);
+  await import(new URL(`../src/${view}/${view}.js`, import.meta.url));
 }
 
 boot().catch((error) => {

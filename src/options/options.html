@@ -18,7 +18,7 @@
         <a href="#glossary" id="nav-glossary" aria-current="page"><span>01</span> The glossary</a>
         <a href="#feedback" id="nav-feedback"><span>02</span> Your feedback</a>
       </nav>
-      <div class="sidebar-bottom"><p><span class="local-dot" aria-hidden="true"></span> Local by default.</p><p>No account. No automatic uploads.<br>Built to make reading a little easier.</p><a href="https://github.com/jakezwang/openplainenglish" target="_blank" rel="noopener noreferrer">The open-source project ↗</a><p id="version" class="version">Edition 0.1</p></div>
+      <div class="sidebar-bottom"><p><span class="local-dot" aria-hidden="true"></span> Local by default.</p><p>No account. No automatic uploads.<br>Built to make reading a little easier.</p><a href="https://github.com/jakezwang/openplainenglish" target="_blank" rel="noopener noreferrer">The open-source project ↗</a><p id="version" class="version">Local glossary</p></div>
     </aside>
     <main id="main" tabindex="-1">
       <section id="glossary-section" aria-labelledby="glossary-heading">
@@ -39,10 +39,12 @@
           <div class="form-actions"><button class="button primary" id="save-feedback" type="submit">Save local draft <span aria-hidden="true">→</span></button><span class="field-help">Nothing is sent to GitHub.</span></div>
         </form>
         <p id="feedback-status" class="status-message" role="status" aria-live="polite"></p>
-        <div class="drafts-header"><div><p class="eyebrow">On this device</p><h2>Your saved drafts <span id="draft-count" class="count">0</span></h2></div><div class="draft-tools"><button id="export-feedback" class="text-button" type="button" disabled>Export JSON</button><button id="delete-all" class="text-button danger" type="button" disabled>Delete all</button></div></div>
+        <div class="drafts-header"><div><p class="eyebrow">On this device</p><h2>Your saved drafts <span id="draft-count" class="count">0</span></h2></div><div class="draft-tools"><button id="import-feedback" class="text-button" type="button">Import JSON</button><button id="export-feedback" class="text-button" type="button" disabled>Export JSON</button><button id="delete-all" class="text-button danger" type="button" disabled>Delete all</button></div></div>
+        <input id="import-file" type="file" accept=".json,application/json" aria-label="Choose a feedback backup to preview" hidden>
+        <p id="import-status" class="status-message" role="status" aria-live="polite"></p>
         <div id="feedback-list" class="feedback-list"></div>
         <p id="empty-feedback" class="empty-state">Your drafts will appear here. Saving one keeps it on this device until you choose to share or delete it.</p>
-        <p class="storage-note">Up to 100 drafts are kept locally. Export drafts you want to keep. They are not synced between devices.</p>
+        <p class="storage-note">Up to 100 drafts are kept locally. Export drafts you want to keep; import a backup to restore them. Nothing is uploaded or synced automatically.</p>
       </section>
       <p id="page-error" class="page-error" role="alert" hidden></p>
       <footer class="page-footer"><span>OpenPlainEnglish</span><span>Understanding belongs to everyone.</span></footer>
@@ -50,6 +52,7 @@
   </div>
   <dialog id="delete-dialog" aria-labelledby="delete-title" aria-describedby="delete-description"><form method="dialog"><p class="eyebrow">Local drafts</p><h2 id="delete-title">Delete this draft?</h2><p id="delete-description">This removes the draft from this device. This cannot be undone.</p><div class="dialog-actions"><button class="button secondary" value="cancel" autofocus>Keep drafts</button><button class="button destructive" value="confirm">Delete</button></div></form></dialog>
   <dialog id="share-dialog" aria-labelledby="share-title" aria-describedby="share-description"><p class="eyebrow">Review before sharing</p><h2 id="share-title">Your words. Your choice.</h2><p id="share-description">Opening the GitHub draft sends the text below to GitHub. You can edit it there; posting the issue makes it public.</p><label for="share-preview">This is the text that will be included</label><textarea id="share-preview" rows="12" readonly spellcheck="false"></textarea><p class="field-help">No page address, browsing history, or page content is added automatically.</p><div class="dialog-actions"><button class="button secondary" id="cancel-share" type="button" autofocus>Keep it local</button><a class="button primary" id="open-issue" target="_blank" rel="noopener noreferrer">Open GitHub draft ↗</a></div></dialog>
+  <dialog id="import-dialog" aria-labelledby="import-title" aria-describedby="import-description"><p class="eyebrow">Restore a local backup</p><h2 id="import-title">Review before restoring.</h2><p id="import-description">Your backup is read on this device. It will be merged with your local drafts only after you confirm.</p><p id="import-file-name" class="import-file-name"></p><dl class="import-counts"><div><dt>Drafts in this file</dt><dd id="import-file-count">0</dd></div><div><dt>New drafts to keep</dt><dd id="import-new-count">0</dd></div><div><dt>Duplicates skipped</dt><dd id="import-duplicate-count">0</dd></div><div><dt>Total after merging</dt><dd id="import-total-count">0</dd></div></dl><p id="import-overflow" class="import-overflow" hidden></p><details class="import-details"><summary>Inspect the drafts in this file</summary><div id="import-records"></div></details><p class="field-help">Existing drafts win when IDs match. The newest 100 by creation date are kept; equal dates are ordered by ID. Counts can change if another window edits your drafts. Importing does not send anything to GitHub.</p><p id="import-error" class="page-error" role="alert" hidden></p><div class="dialog-actions"><button class="button secondary" id="cancel-import" type="button" autofocus>Cancel</button><button class="button primary" id="confirm-import" type="button">Merge local drafts</button></div></dialog>
   <script type="module" src="options.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "CC0-1.0",
   "entries": [
     {
@@ -636,7 +636,7 @@
       "aliases": [],
       "domain": "health",
       "short": "too little fluid in the body",
-      "explanation": "The body has lost more water and other fluids than it can replace, leaving too little to work normally.",
+      "explanation": "The body does not have enough water and other fluids to work normally. This can happen when fluid loss is not replaced or a person drinks too little.",
       "context": "The word alone does not tell you the cause or how severe it is.",
       "sources": [
         {
@@ -1419,12 +1419,17 @@
       "aliases": [],
       "domain": "health",
       "short": "how often new cases occur over time",
-      "explanation": "This measure describes new cases of a disease or condition in a defined population during a period of time.",
-      "context": "Check both the population and time period before comparing rates.",
+      "explanation": "This measure compares new cases of a disease or condition with the population at risk over a stated period of time.",
+      "context": "Check the population, time period, and units. Some rates use the combined time that people were at risk.",
       "sources": [
         {
           "label": "CDC Everyday Words: Incidence rate",
           "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Incidence%20rate",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "CDC Principles of Epidemiology: incidence rate",
+          "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/glossary.html",
           "license": "Public-Domain-US"
         }
       ],

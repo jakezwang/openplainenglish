@@ -4,8 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export async function buildExtension() {
-  const dist = path.join(root, 'dist');
+export async function buildExtension(dist = path.join(root, 'dist')) {
   await rm(dist, { recursive: true, force: true });
   await mkdir(dist, { recursive: true });
   await build({
@@ -25,7 +24,9 @@ export async function buildExtension() {
   });
   const pkg = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
   const manifest = JSON.parse(await readFile(path.join(root, 'manifest.json'), 'utf8'));
+  const lexicon = JSON.parse(await readFile(path.join(root, 'data/health.json'), 'utf8'));
   if (manifest.version !== pkg.version) throw new Error('Manifest and package version must match.');
+  if (lexicon.version !== pkg.version) throw new Error('Lexicon and package version must match.');
   await writeFile(path.join(dist, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   for (const area of ['popup', 'options']) {
     for (const extension of ['html', 'css']) await cp(path.join(root, `src/${area}/${area}.${extension}`), path.join(dist, `${area}.${extension}`));

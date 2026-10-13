@@ -2,6 +2,8 @@
 
 [![Checks](https://github.com/jakezwang/openplainenglish/actions/workflows/ci.yml/badge.svg)](https://github.com/jakezwang/openplainenglish/actions/workflows/ci.yml)
 
+[Try the online demo](https://jakezwang.github.io/openplainenglish/) · [Download a release](https://github.com/jakezwang/openplainenglish/releases) · [中文入门](README.zh-CN.md)
+
 Understand health information without losing the original words.
 
 OpenPlainEnglish is an open-source extension for Chromium-based desktop browsers such as Chrome and Edge. It explains selected health terms on the page you are reading and requires Chromium 116 or newer. Turn it on when you need it, open a marked term for an explanation, and turn it off to remove the marks. The original wording stays available throughout.
@@ -10,19 +12,19 @@ OpenPlainEnglish is an open-source extension for Chromium-based desktop browsers
 
 ![OpenPlainEnglish localhost demo with a health-term explanation open](docs/images/reader-demo.jpg)
 
-*Local browser demo. See the [v0.1.0 verification record](docs/RELEASE-0.1.0.md) for checked behavior and remaining gaps. Actual extension installation and runtime are still awaiting manual verification.*
+*Shared-reader browser demo. See the [v0.2.0 verification record](docs/RELEASE-0.2.0.md) for checked behavior and remaining gaps. Actual extension installation and runtime are still awaiting manual verification.*
 
-## What v0.1 does
+## What v0.2 does
 
 - Marks terms from a bundled glossary of 100 English health entries, including useful phrases and aliases.
 - Shows a short meaning, a fuller explanation, context, cited sources, and the entry's review status.
 - Works locally on the current HTTP(S) page after you explicitly enable it.
-- Provides a searchable glossary and local feedback drafts that you can review, export, delete, or submit to GitHub yourself.
+- Provides a searchable glossary and local feedback drafts that you can review, export, import, delete, or submit to GitHub yourself. Backup imports show the affected drafts before you confirm a merge.
 - Supports keyboard interaction and updates marks as ordinary page content changes.
 
 This is an early reading aid. The initial explanations were authored with AI assistance and are **source-checked**, meaning their wording was compared with the cited material. They have not been independently clinically reviewed or tested for comprehension, and no measured improvement in understanding is claimed. They do not interpret your symptoms, records, test results, or treatment choices. A word's meaning also depends on its context.
 
-The dictionary matches written terms and aliases; it does not infer whether a statement applies to you, interpret negation, or resolve every ambiguity. v0.1 covers English health terminology. Legal, insurance, food, translation, and OCR features are outside this release.
+The dictionary matches written terms and aliases; it does not infer whether a statement applies to you, interpret negation, or resolve every ambiguity. v0.2 covers English health terminology. Legal, insurance, food, translation, and OCR features are outside this release.
 
 The first release supports ordinary web-page text. Browser internal pages, extension stores, local files, PDF files and the browser's PDF viewer, scanned images, embedded documents, iframes, and shadow roots are outside its supported scope. Matching happens within each text node, so a phrase split across separate HTML elements may not be marked. Forms, editable areas, links, buttons, code, hidden content, and explicitly non-English passages are skipped. Very large pages may receive only partial marking; the interface reports this limit.
 
@@ -47,7 +49,7 @@ Activation applies to the current page load. Reloading or navigating to a new do
 
 ## Privacy and permissions
 
-The extension has no analytics, remote model, account, or runtime service. Matching and explanations use bundled data. It does not automatically collect page text, page titles, browsing URLs, or browsing history. The newest 100 feedback drafts stay in the browser's local extension storage; saving beyond that limit removes the oldest draft. Export drafts you want to retain. There is no account sync or feedback import in v0.1.
+The extension has no analytics, remote model, account, or runtime service. Matching and explanations use bundled data. It does not automatically collect page text, page titles, browsing URLs, or browsing history. The newest 100 feedback drafts stay in the browser's local extension storage; saving beyond that limit removes the oldest draft. Export drafts you want to retain. v0.2 can restore v0.1 and v0.2 JSON exports after preview and confirmation, with duplicate IDs preserved and overflow clearly reported. There is no account sync. See [upgrading and restoring drafts](docs/UPGRADING.md).
 
 | Permission | Purpose |
 | --- | --- |
@@ -67,7 +69,7 @@ npm run check
 npm run package
 ```
 
-Load `dist/` through **Load unpacked** to test your build. `npm run package` creates `release/openplainenglish-0.1.0.zip` and its `.sha256` checksum. Development dependencies are used for building and testing; the extension runtime has no third-party dependencies.
+Load `dist/` through **Load unpacked** to test your build. `npm run package` creates `release/openplainenglish-0.2.0.zip` and its `.sha256` checksum. Development dependencies are used for building and testing; the extension runtime has no third-party dependencies.
 
 For the public-information demo:
 
@@ -77,13 +79,15 @@ npm run dev
 
 Open the local URL printed by that command. Its **Enable reader** control exercises the shared reader without installing an extension. To test the installed extension on this page, leave the demo reader off and use the extension toolbar instead.
 
-The links `/demo/preview.html?view=options` and `/demo/preview.html?view=popup` preview the real glossary and popup interfaces with clearly labeled mock browser APIs. Their test drafts use separate demo-origin storage. These previews help inspect layout and interaction; they do not verify extension installation, permissions, service-worker messages, or real tab access. The demo and adapters are excluded from the extension package. See [testing instructions](docs/TESTING.md) for the release checklist.
+The links `demo/preview.html?view=options` and `demo/preview.html?view=popup` preview the real glossary and popup interfaces with clearly labeled mock browser APIs. They reuse the background action code while storing test drafts separately in browser localStorage. These previews help inspect layout and interaction; they do not verify extension installation, permissions, service-worker execution, or real tab access. The demo and adapters are excluded from the extension package. See [testing instructions](docs/TESTING.md) for the release checklist.
+
+`npm run build:site` builds the static demo into `site/`, including support for repository URL prefixes. GitHub Actions deploys it to GitHub Pages only after both test jobs pass on `main`. Hosting receives ordinary page requests; drafts are processed locally. See the [privacy policy](docs/PRIVACY.md#online-demo).
 
 ## Improve an explanation
 
 Use the explanation's feedback control or [open an issue](https://github.com/jakezwang/openplainenglish/issues/new/choose) to tell us which term was confusing and why. Plain-language and accessibility feedback are welcome even if you do not write code. Share a public reference or a made-up example instead of a private health document.
 
-For data changes, contribute original explanations with a traceable source and accurate licensing. Maintainers review factual meaning, plain language, context, licensing, and tests before merging. The review label must describe the review that actually happened. See [CONTRIBUTING.md](CONTRIBUTING.md), the [lexicon guide](docs/LEXICON.md) and the [architecture](docs/ARCHITECTURE.md).
+For data changes, contribute original explanations with a traceable source and accurate licensing. Maintainers review factual meaning, plain language, context, licensing, and tests before merging. The review label must describe the review that actually happened. See [CONTRIBUTING.md](CONTRIBUTING.md), the [review rubric](docs/REVIEW.md), [reader-testing protocol](docs/USER-TESTING.md), [source audit](docs/SOURCE-AUDIT.md), [lexicon guide](docs/LEXICON.md) and [architecture](docs/ARCHITECTURE.md).
 
 ## Licenses
 

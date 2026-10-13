@@ -1,6 +1,6 @@
 # Privacy policy
 
-Effective date: 2026-10-13. This policy describes OpenPlainEnglish v0.1, an unpacked browser extension for Chrome and Edge.
+Effective date: 2026-10-13. This policy describes OpenPlainEnglish v0.2, an unpacked browser extension for Chrome and Edge, and its separately labeled online demo.
 
 ## Page access
 
@@ -15,6 +15,14 @@ The website you visit retains its own behavior and privacy policy. The extension
 Feedback is saved in the browser's local extension storage. A record contains an ID, glossary entry ID, term, category (`unclear`, `inaccurate`, or `suggestion`), your note, creation time, and glossary version. Page URL, title, and body are not automatically added. The extension keeps up to 100 records; storage is not a cloud backup.
 
 Your note is whatever you choose to write. Do not put personal health information, names, contact information, account information, or private documents in it. You can review feedback, export it to a local file, delete a draft, or delete all feedback from the management page. Keep exported files private if they contain sensitive material. Removing the extension removes its local extension storage; exported files remain wherever you saved them.
+
+Importing a JSON backup reads the selected file locally and checks its schema and size. It shows a preview before you confirm a merge into local storage. Only the seven draft fields listed above are accepted. Existing draft IDs win; the newest 100 records remain, with overflow disclosed. Importing does not contact the project or GitHub. Keep a separate export before a merge that discards older drafts.
+
+## Online demo
+
+The public demo at `jakezwang.github.io/openplainenglish/` is hosted by GitHub Pages. Its host receives ordinary web requests, including the visitor's IP address and browser request information, to serve page files and the glossary. Hosting privacy terms apply; see [GitHub's privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement).
+
+The reading example operates on invented text. The clearly labeled UI preview simulates browser extension APIs; it cannot access other tabs or establish that the installed extension works. Demo drafts use localStorage on the demo's web origin, separately from extension storage. They are not uploaded automatically. Other pages sharing the same web origin can access that storage, so use invented test feedback rather than personal information. Exports, imports, external source links and opening a GitHub draft follow the same explicit-action boundaries described here.
 
 ## Sharing and external links
 

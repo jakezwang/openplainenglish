@@ -24,7 +24,7 @@ Keep pull requests focused. Explain the problem, resulting behavior, how you che
 
 ## Glossary contributions
 
-Read [docs/LEXICON.md](docs/LEXICON.md) before changing `data/health.json`. Write explanations in your own words, keep the scope of the term clear, and include a primary, public reference that supports the meaning. Record the source's actual license; a citation alone is not permission to copy its text.
+Read [docs/LEXICON.md](docs/LEXICON.md) and the [review rubric](docs/REVIEW.md) before changing `data/health.json`. Write explanations in your own words, keep the scope of the term clear, and include a primary, public reference that supports the meaning. Record the source's actual license; a citation alone is not permission to copy its text. The [source audit](docs/SOURCE-AUDIT.md) explains reproducible URL checks and their limits.
 
 An entry needs its term, aliases, short meaning, fuller explanation, context, sources, and review metadata. Avoid implying that a term establishes a diagnosis or that one definition applies in every situation. A plain-language explanation must retain qualifications that affect meaning.
 
@@ -32,7 +32,7 @@ The `source-checked` label means the entry was compared with its cited source. I
 
 AI-assisted wording is welcome as a draft. Check every factual statement, qualifier, source, and licensing claim before proposing it as source-checked. Prefer familiar, natural wording over strict word-origin rules or forced hyphenated coinages. A shorter phrase is useful only when it preserves the meaning. Keep source attribution and the product's no-endorsement statement visible.
 
-Feedback does not require professional credentials. Tell us what you understood, what remained confusing, or which next question an explanation left unanswered. Proposals for reader studies should report the actual participants, tasks, comparison, and results rather than treating a readability score as proof of comprehension.
+Feedback does not require professional credentials. Tell us what you understood, what remained confusing, or which next question an explanation left unanswered. Proposals for reader studies should report the actual participants, tasks, comparison, and results rather than treating a readability score as proof of comprehension. The [participant protocol](docs/USER-TESTING.md) is a starting point that has not yet been run.
 
 By submitting code or project documentation, you agree to contribute it under MIT. By submitting authored glossary content, you agree to dedicate that contribution under CC0 1.0. Submit only material you are entitled to contribute under those terms; third-party source rights remain separate.
 

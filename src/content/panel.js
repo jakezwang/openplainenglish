@@ -94,7 +94,10 @@ export function createPanel({ document, onFeedback }) {
       } catch { /* Invalid data cannot create unsafe links. */ }
     }
     panel.append(el('span', 'Check the source', 'label'), sources);
-    panel.append(el('p', `Source-checked · ${entry.review.date}. Editorial comparison with the source; not an independent clinical review or a reader comprehension test.`, 'review'));
+    const reviewText = entry.review?.status === 'source-checked'
+      ? `Source-checked${entry.review.date ? ` · ${entry.review.date}` : ''}. Editorial comparison with the source; not an independent clinical review or a reader comprehension test.`
+      : 'Review status not confirmed. This explanation has not been independently clinically reviewed or comprehension tested.';
+    panel.append(el('p', reviewText, 'review'));
     panel.append(el('span', 'Help make this clearer', 'label'));
     const feedback = el('div', null, 'feedback');
     for (const [kind, text] of [['unclear', 'Still hard to understand'], ['inaccurate', 'May be inaccurate']]) {

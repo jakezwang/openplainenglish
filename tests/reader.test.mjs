@@ -306,3 +306,65 @@ test('a region that becomes interactive is unmarked until its role is removed', 
   region.removeAttribute('role');
   await eventually(() => reader.getState().count === 1);
 });
+
+test('closed details and its interactive summary are skipped until the content is opened', async (t) => {
+  const { document, reader } = fixture(t, '<details><summary>pain</summary><p>asthma</p></details>');
+  reader.enable();
+  assert.equal(reader.getState().count, 0);
+  document.querySelector('details').open = true;
+  await eventually(() => reader.getState().count === 1);
+  assert.equal(marks(document)[0].textContent, 'asthma');
+  assert.equal(document.querySelector('summary [data-ope-term]'), null);
+  document.querySelector('details').open = false;
+  await eventually(() => reader.getState().count === 0);
+});
+
+test('root display hiding is honored and a visibility override can reveal readable text', async (t) => {
+  const { document, reader } = fixture(t, '<div style="visibility:hidden"><p style="visibility:visible">pain</p></div>');
+  document.documentElement.style.display = 'none';
+  reader.enable();
+  assert.equal(reader.getState().count, 0);
+  document.documentElement.style.display = '';
+  await eventually(() => reader.getState().count === 1);
+});
+
+test('attribute rescans preserve the longest phrase and coalesce nested changed regions', async (t) => {
+  const phrase = { ...entries[0], id: 'chest-pain', term: 'chest pain' };
+  const { document, reader } = fixture(t, '<section id="outer"><p id="inner">chest pain</p></section>', { entries: [entries[0], phrase], maxNodes: 2 });
+  reader.enable();
+  assert.equal(marks(document)[0].dataset.opeTerm, 'chest-pain');
+  document.getElementById('outer').className = 'new-style';
+  document.getElementById('inner').className = 'new-style';
+  await new Promise((resolve) => setTimeout(resolve, 110));
+  assert.equal(reader.getState().count, 1);
+  assert.equal(marks(document)[0].dataset.opeTerm, 'chest-pain');
+  assert.equal(document.getElementById('inner').textContent, 'chest pain');
+});
+
+test('unconfirmed review metadata is not displayed as source-checked', (t) => {
+  const unchecked = { ...entries[0], review: { status: 'pending' } };
+  const { document, reader } = fixture(t, '<p>pain</p>', { entries: [unchecked] });
+  reader.enable();
+  reader.openFirst();
+  assert.match(panel(document).querySelector('.review').textContent, /Review status not confirmed/);
+  assert.doesNotMatch(panel(document).querySelector('.review').textContent, /Source-checked/);
+});
+
+test('invalid glossary data is rejected before any page elements or listeners are installed', (t) => {
+  const dom = new JSDOM('<p>pain</p>');
+  t.after(() => dom.window.close());
+  for (const invalid of [null, {}, [null], [{ ...entries[0], aliases: [1] }], [entries[0], entries[0]]]) {
+    assert.throws(() => createReader({ document: dom.window.document, entries: invalid }), TypeError);
+    assert.equal(dom.window.document.querySelector('[data-ope-owned]'), null);
+  }
+});
+
+test('the mark limit reports unvisited nodes even when the separate node budget is not reached', (t) => {
+  const { reader } = fixture(t, '<p>pain</p><p>pain</p><p>pain</p>', { maxMarks: 2, maxNodes: 100 });
+  assert.deepEqual(reader.enable(), { enabled: true, count: 2, truncated: true });
+});
+
+test('exactly filling a node or mark budget does not claim truncation when the page is complete', (t) => {
+  const { reader } = fixture(t, '<p>pain</p><p>asthma</p>', { maxMarks: 2, maxNodes: 2 });
+  assert.deepEqual(reader.enable(), { enabled: true, count: 2, truncated: false });
+});

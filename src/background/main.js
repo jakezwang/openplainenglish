@@ -10,7 +10,7 @@ const actions = createActions(chrome, () => {
 });
 
 chrome.runtime.onMessage.addListener((message, sender, respond) => {
-  if (sender.id !== chrome.runtime.id || !message?.type?.startsWith('OPE_')) return false;
+  if (sender?.id !== chrome.runtime.id || typeof message?.type !== 'string' || !message.type.startsWith('OPE_')) return false;
   actions.handle(message).then(respond).catch((error) => {
     let detail = error?.message || 'Something went wrong. Please try again.';
     if (/cannot access|cannot be scripted|extensions gallery|missing host permission|frame|receiving end|could not establish connection/i.test(detail)) detail = 'This page cannot be annotated, or it changed while opening. Try a regular web page and enable the reader again.';

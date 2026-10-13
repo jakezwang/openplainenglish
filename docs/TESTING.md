@@ -20,10 +20,16 @@ The current automated tests cover:
 - **Page handling:** enable/disable cycles, preservation of original wording, safe insertion, dynamic content, skipped editable/interactive/hidden content, and bounded work on large pages.
 - **Feedback and background actions:** allowed fields, sanitization, the newest-100-record limit, concurrent saves, UI draft creation and review, confirmed deletion, supported-page checks, authoritative glossary metadata, and encoded issue URLs that omit automatically collected page URL, title, and body.
 - **Lexicon:** schema, unique entries, sources, licensing, review metadata, and supported term/alias relationships.
+- **Backup import:** strict schema/UTF-8 size/record bounds, atomic rejection, preview before confirmation, deduplication, overflow reporting, historical metadata preservation and serialization with saves/deletes.
+- **Bundled integration:** real bundled popup, background and content scripts communicate in isolated in-memory contexts, including feedback and recovery after malformed messages. The browser APIs are test doubles; this does not emulate Chrome's permission grant or native extension host.
+- **Distribution and website:** ZIP directory inspection, exact payload/asset allowlist, checksum, deterministic packaging, version/permission/CSP guards and repository-prefix static-site assets.
+- **Source checker:** offline fixtures for HTTP failure classes, timeouts, concurrency/retry limits, dynamic term evidence and title extraction. Live source availability is checked separately.
 
-The build checks that package and manifest versions match, bundles the scripts, and copies the declared assets. Packaging rebuilds the extension and writes a ZIP and SHA-256 checksum. There is no automated archive-content or browser-installation test in `npm run check`; inspect permissions, ZIP contents, checksum, export downloads, and actual extension behavior using the release checklist below.
+The build checks that package, manifest and lexicon versions match, bundles the scripts, and copies declared assets. Packaging rebuilds the extension and writes a ZIP and SHA-256 checksum. Tests inspect archive contents and bytes against the build; CI additionally runs `unzip -t` and verifies the checksum with system tools. Actual browser installation still requires the checklist below.
 
-CI repeats `npm ci`, `npm run check`, and `npm run package` on Node.js 22 and 24. Each job uploads its package for inspection. A CI artifact is a test build; a versioned GitHub Release is the user-facing release.
+CI repeats `npm ci`, `npm run check`, and `npm run package` on Node.js 22 and 24. Each job uploads its package for inspection. The online demo deploys only after both jobs pass on `main`. A CI artifact is a test build; a versioned GitHub Release is the user-facing release.
+
+For a production-shaped static preview, run `npm run preview:site`; it serves the built site beneath `/openplainenglish/` to exercise GitHub Pages paths. A source run with `npm run dev` serves `/demo/`. Run `npm run check:sources -- --output artifacts/source-audit.json` for a separate, non-mutating live-source report; inspect failure counts even if the process exits successfully.
 
 ## Browser checks before release
 
@@ -43,6 +49,8 @@ Record the browser and version, extension version/commit, page or fixture used, 
 8. **Release archive.** Extract the produced ZIP into a fresh folder and load that folder, not the source `dist/`, to confirm a release user can install it. Review archive contents for source maps, caches, credentials, feedback files, and other unintended data.
 
 ## Preparing a versioned release
+
+For import verification, restore an invented v0.1 export in v0.2. Confirm that preview and cancellation leave storage unchanged, confirmation merges once, importing the same file adds no duplicates, excess drafts are disclosed, and invalid fields/oversized files fail without partial writes. Export again and compare the seven allowed fields. Do not use a personal feedback backup as a test fixture.
 
 1. Keep the intended version aligned in `package.json`, `package-lock.json`, `manifest.json`, and `data/health.json`; keep review dates tied to actual source review.
 2. Run `npm ci`, `npm run check`, and `npm run package` from the commit intended for release. The package script already rebuilds `dist/`.

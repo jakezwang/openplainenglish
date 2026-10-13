@@ -103,3 +103,75 @@ test('deletes share the write queue with saves, including clearing and saving ag
   assert.deepEqual(saved.opeFeedback.map((record) => record.note), ['After clearing']);
   await assert.rejects(actions.handle({ type: 'OPE_DELETE_FEEDBACK', id: '' }), /Choose a draft/);
 });
+
+const backupRecord = (id = 'backup-1') => ({
+  id, entryId: 'older-glossary-term', term: 'An older term', kind: 'suggestion', note: 'Keep this draft.',
+  createdAt: '2020-01-01T00:00:00.000Z', lexiconVersion: '0.1.0',
+});
+const backup = (feedback) => JSON.stringify({ schemaVersion: 1, feedback });
+
+test('malformed messages and oversized feedback fail without changing storage', async () => {
+  const { actions, saved } = mockBrowser();
+  for (const message of [null, [], 1, { type: 1 }, { type: 'OPE_SAVE_FEEDBACK', feedback: null }, { type: 'OPE_SAVE_FEEDBACK', feedback: { entryId: 'hypertension', kind: 'unknown', note: 'x' } }, { type: 'OPE_SAVE_FEEDBACK', feedback: { entryId: 'hypertension', kind: 'unclear', note: 'x'.repeat(2001) } }]) {
+    await assert.rejects(actions.handle(message));
+    assert.deepEqual(saved.opeFeedback, []);
+  }
+});
+
+test('imports are revalidated atomically, retain historical metadata, and preserve existing identities', async () => {
+  const { actions, saved } = mockBrowser();
+  saved.opeFeedback = [backupRecord('existing')];
+  const before = structuredClone(saved.opeFeedback);
+  await assert.rejects(actions.handle({ type: 'OPE_IMPORT_FEEDBACK', json: backup([{ ...backupRecord(), pageUrl: 'https://private.example/' }]) }), /unsupported fields/);
+  assert.deepEqual(saved.opeFeedback, before);
+  const result = await actions.handle({ type: 'OPE_IMPORT_FEEDBACK', json: backup([{ ...backupRecord('existing'), note: 'Must not overwrite.' }, backupRecord('new')]) });
+  assert.equal(result.importedCount, 1);
+  assert.equal(result.duplicateCount, 1);
+  assert.equal(result.totalCount, 2);
+  assert.equal('feedback' in result, false, 'the response needs counts rather than draft contents');
+  assert.equal(saved.opeFeedback.find((record) => record.id === 'existing').note, 'Keep this draft.');
+  assert.equal(saved.opeFeedback.find((record) => record.id === 'new').entryId, 'older-glossary-term');
+  assert.equal(saved.opeFeedback.find((record) => record.id === 'new').lexiconVersion, '0.1.0');
+});
+
+test('import, delete and save operations share one queue', async () => {
+  const { actions, saved } = mockBrowser();
+  await Promise.all([
+    actions.handle({ type: 'OPE_IMPORT_FEEDBACK', json: backup([backupRecord()]) }),
+    actions.handle({ type: 'OPE_DELETE_FEEDBACK', id: null }),
+    actions.handle({ type: 'OPE_SAVE_FEEDBACK', feedback: { entryId: 'hypertension', kind: 'unclear', note: 'Saved after clearing.' } }),
+  ]);
+  assert.deepEqual(saved.opeFeedback.map((record) => record.note), ['Saved after clearing.']);
+});
+
+test('a storage failure does not poison later queued writes', async () => {
+  const { actions, api, saved } = mockBrowser();
+  const set = api.storage.local.set;
+  let fail = true;
+  api.storage.local.set = async (data) => {
+    if (fail) { fail = false; throw new Error('Storage unavailable'); }
+    return set(data);
+  };
+  await assert.rejects(actions.handle({ type: 'OPE_SAVE_FEEDBACK', feedback: { entryId: 'hypertension', kind: 'unclear', note: 'Unstored.' } }), /Storage unavailable/);
+  await actions.handle({ type: 'OPE_SAVE_FEEDBACK', feedback: { entryId: 'hypertension', kind: 'unclear', note: 'Stored.' } });
+  assert.deepEqual(saved.opeFeedback.map((record) => record.note), ['Stored.']);
+});
+
+test('a write cleans malformed legacy storage and strips unsupported record metadata', async () => {
+  const { actions, saved } = mockBrowser();
+  saved.opeFeedback = [null, { bad: true }, { ...backupRecord('valid'), pageUrl: 'private', pageText: 'private' }];
+  await actions.handle({ type: 'OPE_SAVE_FEEDBACK', feedback: { entryId: 'hypertension', kind: 'unclear', note: 'New note.' } });
+  assert.equal(saved.opeFeedback.length, 2);
+  assert.equal(JSON.stringify(saved.opeFeedback).includes('private'), false);
+});
+
+test('missing active-tab access asks for a toolbar invocation without guessing a URL or injecting', async () => {
+  const { actions, api, calls } = mockBrowser();
+  api.tabs.query = async () => [{ id: 7 }];
+  await assert.rejects(actions.handle({ type: 'OPE_TOGGLE_ACTIVE' }), /browser toolbar/);
+  assert.equal(calls.length, 0);
+  api.tabs.query = async () => [{ id: -1, url: 'https://example.org/' }];
+  await assert.rejects(actions.handle({ type: 'OPE_TOGGLE_ACTIVE' }), /regular web page/);
+  api.tabs.query = async () => [{ id: 0, url: 'https://example.org/' }];
+  assert.equal((await actions.handle({ type: 'OPE_GET_ACTIVE_STATE' })).state.enabled, false);
+});

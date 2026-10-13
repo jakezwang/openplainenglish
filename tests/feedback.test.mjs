@@ -5,6 +5,7 @@ import { JSDOM } from 'jsdom';
 import { build } from 'esbuild';
 import {
   sanitizeFeedback, createFeedback, createFeedbackIssueBody, createFeedbackIssueUrl, FEEDBACK_LIMIT,
+  parseFeedbackImport, mergeFeedbackRecords, FEEDBACK_IMPORT_MAX_BYTES, FEEDBACK_IMPORT_MAX_RECORDS,
 } from '../src/shared/feedback.js';
 
 const sample = {
@@ -16,6 +17,69 @@ const sample = {
   createdAt: '2026-10-13T12:00:00.000Z',
   lexiconVersion: '0.1.0',
 };
+const backup = (feedback) => JSON.stringify({ schemaVersion: 1, feedback });
+
+test('v1 JSON exports round-trip without losing draft identity or old glossary metadata', () => {
+  const record = { ...sample, entryId: 'retired-entry', lexiconVersion: '0.1.0' };
+  assert.deepEqual(parseFeedbackImport(backup([record])), [record]);
+  assert.deepEqual(parseFeedbackImport(backup([])), []);
+});
+
+test('import rejects invalid schema, unknown private fields, unsafe formatting and invalid entries atomically', () => {
+  for (const invalid of [
+    'not JSON', '[]', JSON.stringify({ schemaVersion: 2, feedback: [] }),
+    JSON.stringify({ schemaVersion: 1, feedback: [], pageUrl: 'private' }),
+    backup([{ ...sample, pageUrl: 'https://private.example' }]),
+    backup([{ ...sample, note: { body: 'private' } }]),
+    backup([{ ...sample, kind: 'other' }]),
+    backup([{ ...sample, createdAt: '2026-02-31T12:00:00Z' }]),
+    backup([{ ...sample, entryId: '../private' }]),
+    backup([{ ...sample, term: 'A'.repeat(121) }]),
+    backup([{ ...sample, note: 'hidden\u202econtent' }]),
+    backup([sample, { ...sample, id: '' }]),
+  ]) assert.throws(() => parseFeedbackImport(invalid), { name: /TypeError|RangeError/ });
+});
+
+test('import limits bound UTF-8 bytes and record count', () => {
+  assert.throws(() => parseFeedbackImport(' '.repeat(FEEDBACK_IMPORT_MAX_BYTES + 1)), /too large/);
+  const unicode = `"${'🫀'.repeat(FEEDBACK_IMPORT_MAX_BYTES / 3)}"`;
+  assert.ok(unicode.length < FEEDBACK_IMPORT_MAX_BYTES);
+  assert.throws(() => parseFeedbackImport(unicode), /too large/);
+  assert.throws(() => parseFeedbackImport(backup(Array.from({ length: FEEDBACK_IMPORT_MAX_RECORDS + 1 }, () => sample))), /at most 1,000/);
+});
+
+test('merge preserves local identity, deduplicates imports and never propagates extra metadata', () => {
+  const existing = [{ ...sample, pageUrl: 'private' }];
+  const imported = [{ ...sample, note: 'Must not overwrite local note' }, { ...sample, id: 'new' }, { ...sample, id: 'new', note: 'Later duplicate' }];
+  const result = mergeFeedbackRecords(existing, imported);
+  assert.equal(result.importedCount, 1);
+  assert.equal(result.duplicateCount, 2);
+  assert.equal(result.totalCount, 2);
+  assert.deepEqual(result.feedback.find((item) => item.id === sample.id), sample);
+  assert.equal(result.feedback.find((item) => item.id === 'new').note, sample.note);
+  assert.equal(JSON.stringify(result).includes('private'), false);
+  assert.equal(existing.length, 1);
+  assert.equal(imported.length, 3);
+});
+
+test('merge retains newest 100 predictably and reports local and imported records left out', () => {
+  const rows = Array.from({ length: 102 }, (_, index) => ({
+    ...sample, id: `id-${String(index).padStart(3, '0')}`, createdAt: new Date(Date.UTC(2026, 0, 1, 0, index)).toISOString(),
+  }));
+  const result = mergeFeedbackRecords([rows[0]], rows.slice(1));
+  assert.equal(result.totalCount, 100);
+  assert.equal(result.importedCount, 100);
+  assert.equal(result.discardedCount, 2);
+  assert.equal(result.localDiscardedCount, 1);
+  assert.equal(result.importDiscardedCount, 1);
+  assert.equal(result.feedback[0].id, 'id-002');
+  assert.equal(result.feedback.at(-1).id, 'id-101');
+  const equalDates = rows.map((record) => ({ ...record, createdAt: sample.createdAt }));
+  const tied = mergeFeedbackRecords([], [...equalDates].reverse());
+  assert.equal(tied.feedback.some((record) => record.id === 'id-101'), false);
+  assert.equal(tied.feedback.some((record) => record.id === 'id-000'), true);
+  assert.deepEqual(tied.feedback, mergeFeedbackRecords([], equalDates).feedback);
+});
 
 test('feedback allowlist excludes browser metadata and arbitrary nested data', () => {
   const actual = sanitizeFeedback({
@@ -115,6 +179,11 @@ async function optionsHarness({ feedback = [], hash = '#feedback?entry=gastritis
         stored = message.id === null ? [] : stored.filter((item) => item.id !== message.id);
         return { ok: true };
       }
+      if (message.type === 'OPE_IMPORT_FEEDBACK') {
+        const result = mergeFeedbackRecords(stored, parseFeedbackImport(message.json));
+        stored = result.feedback;
+        return { ok: true, ...result };
+      }
       throw new Error('Unexpected message');
     } },
     storage: {
@@ -123,6 +192,7 @@ async function optionsHarness({ feedback = [], hash = '#feedback?entry=gastritis
     },
   };
   dom.window.fetch = (...args) => { external.push(args); throw new Error('No network allowed'); };
+  dom.window.TextEncoder = TextEncoder;
   dom.window.open = (...args) => { external.push(args); };
   dom.window.HTMLDialogElement.prototype.showModal = function () { this.setAttribute('open', ''); };
   dom.window.HTMLDialogElement.prototype.close = function (value = '') {
@@ -196,5 +266,58 @@ test('new terms are saved as suggestions without assigning an unrelated entry ID
     assert.equal(saved.term, 'a new term');
     assert.equal(saved.kind, 'suggestion');
     assert.match(document.getElementById('feedback-status').textContent, /New-term suggestion/);
+  } finally { dom.window.close(); }
+});
+
+function selectBackup(dom, json, size = new TextEncoder().encode(json).length) {
+  const input = dom.window.document.getElementById('import-file');
+  Object.defineProperty(input, 'files', { configurable: true, value: [{ name: 'backup.json', size, text: async () => json }] });
+  input.dispatchEvent(new dom.window.Event('change', { bubbles: true }));
+}
+
+test('import preview is local, inspectable, and makes no changes until explicitly confirmed', async () => {
+  const { dom, calls, external, settle, getStored } = await optionsHarness({ feedback: [sample] });
+  try {
+    const document = dom.window.document;
+    const imported = { ...sample, id: 'new', note: '<img src=x> A restored note.' };
+    selectBackup(dom, backup([sample, imported]));
+    await settle();
+    assert.equal(document.getElementById('import-dialog').open, true);
+    assert.equal(document.getElementById('import-file-count').textContent, '2');
+    assert.equal(document.getElementById('import-new-count').textContent, '1');
+    assert.equal(document.getElementById('import-duplicate-count').textContent, '1');
+    assert.equal(document.querySelector('#import-records img'), null);
+    assert.ok(document.getElementById('import-records').textContent.includes(imported.note));
+    assert.equal(getStored().length, 1);
+    assert.equal(calls.some((message) => message.type === 'OPE_IMPORT_FEEDBACK'), false);
+    assert.equal(external.length, 0);
+    document.getElementById('cancel-import').click();
+    await settle();
+    assert.equal(getStored().length, 1);
+    selectBackup(dom, backup([sample, imported]));
+    await settle();
+    document.getElementById('confirm-import').click();
+    await settle();
+    assert.equal(getStored().length, 2);
+    assert.equal(document.getElementById('import-dialog').open, false);
+    assert.match(document.getElementById('import-status').textContent, /Restored 1 drafts/);
+    assert.equal(external.length, 0);
+  } finally { dom.window.close(); }
+});
+
+test('invalid or oversized backup leaves storage untouched and presents a focused error', async () => {
+  const { dom, calls, settle, getStored } = await optionsHarness({ feedback: [sample] });
+  try {
+    const document = dom.window.document;
+    selectBackup(dom, backup([{ ...sample, pageUrl: 'private' }]));
+    await settle();
+    assert.equal(document.getElementById('import-dialog').open, false);
+    assert.match(document.getElementById('page-error').textContent, /unsupported fields/);
+    assert.equal(document.activeElement.id, 'page-error');
+    selectBackup(dom, backup([sample]), FEEDBACK_IMPORT_MAX_BYTES + 1);
+    await settle();
+    assert.match(document.getElementById('page-error').textContent, /too large/);
+    assert.deepEqual(getStored(), [sample]);
+    assert.equal(calls.some((message) => message.type === 'OPE_IMPORT_FEEDBACK'), false);
   } finally { dom.window.close(); }
 });
