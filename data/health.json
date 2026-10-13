@@ -1,0 +1,2340 @@
+{
+  "schemaVersion": 1,
+  "version": "0.1.0",
+  "license": "CC0-1.0",
+  "entries": [
+    {
+      "id": "acute-illness",
+      "term": "acute illness",
+      "aliases": [
+        "acute disease",
+        "acute condition"
+      ],
+      "domain": "health",
+      "short": "an illness that begins suddenly or lasts a short time",
+      "explanation": "In medical writing, acute often describes a sudden start or a short course of illness.",
+      "context": "Acute does not always mean severe. Read the condition named alongside it.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Acute",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Acute",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "adverse-event",
+      "term": "adverse event",
+      "aliases": [
+        "adverse events"
+      ],
+      "domain": "health",
+      "short": "an unwanted health problem after a treatment",
+      "explanation": "A health problem happens after taking a medicine or receiving a treatment.",
+      "context": "The timing alone does not prove that the treatment caused the problem.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Adverse Event",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Adverse%20Event",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "FDA: Understanding Postmarket Safety Surveillance",
+          "url": "https://www.fda.gov/drugs/cder-conversations/understanding-cders-postmarket-safety-surveillance-programs-and-public-data",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "anemia",
+      "term": "anemia",
+      "aliases": [
+        "anaemia"
+      ],
+      "domain": "health",
+      "short": "too few healthy red blood cells or too little hemoglobin",
+      "explanation": "The blood has too few healthy red blood cells, or not enough of the protein that carries oxygen.",
+      "context": "There are several causes; this does not mean a person necessarily needs iron.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: anemia",
+          "url": "https://medlineplus.gov/anemia.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "angina",
+      "term": "angina",
+      "aliases": [
+        "angina pectoris"
+      ],
+      "domain": "health",
+      "short": "chest discomfort from too little blood reaching heart muscle",
+      "explanation": "Reduced blood flow to the heart muscle can cause chest pain or discomfort.",
+      "context": "Angina is one cause of chest discomfort; this entry cannot classify a person's chest pain.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Angina",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Angina",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "antibody",
+      "term": "antibody",
+      "aliases": [
+        "antibodies"
+      ],
+      "domain": "health",
+      "short": "an immune protein that binds to a particular target",
+      "explanation": "The immune system makes proteins that recognize and bind to specific substances called antigens.",
+      "context": "This describes the protein; it does not interpret an antibody test result.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: antibody",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/antibody",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "antigen",
+      "term": "antigen",
+      "aliases": [
+        "antigens"
+      ],
+      "domain": "health",
+      "short": "a substance the immune system can recognize",
+      "explanation": "An antigen can trigger an immune response. It may be part of a germ or a substance on the body's own cells.",
+      "context": "Antigens and antibodies are different; antibodies can bind to antigens.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: antigen",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/antigen",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: antibody",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/antibody",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "arrhythmia",
+      "term": "arrhythmia",
+      "aliases": [
+        "arrhythmias",
+        "cardiac arrhythmia"
+      ],
+      "domain": "health",
+      "short": "a problem with the heart's rate or rhythm",
+      "explanation": "The heart may beat too fast, too slowly, or with an irregular rhythm.",
+      "context": "There are many kinds of arrhythmia with different meanings and risks.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: arrhythmia",
+          "url": "https://medlineplus.gov/arrhythmia.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "arthritis",
+      "term": "arthritis",
+      "aliases": [],
+      "domain": "health",
+      "short": "a condition involving inflamed or painful joints",
+      "explanation": "Arthritis affects joints and can cause pain, swelling, or stiffness.",
+      "context": "There are different types; the word alone does not identify which type a person has.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: arthritis",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/arthritis",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "asthma",
+      "term": "asthma",
+      "aliases": [],
+      "domain": "health",
+      "short": "a lasting condition that can narrow the airways",
+      "explanation": "Airways in the lungs can become swollen and narrow, making breathing difficult.",
+      "context": "Symptoms and triggers vary. This definition does not replace a person's asthma care plan.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: asthma",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/asthma",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "bacteria",
+      "term": "bacteria",
+      "aliases": [
+        "bacterium"
+      ],
+      "domain": "health",
+      "short": "tiny living organisms made of one cell",
+      "explanation": "Bacteria are single-celled organisms. Some can cause infections.",
+      "context": "Bacteria and viruses are different kinds of germs; the terms are not interchangeable.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: bacteria",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/bacteria",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "benign-tumor",
+      "term": "benign tumor",
+      "aliases": [
+        "benign tumour",
+        "benign tumors",
+        "benign tumours"
+      ],
+      "domain": "health",
+      "short": "a growth that is not cancer",
+      "explanation": "This growth does not invade nearby tissue or spread to distant parts of the body the way cancer can.",
+      "context": "The term describes the growth's behavior; it does not decide whether treatment is needed.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: benign tumor",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/benign-tumor",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "biopsy",
+      "term": "biopsy",
+      "aliases": [
+        "biopsies"
+      ],
+      "domain": "health",
+      "short": "taking a cell or tissue sample for examination",
+      "explanation": "A clinician removes a sample so it can be examined under a microscope or tested in a laboratory.",
+      "context": "Ordering a biopsy does not itself establish a diagnosis.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: biopsy",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/biopsy",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "blood-glucose",
+      "term": "blood glucose",
+      "aliases": [
+        "blood sugar"
+      ],
+      "domain": "health",
+      "short": "the sugar carried in the blood",
+      "explanation": "Glucose is a type of sugar that the body uses for energy. A blood-glucose test measures its level in the blood.",
+      "context": "The meaning of a result depends on factors such as when the sample was taken.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Glucose",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Glucose",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "bradycardia",
+      "term": "bradycardia",
+      "aliases": [],
+      "domain": "health",
+      "short": "a heartbeat that is slower than normal",
+      "explanation": "The heart is beating unusually slowly.",
+      "context": "This term alone does not establish the cause or whether treatment is needed.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: arrhythmia",
+          "url": "https://medlineplus.gov/arrhythmia.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "bronchitis",
+      "term": "bronchitis",
+      "aliases": [],
+      "domain": "health",
+      "short": "inflammation of the lungs' larger airways",
+      "explanation": "The bronchial tubes that carry air into the lungs become inflamed.",
+      "context": "Acute and chronic bronchitis describe different patterns; the word alone does not specify which.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: bronchitis",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/bronchitis",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "carcinogen",
+      "term": "carcinogen",
+      "aliases": [
+        "carcinogens"
+      ],
+      "domain": "health",
+      "short": "a substance that can cause cancer",
+      "explanation": "A carcinogen is a substance capable of causing cancer.",
+      "context": "The word does not mean that every exposure will cause cancer.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Carcinogen",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Carcinogen",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "carcinoma",
+      "term": "carcinoma",
+      "aliases": [
+        "carcinomas"
+      ],
+      "domain": "health",
+      "short": "cancer starting in skin or tissue lining an organ",
+      "explanation": "This type of cancer begins in cells covering the body or lining its internal organs.",
+      "context": "Carcinoma is one type of cancer, not a synonym for every cancer.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: carcinoma",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/carcinoma",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "case-report",
+      "term": "case report",
+      "aliases": [
+        "case reports"
+      ],
+      "domain": "health",
+      "short": "a written description of one patient's medical case",
+      "explanation": "The report describes a person's illness, symptoms, tests, treatment, and follow-up.",
+      "context": "One person's experience cannot show how common a result is for everyone.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Case report",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Case%20report",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "case-control-study",
+      "term": "case-control study",
+      "aliases": [
+        "case-control studies"
+      ],
+      "domain": "health",
+      "short": "a study comparing people with and without a condition",
+      "explanation": "Researchers compare people who have a condition with a group who do not, to look for differences that may help explain it.",
+      "context": "A comparison can suggest associations; it does not on its own prove a cause.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Case-control study",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Case-control%20study",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "chemotherapy",
+      "term": "chemotherapy",
+      "aliases": [
+        "chemo"
+      ],
+      "domain": "health",
+      "short": "medicine used to kill cancer cells or slow their growth",
+      "explanation": "These medicines treat cancer by killing cells or stopping them from dividing.",
+      "context": "Here the term refers to cancer treatment; a care team determines the medicine and dose.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: chemotherapy",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/chemotherapy",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "chronic-disease",
+      "term": "chronic disease",
+      "aliases": [
+        "chronic illness",
+        "chronic condition",
+        "chronic diseases",
+        "chronic conditions"
+      ],
+      "domain": "health",
+      "short": "a health condition that lasts a long time",
+      "explanation": "The condition continues over time. Symptoms can change, and treatment may help control them.",
+      "context": "Chronic describes duration; it does not by itself mean severe or hopeless.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Chronic disease",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Chronic%20disease",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "chronic-obstructive-pulmonary-disease",
+      "term": "chronic obstructive pulmonary disease",
+      "aliases": [
+        "COPD"
+      ],
+      "domain": "health",
+      "short": "lasting lung damage that makes breathing difficult",
+      "explanation": "Damage to lung tissue and airways limits airflow. This group of conditions includes emphysema and chronic bronchitis.",
+      "context": "The name does not show how severe a person's breathing problem is.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: chronic obstructive pulmonary disease",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/chronic-obstructive-pulmonary-disease",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "cirrhosis",
+      "term": "cirrhosis",
+      "aliases": [],
+      "domain": "health",
+      "short": "serious scarring of the liver",
+      "explanation": "Scar tissue replaces healthy liver tissue and can keep blood from flowing through the liver normally.",
+      "context": "This describes liver damage; it does not by itself identify the cause.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: cirrhosis",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/cirrhosis",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "complete-blood-count",
+      "term": "complete blood count",
+      "aliases": [
+        "full blood count",
+        "CBC"
+      ],
+      "domain": "health",
+      "short": "a test of several types of blood cells",
+      "explanation": "This test counts red cells, white cells, and platelets, and also measures hemoglobin and hematocrit.",
+      "context": "The test provides several results that are interpreted together and with other information.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: complete blood count",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/complete-blood-count",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "computed-tomography",
+      "term": "computed tomography",
+      "aliases": [
+        "computed tomography scan",
+        "CT scan",
+        "CAT scan"
+      ],
+      "domain": "health",
+      "short": "detailed body pictures made using x-rays",
+      "explanation": "A computer combines x-ray pictures taken from different angles to show structures inside the body.",
+      "context": "This names an imaging method; it does not explain a scan's results.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: ct scan",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/ct-scan",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "constipation",
+      "term": "constipation",
+      "aliases": [],
+      "domain": "health",
+      "short": "hard-to-pass or infrequent bowel movements",
+      "explanation": "Stool may be hard or dry, difficult to pass, or passed less often than usual.",
+      "context": "The word alone does not explain the cause or which treatment is appropriate.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: constipation",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/constipation",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "contagious",
+      "term": "contagious",
+      "aliases": [],
+      "domain": "health",
+      "short": "able to spread between people or animals",
+      "explanation": "An infection described as contagious can pass from one person or animal to another.",
+      "context": "How it spreads and when someone can spread it depend on the infection.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Contagious",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Contagious",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "dehydration",
+      "term": "dehydration",
+      "aliases": [],
+      "domain": "health",
+      "short": "too little fluid in the body",
+      "explanation": "The body has lost more water and other fluids than it can replace, leaving too little to work normally.",
+      "context": "The word alone does not tell you the cause or how severe it is.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: dehydration",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/dehydration",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "diabetes-mellitus",
+      "term": "diabetes mellitus",
+      "aliases": [
+        "diabetes"
+      ],
+      "domain": "health",
+      "short": "a disease affecting control of blood sugar",
+      "explanation": "The body makes too little insulin or cannot use insulin well, allowing blood sugar to become too high.",
+      "context": "There are different types of diabetes; this entry does not identify the type or treatment.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: diabetes mellitus",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/diabetes-mellitus",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "dialysis",
+      "term": "dialysis",
+      "aliases": [],
+      "domain": "health",
+      "short": "treatment that does some of the kidneys' filtering work",
+      "explanation": "Dialysis removes wastes and extra fluid when the kidneys cannot do enough of this work.",
+      "context": "The word names a treatment, not a schedule or a recommendation for a particular person.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: dialysis",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/dialysis",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "diarrhea",
+      "term": "diarrhea",
+      "aliases": [
+        "diarrhoea"
+      ],
+      "domain": "health",
+      "short": "frequent loose or watery bowel movements",
+      "explanation": "Stool is loose or watery and may happen more often than usual or be hard to control.",
+      "context": "This describes a symptom, not a specific cause such as an infection.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: diarrhea",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/diarrhea",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "dysphagia",
+      "term": "dysphagia",
+      "aliases": [],
+      "domain": "health",
+      "short": "difficulty swallowing",
+      "explanation": "A person has trouble swallowing food, drinks, or saliva.",
+      "context": "This term describes a difficulty; it does not say what is causing it.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: dysphagia",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/dysphagia",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "dyspnea",
+      "term": "dyspnea",
+      "aliases": [
+        "dyspnoea",
+        "shortness of breath"
+      ],
+      "domain": "health",
+      "short": "feeling short of breath or finding breathing difficult",
+      "explanation": "A person may feel unable to get enough air or find breathing uncomfortable or difficult.",
+      "context": "This names a symptom with many possible causes, not a diagnosis.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: dyspnea",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/dyspnea",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "echocardiogram",
+      "term": "echocardiogram",
+      "aliases": [
+        "echocardiograms"
+      ],
+      "domain": "health",
+      "short": "a sound-wave picture of the heart",
+      "explanation": "Ultrasound creates moving pictures that show the heart's structure and how it is working.",
+      "context": "This is an imaging test, different from the electrical recording called an ECG.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: echocardiogram",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/echocardiogram",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: electrocardiogram",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/electrocardiogram",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "edema",
+      "term": "edema",
+      "aliases": [
+        "oedema"
+      ],
+      "domain": "health",
+      "short": "swelling from extra fluid",
+      "explanation": "Extra fluid has collected in the body's tissues and caused swelling.",
+      "context": "This explains a type of swelling; it does not identify why the fluid built up.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: edema",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/edema",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "electrocardiogram",
+      "term": "electrocardiogram",
+      "aliases": [
+        "electrocardiograms",
+        "ECG",
+        "EKG"
+      ],
+      "domain": "health",
+      "short": "a recording of the heart's electrical activity",
+      "explanation": "Sensors record the electrical signals that occur as the heart beats.",
+      "context": "This is an electrical recording, not the sound-wave picture made by an echocardiogram.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: electrocardiogram",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/electrocardiogram",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: echocardiogram",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/echocardiogram",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "embolism",
+      "term": "embolism",
+      "aliases": [],
+      "domain": "health",
+      "short": "a blood-vessel blockage caused by material carried in blood",
+      "explanation": "Material such as a blood clot lodges in an artery and blocks blood flow.",
+      "context": "The material is not always a blood clot, and the location affects what the blockage means.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: embolism",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/embolism",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "end-stage-renal-disease",
+      "term": "end-stage renal disease",
+      "aliases": [
+        "end stage renal disease",
+        "end-stage kidney disease",
+        "ESRD"
+      ],
+      "domain": "health",
+      "short": "lasting kidney failure",
+      "explanation": "The kidneys have lost so much function that they cannot do enough filtering work to support the body's needs.",
+      "context": "This is a specific severe stage, not another name for every kidney problem.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: End-stage renal disease",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=End-stage%20renal%20disease",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: renal failure",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/renal-failure",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "epidemiology",
+      "term": "epidemiology",
+      "aliases": [],
+      "domain": "health",
+      "short": "the study of health patterns in populations",
+      "explanation": "Researchers study who gets an illness, where and when it happens, and what may influence it.",
+      "context": "These studies describe patterns across groups and can inform public-health action.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Epidemiology",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Epidemiology",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "esophagus",
+      "term": "esophagus",
+      "aliases": [
+        "oesophagus"
+      ],
+      "domain": "health",
+      "short": "the tube carrying food from throat to stomach",
+      "explanation": "This muscular tube moves swallowed food and drink from the throat to the stomach.",
+      "context": "It is the food pipe, not the windpipe that carries air.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: esophagus",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/esophagus",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "evidence-based-care",
+      "term": "evidence-based care",
+      "aliases": [
+        "evidence-based practice",
+        "evidence-based treatment"
+      ],
+      "domain": "health",
+      "short": "care informed by research evidence",
+      "explanation": "Research findings and other systematically gathered evidence help guide care decisions.",
+      "context": "Evidence-based does not mean that a treatment works for every person or that the evidence can never change.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Evidence-based",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Evidence-based",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "gastritis",
+      "term": "gastritis",
+      "aliases": [],
+      "domain": "health",
+      "short": "inflammation of the stomach lining",
+      "explanation": "The inner lining of the stomach is inflamed.",
+      "context": "This describes the lining, not every kind of stomach pain.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: gastritis",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/gastritis",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "gastroesophageal-reflux-disease",
+      "term": "gastroesophageal reflux disease",
+      "aliases": [
+        "gastro-oesophageal reflux disease",
+        "GERD"
+      ],
+      "domain": "health",
+      "short": "repeated backflow of stomach contents into the food pipe",
+      "explanation": "Stomach contents flow back into the esophagus repeatedly, causing troublesome symptoms or complications.",
+      "context": "Occasional reflux and a diagnosis of GERD are not automatically the same thing.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: gerd",
+          "url": "https://medlineplus.gov/gerd.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "health-care-provider",
+      "term": "health care provider",
+      "aliases": [
+        "healthcare provider",
+        "health care providers",
+        "healthcare providers"
+      ],
+      "domain": "health",
+      "short": "a professional who provides health care",
+      "explanation": "This can mean a doctor, nurse, dentist, pharmacist, or another health professional.",
+      "context": "The title is broad; the person's qualifications and role depend on the care being provided.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Health care provider",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Health%20care%20provider",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "health-disparities",
+      "term": "health disparities",
+      "aliases": [
+        "health disparity"
+      ],
+      "domain": "health",
+      "short": "differences in health between groups of people",
+      "explanation": "Groups of people experience different health outcomes or levels of illness.",
+      "context": "The term names a difference; understanding its causes requires more information.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Health disparities",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Health%20disparities",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "health-screening",
+      "term": "health screening",
+      "aliases": [
+        "screening test",
+        "screening tests",
+        "cancer screening"
+      ],
+      "domain": "health",
+      "short": "checking for a condition before symptoms appear",
+      "explanation": "Screening looks for signs of disease in people who do not have symptoms of that disease.",
+      "context": "A screening result may need follow-up testing; it is not always a diagnosis.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: screening",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/screening",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hematocrit",
+      "term": "hematocrit",
+      "aliases": [
+        "haematocrit"
+      ],
+      "domain": "health",
+      "short": "the share of blood made up of red blood cells",
+      "explanation": "This blood-test measurement shows how much of a blood sample consists of red blood cells.",
+      "context": "It is a proportion, not simply a count of the cells.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: hematocrit",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hematocrit",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hematuria",
+      "term": "hematuria",
+      "aliases": [
+        "haematuria"
+      ],
+      "domain": "health",
+      "short": "blood in urine",
+      "explanation": "Blood is present in the urine.",
+      "context": "This names a finding, not the reason for it.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: hematuria",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hematuria",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hemoglobin",
+      "term": "hemoglobin",
+      "aliases": [
+        "haemoglobin"
+      ],
+      "domain": "health",
+      "short": "the oxygen-carrying protein in red blood cells",
+      "explanation": "Hemoglobin carries oxygen from the lungs to the body's tissues and helps carry carbon dioxide back.",
+      "context": "A hemoglobin test measures this protein; the result needs to be read with the rest of the blood test.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: hemoglobin",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hemoglobin",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hepatitis",
+      "term": "hepatitis",
+      "aliases": [],
+      "domain": "health",
+      "short": "inflammation of the liver",
+      "explanation": "The liver is inflamed. Different conditions, including several viruses, can cause hepatitis.",
+      "context": "The letters in hepatitis A, B, and C identify different viral infections, not stages of one illness.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: hepatitis",
+          "url": "https://medlineplus.gov/hepatitis.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hyperglycemia",
+      "term": "hyperglycemia",
+      "aliases": [
+        "hyperglycaemia"
+      ],
+      "domain": "health",
+      "short": "high blood sugar",
+      "explanation": "There is more glucose, a type of sugar, in the blood than there should be.",
+      "context": "This describes a blood-sugar level; it does not by itself establish a diagnosis of diabetes.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Hyperglycemia",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Hyperglycemia",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hypertension",
+      "term": "hypertension",
+      "aliases": [
+        "high blood pressure"
+      ],
+      "domain": "health",
+      "short": "blood pressure that stays too high",
+      "explanation": "Blood pushes against the artery walls with too much force over time.",
+      "context": "A diagnosis depends on blood-pressure measurements and clinical assessment, not on this word appearing on a page.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Hypertension",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Hypertension",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "MedlinePlus, National Library of Medicine: highbloodpressure",
+          "url": "https://medlineplus.gov/highbloodpressure.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hypoglycemia",
+      "term": "hypoglycemia",
+      "aliases": [
+        "hypoglycaemia"
+      ],
+      "domain": "health",
+      "short": "low blood sugar",
+      "explanation": "The level of glucose, a type of sugar, in the blood is lower than it should be.",
+      "context": "This explanation does not provide a personal target or a treatment instruction.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Hypoglycemia",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Hypoglycemia",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hypotension",
+      "term": "hypotension",
+      "aliases": [
+        "low blood pressure"
+      ],
+      "domain": "health",
+      "short": "blood pressure that is lower than normal",
+      "explanation": "The pressure of blood against artery walls is unusually low.",
+      "context": "This term alone does not explain why the pressure is low or whether it is causing a problem.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Hypotension",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Hypotension",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: hypotension",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hypotension",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hypoxemia",
+      "term": "hypoxemia",
+      "aliases": [
+        "hypoxaemia"
+      ],
+      "domain": "health",
+      "short": "too little oxygen in the blood",
+      "explanation": "The level of oxygen in the blood is lower than it should be.",
+      "context": "This is different from hypoxia, which refers to too little oxygen reaching body tissue.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: hypoxemia",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hypoxemia",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: hypoxia",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hypoxia",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hypoxia",
+      "term": "hypoxia",
+      "aliases": [],
+      "domain": "health",
+      "short": "too little oxygen reaching body tissue",
+      "explanation": "A tissue or part of the body is not getting enough oxygen.",
+      "context": "This refers to tissues; hypoxemia specifically refers to a low oxygen level in blood.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: hypoxia",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hypoxia",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: hypoxemia",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hypoxemia",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "immune-system",
+      "term": "immune system",
+      "aliases": [],
+      "domain": "health",
+      "short": "the body's defenses against infections and disease",
+      "explanation": "Cells, tissues, and other defenses work together to recognize and respond to threats.",
+      "context": "This is a system with many parts, not a single strength that one number can measure.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Immune system",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Immune%20system",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "immunization",
+      "term": "immunization",
+      "aliases": [
+        "immunisation"
+      ],
+      "domain": "health",
+      "short": "the process of becoming protected against a disease",
+      "explanation": "Protection against a disease develops, often after receiving a vaccine.",
+      "context": "This describes a process of protection; the degree and duration depend on the disease and vaccine.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Immunization",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Immunization",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "immunosuppression",
+      "term": "immunosuppression",
+      "aliases": [],
+      "domain": "health",
+      "short": "reduced activity of the immune system",
+      "explanation": "The body's ability to fight infections and other diseases is weakened. Medicines or illnesses can cause this.",
+      "context": "It can be an intended treatment effect or an unwanted effect; the context matters.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: immunosuppression",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/immunosuppression",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "immunotherapy",
+      "term": "immunotherapy",
+      "aliases": [],
+      "domain": "health",
+      "short": "treatment that changes the immune response",
+      "explanation": "This treatment stimulates or suppresses parts of the immune system to help treat disease.",
+      "context": "The effect depends on the type of treatment; it does not always mean strengthening all immune defenses.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: immunotherapy",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/immunotherapy",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "incidence-rate",
+      "term": "incidence rate",
+      "aliases": [],
+      "domain": "health",
+      "short": "how often new cases occur over time",
+      "explanation": "This measure describes new cases of a disease or condition in a defined population during a period of time.",
+      "context": "Check both the population and time period before comparing rates.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Incidence rate",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Incidence%20rate",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "incubation-period",
+      "term": "incubation period",
+      "aliases": [],
+      "domain": "health",
+      "short": "time from infection to the first symptoms",
+      "explanation": "This is the interval between becoming infected and starting to show symptoms.",
+      "context": "It is not necessarily the same as the period when an infection can spread to others.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Incubation period",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Incubation%20period",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "infection",
+      "term": "infection",
+      "aliases": [
+        "infections"
+      ],
+      "domain": "health",
+      "short": "germs entering and growing in the body",
+      "explanation": "Germs enter the body and multiply, which can cause illness.",
+      "context": "An infection does not automatically mean it spreads from person to person.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Infection",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Infection",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "CDC Everyday Words: Infectious diseases",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Infectious%20diseases",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "infection-transmission",
+      "term": "infection transmission",
+      "aliases": [
+        "disease transmission"
+      ],
+      "domain": "health",
+      "short": "the spread of an infection",
+      "explanation": "Germs pass from a source to another person or animal, directly or through something else.",
+      "context": "This explains spread; it does not identify the route for a particular infection.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Transmit, transmission",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Transmit",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "CDC Everyday Words: Infectious diseases",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Infectious%20diseases",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "infectious-disease",
+      "term": "infectious disease",
+      "aliases": [
+        "infectious diseases"
+      ],
+      "domain": "health",
+      "short": "an illness caused by germs",
+      "explanation": "Germs such as bacteria, viruses, or fungi enter the body and multiply, causing disease.",
+      "context": "Some spread between people; others come from food, water, animals, insects, or the environment.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Infectious diseases",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Infectious%20diseases",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "inflammation",
+      "term": "inflammation",
+      "aliases": [],
+      "domain": "health",
+      "short": "the body's response to injury or infection",
+      "explanation": "The immune system sends signals and cells to respond to damage or infection. Inflammation can also become long-lasting or happen when it should not.",
+      "context": "Inflammation and infection are different: inflammation can happen without an infection.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: inflammation",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/inflammation",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "insulin",
+      "term": "insulin",
+      "aliases": [],
+      "domain": "health",
+      "short": "a hormone that helps sugar enter cells",
+      "explanation": "The pancreas makes insulin to help move sugar from the blood into cells, where it can be used for energy.",
+      "context": "The word may also refer to insulin used as medicine; it is not a dosing instruction.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: insulin",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/insulin",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "ischemic-heart-disease",
+      "term": "ischemic heart disease",
+      "aliases": [
+        "ischaemic heart disease",
+        "coronary artery disease"
+      ],
+      "domain": "health",
+      "short": "heart disease involving reduced blood supply to the heart",
+      "explanation": "Narrowed blood vessels can reduce the flow of blood to the heart muscle.",
+      "context": "This is a disease description, not a finding that can be established from symptoms alone.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Ischemic heart disease",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Ischemic%20heart%20disease",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "jaundice",
+      "term": "jaundice",
+      "aliases": [],
+      "domain": "health",
+      "short": "yellowing of the skin or whites of the eyes",
+      "explanation": "A buildup of bilirubin, a yellow substance in the blood, can turn the skin and eyes yellow.",
+      "context": "Jaundice is a sign with several possible causes, not a single disease.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: jaundice",
+          "url": "https://medlineplus.gov/jaundice.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "magnetic-resonance-imaging",
+      "term": "magnetic resonance imaging",
+      "aliases": [
+        "MRI",
+        "MRI scan"
+      ],
+      "domain": "health",
+      "short": "body pictures made using magnets and radio waves",
+      "explanation": "A scanner uses a strong magnet, radio waves, and a computer to create detailed images inside the body.",
+      "context": "This names an imaging method, not what an image shows or whether a finding is serious.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: magnetic resonance imaging",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/magnetic-resonance-imaging",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "malignant-tumor",
+      "term": "malignant tumor",
+      "aliases": [
+        "malignant tumour",
+        "malignant tumors",
+        "malignant tumours"
+      ],
+      "domain": "health",
+      "short": "a cancerous growth",
+      "explanation": "Its cells can grow out of control, invade nearby tissue, and spread to other parts of the body.",
+      "context": "Malignant does not mean that spread has already happened.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: malignant",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/malignant",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "metastasis",
+      "term": "metastasis",
+      "aliases": [
+        "metastases"
+      ],
+      "domain": "health",
+      "short": "spread of cancer to another part of the body",
+      "explanation": "Cancer cells travel from where they first formed and create a new tumor elsewhere.",
+      "context": "A cancer that spreads keeps the name of its original type; the new location does not make it a different type.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: metastasis",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/metastasis",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "morbidity",
+      "term": "morbidity",
+      "aliases": [],
+      "domain": "health",
+      "short": "illness in a person or group",
+      "explanation": "In health writing, morbidity refers to disease or ill health in people.",
+      "context": "It concerns illness, while mortality concerns death.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Morbidity",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Morbidity",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "CDC Everyday Words: Mortality rate",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Mortality%20rate",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "mortality-rate",
+      "term": "mortality rate",
+      "aliases": [
+        "death rate"
+      ],
+      "domain": "health",
+      "short": "how often deaths occur in a population over time",
+      "explanation": "The rate counts deaths in a defined group during a specified period.",
+      "context": "Check the population, time period, and whether it counts all deaths or one cause.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Mortality rate",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Mortality%20rate",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "myocardial-infarction",
+      "term": "myocardial infarction",
+      "aliases": [
+        "heart attack",
+        "myocardial infarctions",
+        "heart attacks"
+      ],
+      "domain": "health",
+      "short": "heart attack",
+      "explanation": "Blood flow to part of the heart becomes blocked, which can damage or kill heart muscle.",
+      "context": "A heart attack is an emergency. This reading aid cannot decide whether symptoms are a heart attack.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: heartattack",
+          "url": "https://medlineplus.gov/heartattack.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "nausea",
+      "term": "nausea",
+      "aliases": [],
+      "domain": "health",
+      "short": "feeling as if you may vomit",
+      "explanation": "An uneasy or sick feeling in the stomach can come with an urge to throw up.",
+      "context": "Nausea does not necessarily mean that vomiting has happened.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: nausea",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/nausea",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "osteoporosis",
+      "term": "osteoporosis",
+      "aliases": [],
+      "domain": "health",
+      "short": "weakened bones that break more easily",
+      "explanation": "Bone tissue becomes thinner or less dense, leaving bones more likely to break.",
+      "context": "The word alone does not tell you an individual's chance of a fracture.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: osteoporosis",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/osteoporosis",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "peripheral-neuropathy",
+      "term": "peripheral neuropathy",
+      "aliases": [],
+      "domain": "health",
+      "short": "damage or problems affecting nerves outside the brain and spinal cord",
+      "explanation": "Nerve problems can cause numbness, tingling, pain, or weakness, often in the hands or feet.",
+      "context": "This describes a nerve problem and does not identify its cause.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: peripheralnervedisorders",
+          "url": "https://medlineplus.gov/peripheralnervedisorders.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "platelet",
+      "term": "platelet",
+      "aliases": [
+        "platelets",
+        "thrombocyte",
+        "thrombocytes"
+      ],
+      "domain": "health",
+      "short": "a small cell fragment that helps stop bleeding",
+      "explanation": "Platelets gather to help form blood clots and repair injured blood vessels.",
+      "context": "The platelet count is one part of a blood test, not a diagnosis on its own.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: platelet",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/platelet",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "pneumonia",
+      "term": "pneumonia",
+      "aliases": [],
+      "domain": "health",
+      "short": "a lung infection that inflames the air sacs",
+      "explanation": "An infection in one or both lungs can inflame the air sacs and cause them to fill with fluid or pus.",
+      "context": "Different germs can cause pneumonia; this explanation does not determine the cause.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: pneumonia",
+          "url": "https://medlineplus.gov/pneumonia.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "prevalence",
+      "term": "prevalence",
+      "aliases": [],
+      "domain": "health",
+      "short": "how common a condition is in a population",
+      "explanation": "This is the number or proportion of people who have a condition at a stated time or over a stated period.",
+      "context": "Unlike incidence, prevalence includes existing cases as well as recent ones.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Prevalence",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Prevalence",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "CDC Principles of Epidemiology: Glossary",
+          "url": "https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/glossary.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "prognosis",
+      "term": "prognosis",
+      "aliases": [
+        "prognoses"
+      ],
+      "domain": "health",
+      "short": "the expected course or outcome of an illness",
+      "explanation": "A clinician estimates how a disease may develop, including the chance of recovery or return.",
+      "context": "A prognosis is an estimate, not a guaranteed outcome for one person.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: prognosis",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/prognosis",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "proteinuria",
+      "term": "proteinuria",
+      "aliases": [],
+      "domain": "health",
+      "short": "more protein than usual in urine",
+      "explanation": "A urine sample contains a higher-than-normal amount of protein.",
+      "context": "The finding needs interpretation; it does not identify its cause on its own.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: proteinuria",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/proteinuria",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "public-health",
+      "term": "public health",
+      "aliases": [],
+      "domain": "health",
+      "short": "the health of communities and populations",
+      "explanation": "Public health focuses on health across groups of people.",
+      "context": "The term concerns populations; a population finding does not determine one person's outcome.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Public health",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Public%20health",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "pulse-oximetry",
+      "term": "pulse oximetry",
+      "aliases": [],
+      "domain": "health",
+      "short": "a light-based estimate of blood oxygen level",
+      "explanation": "A small device, often clipped to a finger, uses light to estimate how much oxygen the blood is carrying.",
+      "context": "The reading is an estimate and can be inaccurate; it does not identify the cause of symptoms.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: pulse oximetry",
+          "url": "https://medlineplus.gov/lab-tests/pulse-oximetry/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "radiation-therapy",
+      "term": "radiation therapy",
+      "aliases": [
+        "radiotherapy"
+      ],
+      "domain": "health",
+      "short": "treatment using radiation to damage cancer cells",
+      "explanation": "High-energy radiation is directed at cancer cells or delivered through radioactive material to kill cells or shrink tumors.",
+      "context": "This is a treatment, different from an imaging test that uses radiation to take pictures.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: radiation therapy",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/radiation-therapy",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "red-blood-cell",
+      "term": "red blood cell",
+      "aliases": [
+        "red blood cells",
+        "erythrocyte",
+        "erythrocytes"
+      ],
+      "domain": "health",
+      "short": "a blood cell that carries oxygen",
+      "explanation": "These cells contain hemoglobin, a protein that carries oxygen from the lungs around the body.",
+      "context": "A red blood cell count is one part of a complete blood count.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: red blood cell",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/red-blood-cell",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "renal",
+      "term": "renal",
+      "aliases": [],
+      "domain": "health",
+      "short": "related to the kidneys",
+      "explanation": "This word refers to the kidneys, organs that remove wastes and extra fluid from the blood.",
+      "context": "It is a describing word, not a diagnosis: renal disease means disease affecting the kidneys.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Renal",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Renal",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "respiratory",
+      "term": "respiratory",
+      "aliases": [],
+      "domain": "health",
+      "short": "related to breathing",
+      "explanation": "This word refers to breathing and the nose, airways, or lungs.",
+      "context": "It is a describing word: a respiratory illness affects part of the breathing system.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Respiratory",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Respiratory",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "risk-factor",
+      "term": "risk factor",
+      "aliases": [
+        "risk factors"
+      ],
+      "domain": "health",
+      "short": "something linked to a higher chance of a health problem",
+      "explanation": "An attribute or exposure increases, or is associated with, the chance of illness or injury.",
+      "context": "Having a risk factor does not mean a person will definitely develop the condition.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Risk factor",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Risk%20factor",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "sleep-apnea",
+      "term": "sleep apnea",
+      "aliases": [
+        "sleep apnoea"
+      ],
+      "domain": "health",
+      "short": "repeated pauses or very shallow breathing during sleep",
+      "explanation": "Breathing repeatedly stops and starts or becomes very shallow during sleep.",
+      "context": "This entry concerns sleep apnea; it does not describe every reason someone might stop breathing.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: sleepapnea",
+          "url": "https://medlineplus.gov/sleepapnea.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "spirometry",
+      "term": "spirometry",
+      "aliases": [],
+      "domain": "health",
+      "short": "a test of how much and how fast you breathe air out",
+      "explanation": "You blow into a device that measures the amount and speed of the air leaving your lungs.",
+      "context": "This is one kind of lung function test. Results are interpreted with other information.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: lung function tests",
+          "url": "https://medlineplus.gov/lab-tests/lung-function-tests/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "tachycardia",
+      "term": "tachycardia",
+      "aliases": [],
+      "domain": "health",
+      "short": "a heartbeat that is faster than normal",
+      "explanation": "The heart is beating unusually fast.",
+      "context": "Whether a rate is abnormal depends on the person's situation; this definition gives no diagnosis or cutoff.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: arrhythmia",
+          "url": "https://medlineplus.gov/arrhythmia.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "thrombosis",
+      "term": "thrombosis",
+      "aliases": [],
+      "domain": "health",
+      "short": "a blood clot forming or present inside a blood vessel",
+      "explanation": "A clot develops or remains inside a vessel that carries blood.",
+      "context": "The location matters; the word alone does not say where the clot is.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: thrombosis",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/thrombosis",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "toxic-exposure",
+      "term": "toxic exposure",
+      "aliases": [],
+      "domain": "health",
+      "short": "contact with a substance that can cause harm",
+      "explanation": "A person has contact with a substance that is poisonous or harmful.",
+      "context": "The phrase alone does not specify how much contact occurred or whether harm resulted.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Toxic",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Toxic",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "CDC Everyday Words: Exposure",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Exposure",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "ultrasound",
+      "term": "ultrasound",
+      "aliases": [
+        "ultrasonography"
+      ],
+      "domain": "health",
+      "short": "pictures inside the body made with sound waves",
+      "explanation": "Sound waves bounce off structures inside the body, and a computer turns the returning echoes into pictures.",
+      "context": "Here the term means a medical imaging procedure.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: ultrasound",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/ultrasound",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "urinary-tract-infection",
+      "term": "urinary tract infection",
+      "aliases": [
+        "urinary tract infections",
+        "UTI"
+      ],
+      "domain": "health",
+      "short": "an infection in the system that makes or carries urine",
+      "explanation": "An infection can affect the kidneys, the tubes carrying urine, or the bladder. Many occur in the bladder or urethra.",
+      "context": "The location and cause matter; this term alone does not specify a treatment.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: urinary tract infection",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/urinary-tract-infection",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "vaccine",
+      "term": "vaccine",
+      "aliases": [
+        "vaccines"
+      ],
+      "domain": "health",
+      "short": "a product that trains an immune response",
+      "explanation": "A vaccine helps the immune system recognize a particular target, often to protect against an infection.",
+      "context": "Vaccines have specific targets; this term does not mean protection against every infection.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Vaccine",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Vaccine",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: vaccine",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/vaccine",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "virus",
+      "term": "virus",
+      "aliases": [
+        "viruses"
+      ],
+      "domain": "health",
+      "short": "a germ that uses living cells to make more of itself",
+      "explanation": "A virus enters a living cell and uses it to produce more copies of the virus.",
+      "context": "The word identifies a kind of germ, not the severity or treatment of an illness.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Virus",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Virus",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "white-blood-cell",
+      "term": "white blood cell",
+      "aliases": [
+        "white blood cells",
+        "leukocyte",
+        "leukocytes"
+      ],
+      "domain": "health",
+      "short": "an immune-system cell in the blood",
+      "explanation": "These cells help the body respond to infections and other diseases. There are several types.",
+      "context": "A high or low count by itself does not identify a specific illness.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: white blood cell",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/white-blood-cell",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    }
+  ]
+}

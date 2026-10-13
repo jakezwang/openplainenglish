@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Glossary · OpenPlainEnglish</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="shell">
+    <aside class="sidebar" aria-label="About and navigation">
+      <a class="brand" href="#glossary"><span class="brand-mark" aria-hidden="true">Aa</span><span>OpenPlain<br>English</span></a>
+      <div class="sidebar-rule"></div>
+      <p class="eyebrow">An open reading companion</p>
+      <p class="sidebar-intro">Useful words,<br>within reach.</p>
+      <nav aria-label="Main navigation">
+        <a href="#glossary" id="nav-glossary" aria-current="page"><span>01</span> The glossary</a>
+        <a href="#feedback" id="nav-feedback"><span>02</span> Your feedback</a>
+      </nav>
+      <div class="sidebar-bottom"><p><span class="local-dot" aria-hidden="true"></span> Local by default.</p><p>No account. No automatic uploads.<br>Built to make reading a little easier.</p><a href="https://github.com/jakezwang/openplainenglish" target="_blank" rel="noopener noreferrer">The open-source project ↗</a><p id="version" class="version">Edition 0.1</p></div>
+    </aside>
+    <main id="main" tabindex="-1">
+      <section id="glossary-section" aria-labelledby="glossary-heading">
+        <header class="section-header"><p class="eyebrow">01 / The health glossary</p><h1 id="glossary-heading">Words you can<br><em>make sense of.</em></h1><p>Short meanings for unfamiliar health terms. Keep the original word, understand its meaning, and follow the source.</p></header>
+        <div class="search-row"><label for="search">Find a word or meaning</label><div class="search-wrap"><span aria-hidden="true">⌕</span><input id="search" type="search" autocomplete="off" placeholder="Try inflammation, heart, or a term you’ve seen…"></div></div>
+        <p class="source-attribution">Explanations adapted from cited public sources. CDC, NIH/NLM/NCI, FDA and the U.S. Government do not endorse OpenPlainEnglish.</p>
+        <div class="glossary-meta"><p id="result-count" role="status" aria-live="polite">Loading the glossary…</p><p>Plain meanings. Original words.</p></div>
+        <div id="glossary-list" class="glossary-list"></div>
+        <p id="empty-glossary" class="empty-state" hidden>No matches yet. Try another word, or <a href="#feedback?kind=suggestion">suggest a term</a> for the glossary.</p>
+        <div class="editorial-note"><span class="note-marker" aria-hidden="true">i</span><div><h2>A note on these explanations</h2><p>“Source-checked” means an explanation was checked against its cited source. It does not mean it was independently clinically reviewed or tested for understanding. These meanings help you read; they do not diagnose a condition or replace advice about your care.</p></div></div>
+      </section>
+      <section id="feedback-section" aria-labelledby="feedback-heading" hidden>
+        <header class="section-header"><p class="eyebrow">02 / Your feedback</p><h1 id="feedback-heading">Clarity is<br><em>a shared effort.</em></h1><p>Tell us what needs a better explanation. Start with a draft on your device, then decide whether to share it.</p></header>
+        <form id="feedback-form" class="feedback-form">
+          <div class="form-top"><h2>A better way to say it</h2><span class="local-label">Saved locally first</span></div>
+          <div class="form-grid"><div class="field"><label for="feedback-term">Word or phrase</label><input id="feedback-term" list="term-list" required maxlength="120" autocomplete="off" placeholder="The term you’d like to discuss"><datalist id="term-list"></datalist></div><div class="field"><label for="feedback-kind">What could improve?</label><select id="feedback-kind"><option value="unclear">The explanation is hard to understand</option><option value="inaccurate">The meaning may be inaccurate</option><option value="suggestion">I have a suggestion or a new term</option></select></div></div>
+          <div class="field"><label for="feedback-note">Your note</label><textarea id="feedback-note" rows="5" maxlength="2000" required aria-describedby="feedback-help" placeholder="What was confusing? How would you explain it?"></textarea><p id="feedback-help" class="field-help">Use your own words. Leave out personal health details. We do not automatically include page text or a page address.</p></div>
+          <div class="form-actions"><button class="button primary" id="save-feedback" type="submit">Save local draft <span aria-hidden="true">→</span></button><span class="field-help">Nothing is sent to GitHub.</span></div>
+        </form>
+        <p id="feedback-status" class="status-message" role="status" aria-live="polite"></p>
+        <div class="drafts-header"><div><p class="eyebrow">On this device</p><h2>Your saved drafts <span id="draft-count" class="count">0</span></h2></div><div class="draft-tools"><button id="export-feedback" class="text-button" type="button" disabled>Export JSON</button><button id="delete-all" class="text-button danger" type="button" disabled>Delete all</button></div></div>
+        <div id="feedback-list" class="feedback-list"></div>
+        <p id="empty-feedback" class="empty-state">Your drafts will appear here. Saving one keeps it on this device until you choose to share or delete it.</p>
+        <p class="storage-note">Up to 100 drafts are kept locally. Export drafts you want to keep. They are not synced between devices.</p>
+      </section>
+      <p id="page-error" class="page-error" role="alert" hidden></p>
+      <footer class="page-footer"><span>OpenPlainEnglish</span><span>Understanding belongs to everyone.</span></footer>
+    </main>
+  </div>
+  <dialog id="delete-dialog" aria-labelledby="delete-title" aria-describedby="delete-description"><form method="dialog"><p class="eyebrow">Local drafts</p><h2 id="delete-title">Delete this draft?</h2><p id="delete-description">This removes the draft from this device. This cannot be undone.</p><div class="dialog-actions"><button class="button secondary" value="cancel" autofocus>Keep drafts</button><button class="button destructive" value="confirm">Delete</button></div></form></dialog>
+  <dialog id="share-dialog" aria-labelledby="share-title" aria-describedby="share-description"><p class="eyebrow">Review before sharing</p><h2 id="share-title">Your words. Your choice.</h2><p id="share-description">Opening the GitHub draft sends the text below to GitHub. You can edit it there; posting the issue makes it public.</p><label for="share-preview">This is the text that will be included</label><textarea id="share-preview" rows="12" readonly spellcheck="false"></textarea><p class="field-help">No page address, browsing history, or page content is added automatically.</p><div class="dialog-actions"><button class="button secondary" id="cancel-share" type="button" autofocus>Keep it local</button><a class="button primary" id="open-issue" target="_blank" rel="noopener noreferrer">Open GitHub draft ↗</a></div></dialog>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

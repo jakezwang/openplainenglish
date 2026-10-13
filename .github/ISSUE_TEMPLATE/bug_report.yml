@@ -1,0 +1,41 @@
+name: Something is not working
+description: Report a problem with the extension or its accessibility.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping. Use a made-up example or public page. Do not include medical records, personal health information, private URLs, account details, or screenshots with identifying information. For a security concern, follow SECURITY.md instead of publishing details here.
+  - type: input
+    id: version
+    attributes:
+      label: Extension version
+      description: Find this on the browser's extensions page.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: "Chrome or Edge, version if known"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Explain the problem in your own words. Include steps if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Optional safe example
+      description: Use a short made-up sentence or a public reference page. Remove private information from screenshots.

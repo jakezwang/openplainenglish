@@ -1,0 +1,20 @@
+name: Suggest an improvement
+description: Describe a reading or accessibility problem the project could help solve.
+title: "[Idea] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a public discussion. Please use invented examples or public information rather than personal health details or private documents.
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would you like to do more easily?
+      description: Describe the reader's problem. Plain language is welcome.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: What might help?
+      description: Optional; it is fine to describe the problem without a solution.

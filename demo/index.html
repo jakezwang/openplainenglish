@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenPlainEnglish — A little clarity</title>
+  <link rel="stylesheet" href="/demo/style.css">
+  <script type="module" src="/demo/demo.js"></script>
+</head>
+<body>
+  <header class="masthead" data-ope-owned="demo-header">
+    <a class="brand" href="/" aria-label="OpenPlainEnglish home"><span class="book" aria-hidden="true">o<span>p</span></span> OpenPlainEnglish</a>
+    <a href="https://github.com/jakezwang/openplainenglish" target="_blank" rel="noopener noreferrer">An open project ↗</a>
+  </header>
+  <main>
+    <section class="intro" data-ope-owned="demo-intro">
+      <p class="eyebrow"><span class="dot"></span> Everyday understanding, for everyone</p>
+      <h1>A little clarity.<br>Right where you <em>read.</em></h1>
+      <p class="standfirst">Professional words shouldn't stand between you and understanding. Add short, sourced explanations without leaving the page.</p>
+    </section>
+    <div class="workspace">
+      <aside class="controls" data-ope-owned="demo-controls">
+        <span class="label">Try the reading companion</span>
+        <h2>Your words.<br>A clearer view.</h2>
+        <p>Turn on the reader, then select an underlined health term in the sample article.</p>
+        <button id="toggle" class="primary" disabled>Loading dictionary…</button>
+        <p id="status" role="status" aria-live="polite">Getting the local dictionary ready.</p>
+        <div class="control-rule"></div>
+        <p class="privacy"><span aria-hidden="true">◈</span> Stays on this device</p>
+        <p class="small">No account. No cloud processing.<br>Original wording always stays available.</p>
+        <button id="add" class="secondary">Add another paragraph</button>
+        <a class="small" href="/demo/preview.html?view=options">Browse the dictionary ↗</a>
+        <p class="small note">This demo uses the same reader as the extension. To try the installed extension here, leave the demo reader off.</p>
+      </aside>
+      <article id="article">
+        <div class="article-meta"><span>THE READING ROOM</span><span>Sample article · 2 min</span></div>
+        <h2>Making sense of<br>health information</h2>
+        <p class="lead">A familiar word can make an unfamiliar subject feel a little closer.</p>
+        <p>When you read about health, you might come across terms such as hypertension, dehydration, or gastritis. A clear explanation can help you understand what a term means before you continue reading.</p>
+        <p>Medical language describes many different things: a symptom such as dyspnea, a condition such as anemia, or a test such as a biopsy. The distinction matters. A definition explains a word; it does not tell you whether you have a condition.</p>
+        <blockquote>Understanding starts with being able to ask: “What does that mean?”</blockquote>
+        <h3>Keep the detail within reach</h3>
+        <p>You may see osteoporosis in an article about bones, or cholesterol in information about a blood test. Plain language can offer a starting point, while the original term helps you find more information and discuss it with a health professional.</p>
+        <p>Words such as prognosis and asymptomatic may be useful to explain too. Select any highlighted term to see a short meaning, its context, and the source used to check it.</p>
+        <p class="article-footnote">This fictional article is for trying the reading tool. It is not personal health advice.</p>
+      </article>
+    </div>
+    <section class="checks" data-ope-owned="demo-checks">
+      <p class="eyebrow">Respect the page</p>
+      <h2>Some words belong exactly where they are.</h2>
+      <p>The reader leaves links, forms and code alone. Try these examples while it is enabled.</p>
+      <div class="check-grid">
+        <a href="https://medlineplus.gov/highbloodpressure.html" target="_blank" rel="noopener noreferrer">A link about hypertension ↗</a>
+        <label>An editable note <input aria-label="Editable note" value="hypertension, gastritis"></label>
+        <code>const topic = "hypertension";</code>
+      </div>
+    </section>
+  </main>
+  <footer data-ope-owned="demo-footer"><span>Everyone deserves to understand.</span><span>Local dictionary · Open source · Made to be questioned</span></footer>
+</body>
+</html>

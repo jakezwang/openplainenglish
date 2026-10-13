@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OpenPlainEnglish</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header><span class="brand-mark" aria-hidden="true">Aa</span><span>OpenPlainEnglish</span><span class="edition">01</span></header>
+  <main>
+    <p class="eyebrow">A little clarity, right here.</p>
+    <h1>Understand the words.<br>Keep your place.</h1>
+    <p class="intro">Short explanations for health terms, alongside the words you’re already reading.</p>
+    <div class="page-state"><span class="state-dot" id="state-dot" aria-hidden="true"></span><p id="state-label" role="status" aria-live="polite">Checking this page…</p></div>
+    <button id="toggle" class="primary" type="button" disabled>Explain this page <span aria-hidden="true">↗</span></button>
+    <button id="first" class="secondary" type="button" hidden>Go to the first explanation <span aria-hidden="true">→</span></button>
+    <p id="detail" class="detail">You choose when to turn it on. Your original text stays available.</p>
+    <p id="error" class="error" role="alert" hidden></p>
+  </main>
+  <footer>
+    <a id="glossary-link" href="options.html" target="_blank">Explore the glossary <span aria-hidden="true">↗</span></a>
+    <div class="footer-note"><span class="local-dot" aria-hidden="true"></span>Runs on your device. No account.</div>
+  </footer>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

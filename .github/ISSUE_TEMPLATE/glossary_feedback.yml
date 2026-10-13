@@ -1,0 +1,42 @@
+name: An explanation needs improvement
+description: Tell us which term is unclear, inaccurate, or missing context.
+title: "[Glossary] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This issue will be public. Describe the language problem without sharing symptoms, records, names, private URLs, or other personal information. An explanation change will be reviewed before it appears in a release.
+  - type: input
+    id: term
+    attributes:
+      label: Term or glossary entry ID
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What would you like improved?
+      options:
+        - The wording is unclear
+        - The meaning may be inaccurate
+        - More context is needed
+        - A term or alias is missing
+        - Something else about the explanation
+    validations:
+      required: true
+  - type: textarea
+    id: note
+    attributes:
+      label: What is confusing or should change?
+      description: A simple explanation or made-up example is welcome. You do not need a proposed replacement.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Optional public source
+      description: If you have one, link a primary public reference that supports the meaning.
+  - type: input
+    id: version
+    attributes:
+      label: Optional glossary or extension version
