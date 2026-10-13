@@ -1,5 +1,7 @@
 # OpenPlainEnglish
 
+[![Checks](https://github.com/jakezwang/openplainenglish/actions/workflows/ci.yml/badge.svg)](https://github.com/jakezwang/openplainenglish/actions/workflows/ci.yml)
+
 Understand health information without losing the original words.
 
 OpenPlainEnglish is an open-source extension for Chromium-based desktop browsers such as Chrome and Edge. It explains selected health terms on the page you are reading and requires Chromium 116 or newer. Turn it on when you need it, open a marked term for an explanation, and turn it off to remove the marks. The original wording stays available throughout.
@@ -81,7 +83,7 @@ The links `/demo/preview.html?view=options` and `/demo/preview.html?view=popup` 
 
 Use the explanation's feedback control or [open an issue](https://github.com/jakezwang/openplainenglish/issues/new/choose) to tell us which term was confusing and why. Plain-language and accessibility feedback are welcome even if you do not write code. Share a public reference or a made-up example instead of a private health document.
 
-For data changes, contribute original explanations with a traceable source and accurate licensing. Maintainers review factual meaning, plain language, context, licensing, and tests before merging. The review label must describe the review that actually happened. See [CONTRIBUTING.md](CONTRIBUTING.md) and the [lexicon guide](docs/LEXICON.md).
+For data changes, contribute original explanations with a traceable source and accurate licensing. Maintainers review factual meaning, plain language, context, licensing, and tests before merging. The review label must describe the review that actually happened. See [CONTRIBUTING.md](CONTRIBUTING.md), the [lexicon guide](docs/LEXICON.md) and the [architecture](docs/ARCHITECTURE.md).
 
 ## Licenses
 

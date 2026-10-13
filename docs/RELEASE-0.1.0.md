@@ -15,7 +15,8 @@ Local verification date: **2026-10-13**. Scope: 100 English health entries, the 
 | Automated tests | **48 tests passed**, covering matching, page handling, lexicon validation, feedback and background actions. These tests do not install the extension. |
 | Shared reader in Chrome | Enabling marked **8 terms**. Opening a term displayed an accessible dialog with short meaning, explanation, context, sources and review status. Escape closed it. Adding the sample paragraph increased the count to **11**. Disabling returned the count to **0** and preserved the page wording. |
 | Options UI with labeled mock Chrome adapter | Searching `hypertension` returned **1 of 100** entries; details and sources opened. The feedback form received the selected term, saved a local draft and retained it after reload. The explicit GitHub preview showed the intended issue text. **No issue was posted.** This uses separate demo-origin storage. |
-| Packaging integrity | Final ZIP: **16 files, 176,203 bytes**. `unzip -t` passed for all files after the final source changes. Earlier independent checks verified safe paths, the exact asset allowlist, ZIP/dist byte equality and checksums. These checks do not demonstrate browser installation. |
+| Packaging integrity | Final ZIP: **16 files, 176,203 bytes**. Independent checks of this final artifact verified every CRC, safe paths, the exact asset allowlist, ZIP/dist byte equality and its checksum sidecar. `unzip -t` also passed. These checks do not demonstrate browser installation. |
+| GitHub Actions | [Node 22 and Node 24 both passed](https://github.com/jakezwang/openplainenglish/actions/runs/38405129825): clean dependency installation, lexicon validation, 48 tests, build and package. The checked implementation is commit `7e7031904ee91c4dfcfd4601e1c29432729e3b5a`. |
 
 The shared-reader verification followed fixes for a mutation-observer/status-render loop and placement of the accessible explanation panel in the document body.
 
@@ -30,4 +31,4 @@ The popup preview rendered correctly. Cancelling a local draft deletion preserve
 - Definitions are AI-assisted original wording compared with cited sources. There has been no independent clinical review or reader-comprehension study.
 - Matching is limited to supported English text nodes. It does not interpret records, negation or personal health status. PDFs, images, iframes, shadow roots, local files and browser-internal pages are unsupported; large pages can be partially marked.
 
-At the time of this local record, GitHub Actions was pending the repository push. The [versioned release](https://github.com/jakezwang/openplainenglish/releases) should identify the final commit, CI result, ZIP and checksum. This local record does not claim that CI, publication or installed-runtime verification has completed.
+The [v0.1.0 preview release](https://github.com/jakezwang/openplainenglish/releases/tag/v0.1.0) contains the ZIP and checksum. Later documentation-only changes can follow the implementation commit above. Installed-runtime verification remains outstanding; this release is for early evaluation.
