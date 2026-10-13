@@ -10,9 +10,9 @@ OpenPlainEnglish is an open-source extension for Chromium-based desktop browsers
 
 让专业语言更容易理解，让普通人也能平等地获取信息。首版提供 100 个英文医疗词条，保留原词、就地解释，本地处理；反馈先保存在设备上，由你决定是否公开分享。
 
-![OpenPlainEnglish localhost demo with a health-term explanation open](docs/images/reader-demo.jpg)
+![OpenPlainEnglish online demo with the dehydration explanation open](docs/images/online-demo-v0.2.jpg)
 
-*Shared-reader browser demo. See the [v0.2.0 verification record](docs/RELEASE-0.2.0.md) for checked behavior and remaining gaps. Actual extension installation and runtime are still awaiting manual verification.*
+*Public demo verified in Chrome. See the [v0.2.0 verification record](docs/RELEASE-0.2.0.md) for checked behavior and remaining gaps. Actual extension installation and runtime are still awaiting manual verification.*
 
 ## What v0.2 does
 

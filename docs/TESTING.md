@@ -55,7 +55,7 @@ For import verification, restore an invented v0.1 export in v0.2. Confirm that p
 1. Keep the intended version aligned in `package.json`, `package-lock.json`, `manifest.json`, and `data/health.json`; keep review dates tied to actual source review.
 2. Run `npm ci`, `npm run check`, and `npm run package` from the commit intended for release. The package script already rebuilds `dist/`.
 3. Inspect the ZIP: `manifest.json` must be at its root, along with the compiled scripts and UI assets, icons, bundled dictionary, and licenses. It must not contain the demo adapter, development dependencies, feedback exports, private data, or source maps.
-4. Compare the ZIP's SHA-256 digest with the adjacent `.sha256` file. For example, from the `release/` directory on macOS use `shasum -a 256 -c openplainenglish-0.1.0.zip.sha256`, substituting the release's version. A checksum checks the downloaded file against the published digest; it is not a signature or a security audit.
+4. Compare the ZIP's SHA-256 digest with the adjacent `.sha256` file. For example, from the `release/` directory on macOS use `shasum -a 256 -c openplainenglish-0.2.0.zip.sha256`, substituting the release's version. A checksum checks the downloaded file against the published digest; it is not a signature or a security audit.
 5. Complete and record the applicable browser checks above using the extracted ZIP. The checklist itself is not evidence that a check passed.
 6. Create the version tag and GitHub Release for the tested commit, attaching both the versioned ZIP and checksum. CI artifacts are for inspection; the workflow does not publish a GitHub Release or browser-store listing automatically.
 

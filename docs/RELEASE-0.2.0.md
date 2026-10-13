@@ -21,7 +21,13 @@ The dependency audit reported zero known vulnerabilities at verification time. T
 
 ## Publication
 
-The [online demo](https://jakezwang.github.io/openplainenglish/) and [v0.2.0 preview release](https://github.com/jakezwang/openplainenglish/releases/tag/v0.2.0) are the publication destinations. CI and public-browser verification will be recorded here after deployment. The deployment workflow requires both Node 22 and Node 24 checks to pass before publishing the static site.
+The [online demo](https://jakezwang.github.io/openplainenglish/) deployed successfully through [GitHub Actions run 38411556344](https://github.com/jakezwang/openplainenglish/actions/runs/38411556344). Node 22 and Node 24 both passed dependency installation, lexicon validation, all 79 tests, build, packaging, independent ZIP integrity and checksum checks before deployment. The checked implementation commit is `d0b34808405930ffdaf4976391e61f07a8a0ca9c`. The downloaded Node 22 CI artifact is byte-for-byte identical to the local release ZIP above. Later documentation-only commits add this verification record and screenshot without changing packaged files.
+
+Chrome then loaded the public HTTPS URL successfully. Enabling the reader marked **8 terms**; a keyboard action opened the dehydration explanation with its revised wording, context and citation. Adding the sample paragraph increased the count to **11**. Disabling removed all term buttons and preserved the article's text exactly. No browser console errors were observed in that flow. The public dictionary route loaded edition **0.2.0** with 100 entries; searching `hypertension` returned one match. The feedback route showed its import/export controls and an empty, separate demo-origin draft store.
+
+![Published reading demo with the dehydration explanation open](images/online-demo-v0.2.jpg)
+
+The [v0.2.0 preview release](https://github.com/jakezwang/openplainenglish/releases/tag/v0.2.0) distributes the ZIP, SHA-256 sidecar and machine-readable source audit. It remains an evaluation release with the limitations below.
 
 ## Remaining verification and limitations
 
