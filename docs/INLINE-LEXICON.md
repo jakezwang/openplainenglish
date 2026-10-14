@@ -1,10 +1,10 @@
-# Inline replacement lexicon v0.3
+# Inline replacement lexicons v0.4
 
-The 100-entry health glossary now includes **21 entries with 40 explicit inline replacement pairs**. Every other entry or alias remains available for annotation without an inline rewrite. The `short` definition is never an automatic replacement: it can be a sentence fragment, begin with an article, or explain a broader concept than the original word.
+The 112-entry default health glossary includes **21 entries with 40 explicit inline replacement pairs**. Every other entry or alias remains available for annotation without an inline rewrite. The `short` definition is never an automatic replacement: it can be a sentence fragment, begin with an article, or explain a broader concept than the original word.
 
 This is local lexical replacement, not sentence rewriting or full-context understanding. The pairs are AI-assisted editorial choices compared with primary sources. No independent clinician or human reader has reviewed these new pairs, and no participant comprehension study has been run. `source-checked` is not a clinical approval or a promise that a substitution will fit every sentence.
 
-## Selection and source comparison
+## v0.3 health selection and source comparison
 
 On **2026-10-13**, 25 unique primary citations for 23 candidate entries were fetched and read: official CDC Everyday Words term responses, official NCI glossary definitions, and MedlinePlus health-topic summaries. Twenty-one entries were retained. Health disparities stays annotation-only to retain the explicit comparison between groups; diabetes mellitus keeps its existing explanation without another shortening in this set. The retained entries use **23 unique existing citations**: 11 NCI, 9 CDC Everyday Words, and 3 MedlinePlus URLs. No source URL, original definition, original review date, or source-rights assertion was changed for this addition.
 
@@ -94,3 +94,22 @@ An entry may omit `inline` entirely. When present, its shape is:
 The structural validator requires 1–64 explicit pairs, a boundary note, existing valid entry sources, and a separate honest review record. Each `from` belongs to the entry's term or aliases after Unicode compatibility, case, and whitespace normalization. Each `to` is nonempty plain text of at most 96 Unicode characters. Identity replacements, duplicate normalized source strings, unknown inline fields, unsupported review claims, invalid dates, markup, control characters, and hidden formatting characters are rejected. Source licenses and URLs retain the existing provenance validation.
 
 Run `node scripts/validate-lexicon.mjs` and `node --test tests/lexicon.test.mjs`. These checks protect the data contract and regression examples. They cannot determine whether a new medical substitution is suitable: use the [review rubric](REVIEW.md), read the actual primary source, try representative sentence frames, and leave the entry annotation-only when meaning or grammar is uncertain.
+
+## Public-service opt-in pilot
+
+The separate [pilot](../data/pilots/public-service.json) adds **8 entries / 14 explicit pairs**, checked against government-authored plain-language guidance on 2026-10-13. It is disabled unless selected and is not merged into the health lexicon. Sources: [CPSC Wordy vs. Clear](https://www.cpsc.gov/About-CPSC/Policies-Statements-and-Directives/plain-language-principles) for the first six rows, and [Digital.gov Familiar terms](https://digital.gov/guides/writing-understanding/familiar-terms) for the last two. [Rights and attribution](LEXICON.md#separate-public-service-pilot) apply.
+
+The review method is `editorial source comparison; no independent domain-expert or user-comprehension review`. The source tables recommend base-word alternatives. Explicit verb inflections are editorial applications of those alternatives; the source is not claimed to contain every inflected example. The new health entries remain annotation-only, so the default health pair total is unchanged.
+
+| Explicit pair(s) | Invented positive sentence: before → after | Negative boundary checked |
+| --- | --- | --- |
+| at a later date → later | We will reply at a later date. → We will reply later. | No particular date or permission to miss a deadline is added. |
+| at the present time → now | At the present time, the office is open. → Now, the office is open. | Now refers to the statement’s time; it is not evidence of current opening hours. |
+| for the purpose of → for | Use this form for the purpose of requesting a copy. → Use this form for requesting a copy. | Do not use to before requesting; an intervening sole is not an approved match. |
+| in the event that → if | In the event that the office closes, keep the receipt. → If the office closes, keep the receipt. | In the event of rain stays unchanged: if rain would damage grammar. |
+| so as to → to | Keep a copy so as to track the request. → Keep a copy to track the request. | The display is so bright as to hurt my eyes stays unchanged. |
+| with regard to → about | Write to us with regard to the appointment. → Write to us about the appointment. | In high regard is a different construction and stays unchanged. |
+| commence / commences / commenced / commencing → start / starts / started / starting | Work may commence next week. → Work may start next week. | May stays may; commencement is not an inferred noun alias. |
+| utilize / utilizes / utilized / utilizing → use / uses / used / using | The office utilized this form. → The office used this form. | The noun utilization stays unchanged; no tense is inferred. |
+
+The executable [pilot fixtures](../data/coverage/public-service-reading.json) contain one positive sentence for every one of the 14 pairs and 8 intentionally unchanged examples. This is an editorial regression set, not observed user behavior. In particular, shall is not replaced: it can express obligation or prediction. In order to is excluded because a sentence such as “Put these pages in order to help the next reader” has an ordering interpretation. Titles, quotations, official names, nested clauses and unusual uses can still need the exact original text. Local guards do not provide general sentence understanding.

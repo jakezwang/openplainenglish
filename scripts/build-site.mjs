@@ -12,6 +12,10 @@ export async function buildSite(output = path.join(root, 'site')) {
     await mkdir(path.dirname(path.join(output, file)), { recursive: true });
     await cp(path.join(root, file), path.join(output, file));
   }
+  for (const file of ['demo/workbench.html', 'demo/workbench.js', 'demo/workbench.css', 'demo/compatibility.html', 'demo/compatibility.js', 'demo/study.html', 'demo/study.js', 'demo/study.css', 'data/pilots/public-service.json']) {
+    await mkdir(path.dirname(path.join(output, file)), { recursive: true });
+    await cp(path.join(root, file), path.join(output, file));
+  }
   for (const dir of ['core', 'shared', 'options', 'popup']) {
     await cp(path.join(root, 'src', dir), path.join(output, 'src', dir), { recursive: true });
   }

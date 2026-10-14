@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Paragraph workshop · OpenPlainEnglish</title>
+  <link rel="stylesheet" href="workbench.css">
+  <script type="module" src="workbench.js"></script>
+</head>
+<body>
+  <header data-ope-owned="workshop-ui"><a href="../">← OpenPlainEnglish</a><span>LOCAL READING WORKSHOP · 本地阅读实验</span></header>
+  <main>
+    <section class="intro" data-ope-owned="workshop-ui">
+      <p class="eyebrow">YOUR WORDS, WITH LESS FRICTION</p>
+      <h1>Read a paragraph.<br>Keep the original.</h1>
+      <p>Paste English text and compare reviewed plain phrases in place. Select a marked phrase for its original wording and source.</p>
+      <p lang="zh-CN">粘贴英文，对照原文阅读；点选标记可查看来源、撤销一次替换，或忽略本页的该词。</p>
+      <p class="boundary">This experiment changes listed phrases only. It does not rewrite sentence structure or infer meaning. Your text stays in this tab; it is not saved or sent anywhere.</p>
+    </section>
+    <div class="toolbar" data-ope-owned="workshop-ui">
+      <label>Glossary / 词库 <select id="domain"><option value="health">Health · 健康</option><option value="public-service">Public service pilot · 公共服务试验</option></select></label>
+      <label>Explanation interface <select id="language"><option value="en">English</option><option value="zh-CN">简体中文</option></select></label>
+      <button id="sample" type="button">Use an example / 示例</button>
+    </div>
+    <div class="comparison">
+      <section class="card" data-ope-owned="workshop-ui">
+        <div class="card-title"><h2>Original / 原文</h2><span id="input-count">0 / 20,000</span></div>
+        <label class="sr-only" for="original">English paragraph to read</label>
+        <textarea id="original" maxlength="20000" spellcheck="false" placeholder="Paste an English paragraph here…"></textarea>
+        <div class="actions"><button class="primary" id="apply" type="button" disabled>Preview plain phrases / 开始</button><button id="clear" type="button">Clear text</button></div>
+      </section>
+      <section class="card">
+        <div class="card-title" data-ope-owned="workshop-ui"><h2>Reading view / 阅读</h2><span id="result-label">Waiting for text</span></div>
+        <p id="reading-output" tabindex="-1" aria-label="Reading view"></p>
+        <div class="actions" data-ope-owned="workshop-ui"><button id="restore" type="button" disabled>Restore original / 还原</button><button id="copy-original" type="button" disabled>Copy original</button><button id="copy-reading" type="button" disabled>Copy reading text</button></div>
+      </section>
+    </div>
+    <section class="notice" data-ope-owned="workshop-ui">
+      <p id="status" role="status" aria-live="polite">Loading the local glossary…</p>
+      <label id="copy-fallback-label" hidden>Copy this text manually <textarea id="copy-fallback" readonly></textarea></label>
+      <details><summary>How to use this with PDFs, images and mobile</summary><p>This text workshop works in a regular browser. You can paste text you have already extracted from a PDF or image. It does not read files, perform OCR, inspect frames, or access other tabs. Verify extracted text against the original before using it. Scanned text and complex layouts can lose words or punctuation.</p><p>Ordinary copy and browser Find use the words currently displayed. Copy original preserves the full input. Printing uses original wording. The public-service glossary is an opt-in editorial pilot; neither glossary has completed independent expert review or a reader-comprehension study.</p></details>
+    </section>
+  </main>
+  <footer data-ope-owned="workshop-ui"><a href="install.html">Install the extension</a><a href="https://github.com/jakezwang/openplainenglish/blob/main/docs/SDK.md">Use the open engine and data</a><a href="https://github.com/jakezwang/openplainenglish/blob/main/docs/USER-TESTING.md">Reader-study protocol</a></footer>
+</body>
+</html>

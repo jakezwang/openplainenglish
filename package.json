@@ -1,6 +1,6 @@
 {
   "name": "openplainenglish",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "description": "An open, local-first browser reading aid for everyday understanding of health terminology.",
   "type": "module",
@@ -12,12 +12,17 @@
     "build": "node scripts/build.mjs",
     "dev": "node scripts/dev.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check:lexicon": "node scripts/validate-lexicon.mjs",
+    "check:lexicon": "node scripts/validate-lexicon.mjs && node scripts/validate-lexicon.mjs data/pilots/public-service.json",
     "check": "npm run check:lexicon && npm test && npm run build",
     "package": "node scripts/package.mjs",
     "build:site": "node scripts/build-site.mjs",
     "check:sources": "node scripts/check-sources.mjs",
-    "preview:site": "npm run build:site && node scripts/dev.mjs --site"
+    "preview:site": "npm run build:site && node scripts/dev.mjs --site",
+    "package:firefox": "node scripts/package.mjs --firefox",
+    "build:sdk": "node scripts/build-sdk.mjs",
+    "package:sdk": "node scripts/package-sdk.mjs",
+    "check:coverage": "node scripts/check-coverage.mjs",
+    "check:compatibility": "node scripts/check-compatibility.mjs"
   },
   "devDependencies": {
     "esbuild": "0.25.12",

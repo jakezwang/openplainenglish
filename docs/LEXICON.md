@@ -1,8 +1,8 @@
-# Health lexicon v0.3
+# Lexicons v0.4
 
-The bundled [health.json](../data/health.json) contains 100 entries for reading English health information. Each keeps the original term, a short meaning, an explanation, a context note, sources, and a review record. Topics include symptoms and conditions, blood and immune-system vocabulary, imaging and other tests, cancer treatment, and public-health research. It is a small editorial seed, not a complete medical dictionary.
+The bundled [health.json](../data/health.json) contains 112 entries for reading English health information. Each keeps the original term, a short meaning, an explanation, a context note, sources, and a review record. Topics include symptoms and conditions, blood and immune-system vocabulary, imaging and other tests, cancer treatment, and public-health research. It is a small editorial seed, not a complete medical dictionary.
 
-Version 0.3 adds a separate, conservative [inline replacement lexicon](INLINE-LEXICON.md): 21 entries contain 40 explicitly sourced replacement pairs. It does not convert the existing short definitions into substitutions. All other terms and aliases remain annotation-only. The original definitions, citations, and their review dates are unchanged by this addition.
+Version 0.3 introduced a separate, conservative [inline replacement lexicon](INLINE-LEXICON.md): 21 entries contain 40 explicitly sourced replacement pairs. It does not convert the existing short definitions into substitutions. All other terms and aliases remain annotation-only. Version 0.4 adds 12 annotation-only entries from gaps in four selected patient-reading pages. Existing definitions, inline pairs, citations, and review dates are preserved. The [coverage record](COVERAGE.md) reports the fixed sample and its remaining gaps; it does not claim population-wide frequency or comprehension.
 
 The explanations are original project wording, written with AI assistance after comparison with the cited primary sources. The [data license](../data/LICENSE) is CC0-1.0 for those original contributions. The code license is separate. No terminology was copied from MedSimplify, University of Michigan PLMD, NAIC, Plain English Campaign, or Open Food Facts.
 
@@ -24,7 +24,7 @@ The short meaning is only the first layer. Context notes preserve distinctions s
 | --- | --- | --- |
 | [CDC Everyday Words](https://www.cdc.gov/ccindex/everydaywords/index.html) | The [official 2016 publication record](https://stacks.cdc.gov/view/cdc/40455) is marked Public Domain; [Use of Agency Materials](https://www.cdc.gov/other/agencymaterials.html) gives reuse rules and exceptions. | Term alternatives and relevant examples checked through the public Everyday Words service used by the page. We wrote our own explanations. Attribution and the no-endorsement statement must remain visible in the product. No logos or images. |
 | [NCI Dictionary of Cancer Terms](https://www.cancer.gov/publications/dictionaries/cancer-terms) | [NCI Reuse of Information](https://www.cancer.gov/policies/copyright-reuse) permits reuse of text unless indicated otherwise and asks for credit/linking. | Individual definition text, checked via the official glossary API. No images, audio, logo, or PDQ trademark. The original definition pages are linked per entry. |
-| [MedlinePlus](https://medlineplus.gov/) | [Using Content](https://medlineplus.gov/about/using/usingcontent/) explicitly lists health-topic summaries, medical-test information, and named tutorials as public domain. | Only health-topic **summaries** and the two medical-test articles listed below. A.D.A.M. encyclopedia articles, drug monographs, stock images, outside links, and bibliography sources are excluded. Source: MedlinePlus, National Library of Medicine. |
+| [MedlinePlus](https://medlineplus.gov/) | [Using Content](https://medlineplus.gov/about/using/usingcontent/) explicitly lists health-topic summaries, medical-test information, and named tutorials as public domain. | Only health-topic **summaries** and the medical-test articles listed below. A.D.A.M. encyclopedia articles, drug monographs, stock images, outside links, and bibliography sources are excluded. Source: MedlinePlus, National Library of Medicine. |
 | [CDC Principles of Epidemiology glossary](https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/glossary.html) | [CDC agency-material policy](https://www.cdc.gov/other/agencymaterials.html); the [course overview](https://archive.cdc.gov/www_cdc_gov/csels/dsepd/ss1978/index.html) identifies CDC as its developer. | Archived glossary used for the distinction between prevalence and incidence. It is an archived educational reference, not current clinical guidance. |
 | [FDA postmarket safety explanation](https://www.fda.gov/drugs/cder-conversations/understanding-cders-postmarket-safety-surveillance-programs-and-public-data) | [FDA Website Policies](https://www.fda.gov/about-fda/about-website/website-policies) identify FDA text as public domain unless otherwise noted. | The adverse-event versus causation distinction. No safety-report dataset or individual reports were downloaded. |
 
@@ -40,7 +40,7 @@ Two sources in the early idea were attractive but were not used: [MedSimplify](h
 - The matcher is a word/phrase matcher, not a medical language model. It cannot detect every metaphor, negation, historical mention, hypothetical statement, nonmedical sense, or subtype. An explanation on a page does not mean the reader has that condition. Matching a shorter term inside a more specific medical phrase may give only the general meaning.
 - Definitions aim at plain wording but have not been tested with readers. Terms such as “antigen” still need more than a one-word substitute. Health-literacy and clinical review remain future work.
 - Source pages may change. The source-check date records this release's comparison, not continuous freshness. Run link/source review and bump the lexicon version when updating wording.
-- English, general health, and a small vocabulary are the current scope. Legal, insurance, food-label, document-level interpretation, scanned PDFs, and multilingual meanings are not included.
+- English health reading is the default scope. An opt-in public-service phrase pilot is separate. Legal or benefits interpretation, insurance, food-label interpretation, scanned PDFs, and multilingual meanings are not included.
 
 ## Schema and checks
 
@@ -50,12 +50,12 @@ The root object has `schemaVersion`, semantic release `version`, `license`, and 
 | --- | --- |
 | `id` | Stable lowercase kebab-case identifier; unique with case folding. |
 | `term` and `aliases` | Literal match strings, unique across all entries after Unicode compatibility normalization, case folding, and whitespace normalization. |
-| `domain` | `health` in this release. |
+| `domain` | `health` for the default lexicon; `public-service` only in the separate opt-in pilot. |
 | `short` | Plain-text initial meaning, at most 96 Unicode characters. |
 | `explanation` | Fuller plain-text explanation, at most 500 characters. |
 | `context` | Scope or a relevant distinction, at most 500 characters. |
 | `sources` | At least one `{label, url, license}` record; HTTPS primary-source host; no URL credentials/custom ports; no licensed MedlinePlus encyclopedia/drug-monograph paths. |
-| `review` | Only `source-checked` is accepted, with a real ISO date and the exact limitation-bearing method above. |
+| `review` | Only `source-checked` is accepted, with a real ISO date and the exact limitation-bearing method for its domain. |
 | `inline` (optional) | A dedicated `{replacements: [{from, to}], note, review}` record. Sources inherit the entry's validated citations; a separate inline review records comparison of the replacements. Each source is an existing term/alias; targets are plain text of at most 96 characters. No automatic substitution from `short`, inferred inflections, or identity pairs. See [the inline rules and ledger](INLINE-LEXICON.md). |
 
 Run `node scripts/validate-lexicon.mjs` and `node --test tests/lexicon.test.mjs`. The validator also exports `validateLexicon` (returns an array of errors) and `assertValidLexicon` (returns the data or throws). Tests exercise collisions, malformed structures, missing metadata, unsafe/unsupported source URLs, excessive lengths, unearned review claims, and several important semantic distinctions. Inline checks additionally reject duplicate or foreign source strings, identity pairs, missing nested review metadata, unsupported fields, markup, and control or hidden formatting characters. Invented sentence-pair fixtures protect selected grammatical and meaning distinctions without claiming full-context understanding.
@@ -170,3 +170,30 @@ This ledger records source comparison, not an independent expert review. Each en
 | `vaccine` | [CDC Everyday Words: Vaccine](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Vaccine); [National Cancer Institute: vaccine](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/vaccine) |
 | `virus` | [CDC Everyday Words: Virus](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Virus) |
 | `white-blood-cell` | [National Cancer Institute: white blood cell](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/white-blood-cell) |
+
+## v0.4 additions and source comparison
+
+On 2026-10-13, the authored medical-test information and health-topic summaries below were read and compared with the new explanations. All 12 additions are annotation-only: changing a substance into its definition, or a specific test into a generic test, would lose meaning or grammatical fit. Test error phrases are complete phrases; standalone positive and negative remain excluded. The A1C test has full test-name aliases, including the parenthesized spelling used by MedlinePlus, but no bare A1C, HbA1c, or CMP acronym alias.
+
+| Added entry | Primary reference compared |
+| --- | --- |
+| `albumin` | [MedlinePlus, National Library of Medicine: Albumin Blood Test](https://medlineplus.gov/lab-tests/albumin-blood-test/); [MedlinePlus, National Library of Medicine: Comprehensive Metabolic Panel (CMP)](https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/) |
+| `atherosclerosis` | [MedlinePlus, National Library of Medicine: Cholesterol](https://medlineplus.gov/cholesterol.html) |
+| `bilirubin` | [MedlinePlus, National Library of Medicine: Comprehensive Metabolic Panel (CMP)](https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/) |
+| `cholesterol` | [MedlinePlus, National Library of Medicine: Cholesterol](https://medlineplus.gov/cholesterol.html) |
+| `comprehensive-metabolic-panel` | [MedlinePlus, National Library of Medicine: Comprehensive Metabolic Panel (CMP)](https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/) |
+| `creatinine` | [MedlinePlus, National Library of Medicine: Creatinine Test](https://medlineplus.gov/lab-tests/creatinine-test/) |
+| `electrolyte` | [MedlinePlus, National Library of Medicine: Comprehensive Metabolic Panel (CMP)](https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/) |
+| `false-negative-result` | [MedlinePlus, National Library of Medicine: How to Understand Your Lab Results](https://medlineplus.gov/lab-tests/how-to-understand-your-lab-results/) |
+| `false-positive-result` | [MedlinePlus, National Library of Medicine: How to Understand Your Lab Results](https://medlineplus.gov/lab-tests/how-to-understand-your-lab-results/) |
+| `hemoglobin-a1c-test` | [MedlinePlus, National Library of Medicine: Hemoglobin A1C (HbA1c) Test](https://medlineplus.gov/lab-tests/hemoglobin-a1c-hba1c-test/) |
+| `reference-range` | [MedlinePlus, National Library of Medicine: How to Understand Your Lab Results](https://medlineplus.gov/lab-tests/how-to-understand-your-lab-results/) |
+| `triglyceride` | [MedlinePlus, National Library of Medicine: Triglycerides](https://medlineplus.gov/triglycerides.html); [MedlinePlus, National Library of Medicine: Cholesterol](https://medlineplus.gov/cholesterol.html) |
+
+## Separate public-service pilot
+
+[data/pilots/public-service.json](../data/pilots/public-service.json) contains 8 entries with 14 explicit pairs. It uses the same schema and CC0 license for authored wording, with domain `public-service`. It is an opt-in reading/workbench experiment and is not part of the default health bundle. It shortens a small set of formal phrases and verbs; it does not interpret law, deadlines, eligibility, or obligations. [Pair boundaries and examples](INLINE-LEXICON.md#public-service-opt-in-pilot) accompany the data.
+
+Its review method is **editorial source comparison; no independent domain-expert or user-comprehension review**. No independent human review or user study has been completed. The pilot sources are [CPSC Plain Language Principles](https://www.cpsc.gov/About-CPSC/Policies-Statements-and-Directives/plain-language-principles) and [Digital.gov Familiar terms](https://digital.gov/guides/writing-understanding/familiar-terms), checked 2026-10-13. CPSC permits copying web text with credit and no implied endorsement in its [copyright notice](https://www.cpsc.gov/About-CPSC/Policies-Statements-and-Directives/Privacy-Policy). [Digital.gov reuse policy](https://digital.gov/policies#reuse-and-copyright) allows most authored material to be copied and distributed, with exceptions for licensed material. Only the government-authored prose/table alternatives are used; no logos, credited images, or outside content. Source: U.S. Consumer Product Safety Commission; Digital.gov, U.S. General Services Administration. Neither agency nor the U.S. Government endorses OpenPlainEnglish.
+
+See the [contributor and two-person review process](COMMUNITY.md) and [review package form](REVIEW.md#independent-review-package). These describe work still needed; a policy document does not turn editorial comparisons into independent reviews.

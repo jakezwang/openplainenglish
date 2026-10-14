@@ -11,9 +11,9 @@ const changed = (mutate) => {
 };
 const has = (errors, pattern) => assert.ok(errors.some((error) => pattern.test(error)), JSON.stringify(errors));
 
-test('release lexicon has about 100 fully attributed entries and honest review metadata', () => {
+test('release lexicon has 112 fully attributed entries and honest review metadata', () => {
   assert.deepEqual(validateLexicon(lexicon), []);
-  assert.ok(lexicon.entries.length >= 95 && lexicon.entries.length <= 110);
+  assert.ok(lexicon.entries.length === 112);
   assert.equal(assertValidLexicon(lexicon), lexicon);
   assert.ok(lexicon.entries.every((entry) => entry.review.status === 'source-checked'));
 });

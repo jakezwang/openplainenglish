@@ -2,11 +2,15 @@
 
 Unpacked installations do not update automatically. Keep an exported backup before replacing files, removing an installation, or moving to another browser. A backup is a local JSON file, separate from the extension and from any public GitHub issue.
 
-## Moving to v0.3
+## Moving to v0.4
 
-The default mode is now **Plain reading**: eligible terms become reviewed everyday phrases in place. Choose **Explain terms** if you prefer to keep the original words visible. **Restore original** turns the reader off. Mode selection does not grant page access or turn the reader on; a fresh page load starts disabled. Reload existing pages after updating so an older injected reader is not left running.
+**Plain reading** changes eligible health phrases in place; **Explain terms** keeps original words with explanations. **Restore original** turns the reader off. v0.4 adds one-occurrence restore, ignore-for-this-page controls and matching across supported inline formatting. These remain explicit phrase substitutions, not full-sentence rewriting. Reload existing pages after updating so an older injected reader is not left running.
 
-The feedback backup schema is unchanged. v0.1 and v0.2 v1 exports remain importable after preview and confirmation, and restored notes retain their original glossary version. No data migration, account or network service is required.
+The extension now remembers interface language, density, highlighting and reading mode locally. An older installation without preferences starts with **English / Comfortable / Subtle / Plain reading**. Valid existing fields are retained; missing or invalid fields receive safe defaults. Chinese changes the interface, not the English glossary or your notes. Changing settings or selecting a mode while off does not activate page access. A fresh page load always starts disabled.
+
+Open **Reading preferences** in the glossary to change these settings. Shortcuts are Ctrl+Shift+L to toggle reading and Ctrl+Shift+U to restore; on macOS use Control, not Command. Browser conflicts may leave a shortcut unassigned. Inspect assignments at `chrome://extensions/shortcuts` or `edge://extensions/shortcuts`.
+
+The feedback backup schema is unchanged. Schema-version-1 exports from v0.1–v0.3 remain supported after preview and confirmation, and restored notes retain their original glossary version. No account or network service is required. Automated tests cover schema compatibility; native upgrade and file-picker import remain unverified, so keep a backup until you have checked your installation.
 
 ## Back up your drafts
 
@@ -14,17 +18,21 @@ The feedback backup schema is unchanged. v0.1 and v0.2 v1 exports remain importa
 2. Choose **Export JSON**. Save `openplainenglish-feedback-YYYY-MM-DD.json` somewhere you can find again.
 3. Confirm the download exists before changing the installation. Exporting does not delete drafts or send them to the project.
 
-The backup contains only draft ID, entry ID, term, category, your note, creation time and glossary version. It can contain sensitive information if you typed it into a note; keep your backup accordingly. There is no automatic sync or cloud copy.
+The backup contains only draft ID, entry ID, term, category, your note, creation time and glossary version. It does **not** include reading preferences, ignored terms or page text. Note your preferred settings before changing installations. A note can contain sensitive information if you typed it there; keep your backup accordingly. There is no automatic sync or cloud copy.
+
+**Copy report** and **Download report** provide one reviewed feedback report without a GitHub account. The downloaded `.txt` file is for manual sharing and cannot be restored with Import JSON. Use **Export JSON** for backups. Neither action sends feedback to the project automatically.
 
 ## Update the extension
 
-1. Download the desired versioned extension ZIP from [Releases](https://github.com/jakezwang/openplainenglish/releases), together with its checksum if you want to verify file integrity. The GitHub **Source code** archive is not the built extension.
+1. Download the desired Chromium extension ZIP from [Releases](https://github.com/jakezwang/openplainenglish/releases), for example `openplainenglish-0.4.0.zip`, together with its checksum if you want to verify file integrity. The GitHub **Source code** archive is not the built extension.
 2. Extract the ZIP and confirm `manifest.json` is at the extracted folder's root.
 3. Replace the files in your existing unpacked-extension folder with the new release. Keeping the same installation folder helps preserve the existing installation; keep the exported backup regardless.
 4. Open `chrome://extensions` or `edge://extensions` and choose **Reload** on OpenPlainEnglish. Confirm the expected version is shown.
-5. Refresh web pages and reopen the glossary page. Enable the reader again when needed. Inspect **Your feedback** to see whether your drafts are present.
+5. Refresh web pages and reopen the glossary page. Check **Reading preferences** and **Your feedback**. Enable the reader again when needed, then try **Restore original** on invented text before relying on the updated installation.
 
-Loading a different folder or moving to another browser can create a separate installation with separate storage. Removing the old extension removes its local drafts. Keep the backup until you have checked the new installation and restored any missing drafts.
+Loading a different folder or moving to another browser can create a separate installation with separate storage. Removing the old extension removes its local drafts and preferences. Keep the backup until you have checked the new installation and restored any missing drafts. Feedback in the website's explicitly labeled browser preview uses that website's separate storage; it does not migrate into the extension automatically.
+
+The separately named `openplainenglish-0.4.0-firefox-preview.zip` is an unsigned developer draft for Firefox 140 or later, not a Chromium update or a signed store installer. Native Firefox installation, upgrade and acceptance remain pending. The `openplainenglish-core-0.4.0.tgz` SDK is a separate developer library, not an extension installer; see the [SDK guide](SDK.md). The 8-entry public-service pilot belongs to the opt-in workshop/SDK and does not replace the extension's 112-entry health glossary.
 
 ## Restore a backup in v0.2 or later
 

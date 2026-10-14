@@ -2,9 +2,16 @@ import { build } from 'esbuild';
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { assertValidLexicon } from './validate-lexicon.mjs';
 
 export const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export async function buildExtension(dist = path.join(root, 'dist')) {
+export async function buildExtension(dist = path.join(root, 'dist'), { browser = 'chromium' } = {}) {
+  if (!['chromium', 'firefox'].includes(browser)) throw new TypeError('Choose chromium or firefox.');
+  const pkg = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
+  const manifest = JSON.parse(await readFile(path.join(root, 'manifest.json'), 'utf8'));
+  const lexicon = assertValidLexicon(JSON.parse(await readFile(path.join(root, 'data/health.json'), 'utf8')));
+  if (manifest.version !== pkg.version) throw new Error('Manifest and package version must match.');
+  if (lexicon.version !== pkg.version) throw new Error('Lexicon and package version must match.');
   await rm(dist, { recursive: true, force: true });
   await mkdir(dist, { recursive: true });
   await build({
@@ -18,15 +25,18 @@ export async function buildExtension(dist = path.join(root, 'dist')) {
     outdir: dist,
     bundle: true,
     format: 'iife',
-    target: ['chrome116'],
+    target: browser === 'firefox' ? ['firefox140'] : ['chrome116'],
+    // Scope the API alias locally; never overwrite either browser's native global.
+    banner: { js: '(function (chrome) {' },
+    footer: { js: '})(globalThis.browser || globalThis.chrome);' },
     legalComments: 'none',
     charset: 'utf8',
   });
-  const pkg = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
-  const manifest = JSON.parse(await readFile(path.join(root, 'manifest.json'), 'utf8'));
-  const lexicon = JSON.parse(await readFile(path.join(root, 'data/health.json'), 'utf8'));
-  if (manifest.version !== pkg.version) throw new Error('Manifest and package version must match.');
-  if (lexicon.version !== pkg.version) throw new Error('Lexicon and package version must match.');
+  if (browser === 'firefox') {
+    delete manifest.minimum_chrome_version;
+    manifest.background = { scripts: ['background.js'] };
+    manifest.browser_specific_settings = { gecko: { id: 'openplainenglish@jakezwang.github.io', strict_min_version: '140.0', data_collection_permissions: { required: ['none'] } } };
+  }
   await writeFile(path.join(dist, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   for (const area of ['popup', 'options']) {
     for (const extension of ['html', 'css']) await cp(path.join(root, `src/${area}/${area}.${extension}`), path.join(dist, `${area}.${extension}`));
@@ -39,7 +49,7 @@ export async function buildExtension(dist = path.join(root, 'dist')) {
     try { await cp(path.join(root, file), path.join(dist, file)); }
     catch (error) { if (error.code !== 'ENOENT') throw error; }
   }
-  console.log(`Built OpenPlainEnglish ${pkg.version} → dist/`);
+  console.log(`Built OpenPlainEnglish ${pkg.version} (${browser}) → ${path.relative(root, dist)}`);
   return dist;
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await buildExtension();

@@ -23,8 +23,9 @@ async function walk(dir, relative = '') {
   }
   return files;
 }
-export async function packageExtension({ dist, outputDir = path.join(root, 'release') } = {}) {
-  dist ||= await buildExtension();
+export async function packageExtension({ dist, outputDir = path.join(root, 'release'), browser = 'chromium' } = {}) {
+  if (!['chromium', 'firefox'].includes(browser)) throw new TypeError('Choose chromium or firefox.');
+  dist ||= await buildExtension(browser === 'firefox' ? path.join(root, 'artifacts/firefox') : undefined, { browser });
   const local = [];
   const central = [];
   let offset = 0;
@@ -67,7 +68,7 @@ export async function packageExtension({ dist, outputDir = path.join(root, 'rele
   const zip = Buffer.concat([...local, directory, end]);
   const { version } = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'));
   await mkdir(outputDir, { recursive: true });
-  const filename = `openplainenglish-${version}.zip`;
+  const filename = `openplainenglish-${version}${browser === 'firefox' ? '-firefox-preview' : ''}.zip`;
   await writeFile(path.join(outputDir, filename), zip);
   const checksum = `${createHash('sha256').update(zip).digest('hex')}  ${filename}\n`;
   await writeFile(path.join(outputDir, `${filename}.sha256`), checksum);
@@ -75,4 +76,4 @@ export async function packageExtension({ dist, outputDir = path.join(root, 'rele
   return { zipPath: path.join(outputDir, filename), checksumPath: path.join(outputDir, `${filename}.sha256`), checksum, files };
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await packageExtension();
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await packageExtension({ browser: process.argv.includes('--firefox') ? 'firefox' : 'chromium' });

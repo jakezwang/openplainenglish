@@ -33,18 +33,23 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run package
+      - run: npm run package:firefox
+      - run: npm run package:sdk
+      - run: npm run check:coverage -- --output artifacts/coverage.json
       - name: Verify ZIP integrity independently
-        run: unzip -t release/*.zip
+        run: for archive in release/*.zip; do unzip -t "$archive"; done
       - name: Verify package checksum
         run: sha256sum -c *.sha256
         working-directory: release
-      - name: Upload extension package
+      - name: Upload packages and coverage evidence
         uses: actions/upload-artifact@v7
         with:
           name: openplainenglish-node-${{ matrix.node }}
           path: |
             release/*.zip
             release/*.sha256
+            release/*.tgz
+            artifacts/coverage.json
           if-no-files-found: error
           retention-days: 14
 

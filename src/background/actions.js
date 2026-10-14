@@ -1,4 +1,5 @@
 import { createFeedback, mergeFeedbackRecords, parseFeedbackImport } from '../shared/feedback.js';
+import { normalizePreferences, validatePreferences } from '../shared/preferences.js';
 
 const OFF = { enabled: false, mode: 'plain', count: 0, replacedCount: 0, annotatedCount: 0, truncated: false };
 function readingMode(mode) {
@@ -13,16 +14,29 @@ export function isSupportedUrl(url = '') {
     if (parsed.hostname === 'chromewebstore.google.com') return false;
     if (parsed.hostname === 'chrome.google.com' && parsed.pathname.startsWith('/webstore')) return false;
     if (parsed.hostname === 'microsoftedge.microsoft.com' && parsed.pathname.startsWith('/addons')) return false;
+    if (parsed.hostname === 'addons.mozilla.org') return false;
     return true;
   } catch { return false; }
 }
 
 export function createActions(chrome, getLexicon) {
   let saveQueue = Promise.resolve();
+  let readerQueue = Promise.resolve();
   function queued(operation) {
     const result = saveQueue.then(operation, operation);
     saveQueue = result.catch(() => {});
     return result;
+  }
+  async function preferences() {
+    return normalizePreferences((await chrome.storage.local.get('opePreferences')).opePreferences);
+  }
+  async function savePreferences(patch) {
+    const valid = validatePreferences(patch);
+    return queued(async () => {
+      const next = normalizePreferences({ ...await preferences(), ...valid });
+      await chrome.storage.local.set({ opePreferences: next });
+      return next;
+    });
   }
   async function records() {
     const stored = await chrome.storage.local.get('opeFeedback');
@@ -52,28 +66,55 @@ export function createActions(chrome, getLexicon) {
     if (!message || typeof message !== 'object' || Array.isArray(message) || typeof message.type !== 'string') {
       throw new TypeError('Choose an OpenPlainEnglish action.');
     }
+    if (['OPE_SET_PREFERENCES', 'OPE_TOGGLE_ACTIVE', 'OPE_SET_MODE_ACTIVE', 'OPE_DISABLE_ACTIVE'].includes(message.type)) {
+      const result = readerQueue.then(() => dispatch(message), () => dispatch(message));
+      readerQueue = result.catch(() => {});
+      return result;
+    }
+    return dispatch(message);
+  }
+  async function dispatch(message) {
     switch (message.type) {
+      case 'OPE_GET_PREFERENCES': return { ok: true, preferences: await preferences() };
+      case 'OPE_SET_PREFERENCES': {
+        const next = await savePreferences(message.preferences);
+        // Only readers the user has already enabled receive settings. No injection,
+        // URL collection, or activation occurs when a preference changes.
+        const tabs = await chrome.tabs.query({});
+        await Promise.allSettled(tabs.filter((tab) => Number.isInteger(tab.id)).map((tab) =>
+          chrome.tabs.sendMessage(tab.id, { type: 'OPE_SET_PREFERENCES', preferences: next })));
+        return { ok: true, preferences: next };
+      }
       case 'OPE_GET_LEXICON': return { ok: true, lexicon: await getLexicon() };
       case 'OPE_GET_ACTIVE_STATE': {
         const tab = await activeTab();
-        return { ok: true, state: await state(tab.id) };
+        const current = await state(tab.id);
+        return { ok: true, state: current.enabled ? current : { ...current, mode: (await preferences()).mode } };
       }
       case 'OPE_TOGGLE_ACTIVE': {
-        const mode = readingMode(message.mode ?? 'plain');
+        if (message.mode != null) readingMode(message.mode);
         const tab = await activeTab();
         const current = await state(tab.id);
         if (current.enabled) return await chrome.tabs.sendMessage(tab.id, { type: 'OPE_DISABLE' });
+        const prefs = message.mode == null ? await preferences() : await savePreferences({ mode: message.mode });
+        const mode = prefs.mode;
         const lexicon = await getLexicon();
         const injection = await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['content.js'] });
         const documentId = injection[0]?.documentId;
-        return await chrome.tabs.sendMessage(tab.id, { type: 'OPE_ENABLE', entries: lexicon.entries, mode }, documentId ? { documentId } : undefined);
+        return await chrome.tabs.sendMessage(tab.id, { type: 'OPE_ENABLE', entries: lexicon.entries, mode, preferences: prefs }, documentId ? { documentId } : undefined);
       }
       case 'OPE_SET_MODE_ACTIVE': {
         const mode = readingMode(message.mode);
         const tab = await activeTab();
+        await savePreferences({ mode });
         const current = await state(tab.id);
         if (!current.enabled) return { ok: true, state: { ...current, mode } };
         return await chrome.tabs.sendMessage(tab.id, { type: 'OPE_SET_MODE', mode });
+      }
+      case 'OPE_DISABLE_ACTIVE': {
+        const tab = await activeTab();
+        const current = await state(tab.id);
+        return current.enabled ? await chrome.tabs.sendMessage(tab.id, { type: 'OPE_DISABLE' }) : { ok: true, state: current };
       }
       case 'OPE_OPEN_FIRST_ACTIVE': {
         const tab = await activeTab();

@@ -2,6 +2,7 @@
 // This module is never bundled into or copied to the extension artifact.
 import { sanitizeFeedback, FEEDBACK_LIMIT } from '../src/shared/feedback.js';
 import { createActions } from '../src/background/actions.js';
+import { normalizePreferences } from '../src/shared/preferences.js';
 
 const view = new URL(location.href).searchParams.get('view') === 'popup' ? 'popup' : 'options';
 const STORAGE_KEY = 'opeDemoFeedback';
@@ -26,6 +27,23 @@ function writeDrafts(drafts) {
   for (const listener of listeners) listener({ opeFeedback: { oldValue, newValue } }, 'local');
 }
 
+function readStorage() {
+  let preferences;
+  try { preferences = JSON.parse(localStorage.getItem('opeDemoPreferences') || 'null'); } catch { /* Recover defaults. */ }
+  return { opeFeedback: readDrafts(), opePreferences: normalizePreferences(preferences) };
+}
+function writePreferences(value) {
+  const oldValue = readStorage().opePreferences;
+  const newValue = normalizePreferences(value);
+  try { localStorage.setItem('opeDemoPreferences', JSON.stringify(newValue)); }
+  catch { throw new Error('Browser storage is unavailable or full. Preferences were not saved.'); }
+  for (const listener of listeners) listener({ opePreferences: { oldValue, newValue } }, 'local');
+}
+window.addEventListener('storage', (event) => {
+  if (event.key === 'opeDemoPreferences') for (const listener of listeners) listener({ opePreferences: { newValue: readStorage().opePreferences } }, 'local');
+  if (event.key === STORAGE_KEY) for (const listener of listeners) listener({ opeFeedback: { newValue: readDrafts() } }, 'local');
+});
+
 function announce(message) {
   const status = document.getElementById('preview-status');
   if (status) status.textContent = message;
@@ -49,6 +67,11 @@ function installMockChrome() {
           state = { enabled, mode, count: enabled ? 7 : 0, replacedCount: enabled && mode === 'plain' ? 4 : 0, annotatedCount: enabled ? mode === 'plain' ? 3 : 7 : 0, truncated: false };
           announce(enabled ? mode === 'plain' ? 'UI preview · 4 example replacements, 3 example explanations' : 'UI preview · 7 example explanations, original wording' : 'Browser preview · Test data only');
         }
+        if (message.type === 'OPE_SET_PREFERENCES') {
+          const preferences = normalizePreferences(message.preferences);
+          if (state.enabled && preferences.mode !== state.mode) { state = { ...state, mode: preferences.mode, replacedCount: preferences.mode === 'plain' ? 4 : 0, annotatedCount: preferences.mode === 'plain' ? 3 : 7 }; }
+          if (state.enabled) announce(state.mode === 'plain' ? 'UI preview · 4 example replacements, 3 example explanations' : 'UI preview · 7 example explanations, original wording');
+        }
         if (message.type === 'OPE_OPEN_FIRST') announce('Preview only · In the extension, this opens the first marked term.');
         return { ok: true, state: { ...state }, opened: state.enabled };
       },
@@ -57,8 +80,16 @@ function installMockChrome() {
     scripting: { async executeScript() { return [{ documentId: 'preview' }]; } },
     storage: {
       local: {
-        async get() { return { opeFeedback: readDrafts() }; },
-        async set(values) { if (Array.isArray(values.opeFeedback)) writeDrafts(values.opeFeedback); },
+        async get(keys = null) {
+          const stored = readStorage();
+          if (keys === null) return stored;
+          const names = typeof keys === 'string' ? [keys] : Array.isArray(keys) ? keys : Object.keys(keys);
+          return Object.fromEntries(names.map((key) => [key, stored[key] ?? (typeof keys === 'object' && !Array.isArray(keys) ? keys[key] : undefined)]));
+        },
+        async set(values) {
+          if (Object.hasOwn(values, 'opeFeedback')) writeDrafts(values.opeFeedback);
+          if (Object.hasOwn(values, 'opePreferences')) writePreferences(values.opePreferences);
+        },
       },
       onChanged: {
         addListener(listener) { listeners.add(listener); },

@@ -1,6 +1,6 @@
 # Source URL audit
 
-The 2026-10-13 audit checked **all 105 unique URLs cited by the 100 health entries**. All 105 returned available HTTP responses. Separate official API requests returned term evidence for all 91 CDC Everyday Words and NCI dictionary URLs. No missing, blocked, timeout, or network-error result was observed in this run.
+The latest v0.4 audit checked **all 112 unique URLs cited by the 112 health entries**, plus a separate audit of the **2 URLs cited by the 8 opt-in public-service entries**. All 114 returned available HTTP responses. Official API requests returned term evidence for all 91 CDC Everyday Words and NCI dictionary URLs. No missing, blocked, timeout, or network-error result was observed. These checks occurred on 2026-10-13 local time (2026-10-14 UTC).
 
 This establishes reachability and selected term presence at that time. It is not a finding that every sentence is accurate, that every page is licensed for every use, or that the lexicon has passed independent clinical or comprehension review. Review metadata remains unchanged: `source-checked`, dated `2026-10-13`, with the existing editorial method and limitations.
 
@@ -9,7 +9,8 @@ This establishes reachability and selected term presence at that time. It is not
 Requires Node.js 22 or later; no additional dependency or API key. From the repository root:
 
 ```sh
-node scripts/check-sources.mjs --output artifacts/source-audit-2026-10-13.json
+node scripts/check-sources.mjs --output artifacts/source-audit-v0.4.0.json
+node scripts/check-sources.mjs --input data/pilots/public-service.json --output artifacts/source-audit-public-service-v0.4.0.json
 node --test tests/source-checker.test.mjs
 ```
 
@@ -18,6 +19,19 @@ The JSON file is a generated local artifact in the ignored `artifacts/` director
 The checker performs GET requests only. It never edits the lexicon, changes review status, or sends page content from a user's browsing session. It follows redirects, records the final URL, limits response bodies to 2 MiB, and retries a transient network failure, timeout, HTTP 429, or server failure once. Review unexpected redirect destinations manually. Known challenge-page titles count as blocked even when HTTP status is 200; unrecognized challenge pages and soft-404 pages can still escape that heuristic.
 
 A completed audit exits successfully even if some sources are unavailable; inspect the report's status counts and individual records. CLI/configuration failures exit nonzero. Live network availability is deliberately separate from offline tests and should not be a blocking CI assertion.
+
+## v0.4 recorded result
+
+| Input | Health default | Public-service opt-in pilot |
+| --- | --- | --- |
+| Version | 0.4.0 | 0.4.0 |
+| Checked at (UTC) | 2026-10-14T01:18:31.046Z | 2026-10-14T01:18:48.377Z |
+| Source URLs available | 112 / 112 | 2 / 2 |
+| Official API term evidence | 91 found | Not applicable |
+| Input SHA-256 | `d285c6f3e09a57430d1d4962fdcde173aedfc633a42633d35175dbddba2db0aa` | `895f0a0e09ec13696596b467565135951d5282f1c25f178d2065e4fea100c7d0` |
+| Artifact | `artifacts/source-audit-v0.4.0.json` | `artifacts/source-audit-public-service-v0.4.0.json` |
+
+The seven new MedlinePlus URLs were read for the twelve new health definitions, including the complete laboratory-results context. The CPSC and Digital.gov plain-language tables were read for the eight pilot entries and fourteen pairs. Their titles and source-rights boundaries were inspected; none was a dead or mismatched citation requiring replacement. Supplemental API probes remain relevant only to the older CDC/NCI entries. Original entry review dates were preserved. No audit result upgrades data to independent expert or comprehension review. See [the source-comparison ledger](LEXICON.md#v04-additions-and-source-comparison), [pilot boundaries](INLINE-LEXICON.md#public-service-opt-in-pilot), and the separate [offline coverage report](COVERAGE.md).
 
 ## v0.3 repeat audit
 

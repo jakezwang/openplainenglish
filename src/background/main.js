@@ -1,4 +1,5 @@
 import { createActions } from './actions.js';
+import { createCommandHandler } from './commands.js';
 
 let lexiconPromise;
 const actions = createActions(chrome, () => {
@@ -18,3 +19,5 @@ chrome.runtime.onMessage.addListener((message, sender, respond) => {
   });
   return true;
 });
+
+chrome.commands?.onCommand.addListener(createCommandHandler(chrome, actions));

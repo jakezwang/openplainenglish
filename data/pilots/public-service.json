@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 1,
+  "version": "0.4.0",
+  "license": "CC0-1.0",
+  "entries": [
+    {
+      "id": "at-a-later-date",
+      "term": "at a later date",
+      "aliases": [],
+      "domain": "public-service",
+      "short": "later",
+      "explanation": "Refers to a time after the time being discussed.",
+      "context": "This does not provide a particular date or extend a deadline.",
+      "sources": [
+        {
+          "label": "U.S. Consumer Product Safety Commission: Plain Language Principles, Wordy vs. Clear",
+          "url": "https://www.cpsc.gov/About-CPSC/Policies-Statements-and-Directives/plain-language-principles",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "at a later date",
+            "to": "later"
+          }
+        ],
+        "note": "This does not provide a particular date or extend a deadline.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "at-the-present-time",
+      "term": "at the present time",
+      "aliases": [],
+      "domain": "public-service",
+      "short": "now",
+      "explanation": "Refers to the current time in the statement.",
+      "context": "A statement may be old; now refers to its original time, not necessarily today.",
+      "sources": [
+        {
+          "label": "U.S. Consumer Product Safety Commission: Plain Language Principles, Wordy vs. Clear",
+          "url": "https://www.cpsc.gov/About-CPSC/Policies-Statements-and-Directives/plain-language-principles",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "at the present time",
+            "to": "now"
+          }
+        ],
+        "note": "A statement may be old; now refers to its original time, not necessarily today.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "for-the-purpose-of",
+      "term": "for the purpose of",
+      "aliases": [],
+      "domain": "public-service",
+      "short": "for",
+      "explanation": "Introduces what an action or thing is intended to achieve.",
+      "context": "Use for before the following noun or -ing phrase. Replacing this phrase with to can break the sentence.",
+      "sources": [
+        {
+          "label": "U.S. Consumer Product Safety Commission: Plain Language Principles, Wordy vs. Clear",
+          "url": "https://www.cpsc.gov/About-CPSC/Policies-Statements-and-Directives/plain-language-principles",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "for the purpose of",
+            "to": "for"
+          }
+        ],
+        "note": "Use for before the following noun or -ing phrase. Replacing this phrase with to can break the sentence.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "in-the-event-that",
+      "term": "in the event that",
+      "aliases": [],
+      "domain": "public-service",
+      "short": "if",
+      "explanation": "Introduces a condition that may or may not happen.",
+      "context": "It does not say that the condition has happened or will happen. The shorter phrase in the event of needs different grammar.",
+      "sources": [
+        {
+          "label": "U.S. Consumer Product Safety Commission: Plain Language Principles, Wordy vs. Clear",
+          "url": "https://www.cpsc.gov/About-CPSC/Policies-Statements-and-Directives/plain-language-principles",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "in the event that",
+            "to": "if"
+          }
+        ],
+        "note": "It does not say that the condition has happened or will happen. The shorter phrase in the event of needs different grammar.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "so-as-to",
+      "term": "so as to",
+      "aliases": [],
+      "domain": "public-service",
+      "short": "to",
+      "explanation": "Introduces the intended purpose of an action before a verb.",
+      "context": "This keeps the purpose and any following not. It does not rewrite the different pattern so ... as to.",
+      "sources": [
+        {
+          "label": "U.S. Consumer Product Safety Commission: Plain Language Principles, Wordy vs. Clear",
+          "url": "https://www.cpsc.gov/About-CPSC/Policies-Statements-and-Directives/plain-language-principles",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "so as to",
+            "to": "to"
+          }
+        ],
+        "note": "This keeps the purpose and any following not. It does not rewrite the different pattern so ... as to.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "with-regard-to",
+      "term": "with regard to",
+      "aliases": [],
+      "domain": "public-service",
+      "short": "about",
+      "explanation": "Introduces the subject that a statement concerns.",
+      "context": "The single word regard has other meanings and is not included. Quoted official names may need the exact original wording.",
+      "sources": [
+        {
+          "label": "U.S. Consumer Product Safety Commission: Plain Language Principles, Wordy vs. Clear",
+          "url": "https://www.cpsc.gov/About-CPSC/Policies-Statements-and-Directives/plain-language-principles",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "with regard to",
+            "to": "about"
+          }
+        ],
+        "note": "The single word regard has other meanings and is not included. Quoted official names may need the exact original wording.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "commence",
+      "term": "commence",
+      "aliases": [
+        "commences",
+        "commenced",
+        "commencing"
+      ],
+      "domain": "public-service",
+      "short": "begin or start",
+      "explanation": "Means to begin an activity or process. Each listed form preserves its verb tense.",
+      "context": "This does not change when an action starts or the force of words such as must or may. Commencement is not included.",
+      "sources": [
+        {
+          "label": "Digital.gov, GSA: Familiar terms, Use simple words and phrases",
+          "url": "https://digital.gov/guides/writing-understanding/familiar-terms",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "commence",
+            "to": "start"
+          },
+          {
+            "from": "commences",
+            "to": "starts"
+          },
+          {
+            "from": "commenced",
+            "to": "started"
+          },
+          {
+            "from": "commencing",
+            "to": "starting"
+          }
+        ],
+        "note": "This does not change when an action starts or the force of words such as must or may. Commencement is not included.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "utilize",
+      "term": "utilize",
+      "aliases": [
+        "utilizes",
+        "utilized",
+        "utilizing"
+      ],
+      "domain": "public-service",
+      "short": "use",
+      "explanation": "Means to use something. Each listed form preserves its verb tense.",
+      "context": "This does not specify how something is used. The noun utilization is excluded because its grammatical role differs.",
+      "sources": [
+        {
+          "label": "Digital.gov, GSA: Familiar terms, Use simple words and phrases",
+          "url": "https://digital.gov/guides/writing-understanding/familiar-terms",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "utilize",
+            "to": "use"
+          },
+          {
+            "from": "utilizes",
+            "to": "uses"
+          },
+          {
+            "from": "utilized",
+            "to": "used"
+          },
+          {
+            "from": "utilizing",
+            "to": "using"
+          }
+        ],
+        "note": "This does not specify how something is used. The noun utilization is excluded because its grammatical role differs.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent domain-expert or user-comprehension review"
+        }
+      }
+    }
+  ]
+}

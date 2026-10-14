@@ -5,8 +5,9 @@ import { fileURLToPath } from 'node:url';
 export const MAX_SHORT_LENGTH = 96;
 export const MAX_INLINE_LENGTH = 96;
 export const REVIEW_METHOD = 'editorial source comparison; no independent clinical or user-comprehension review';
+export const PILOT_REVIEW_METHOD = 'editorial source comparison; no independent domain-expert or user-comprehension review';
 const SOURCE_LICENSES = new Set(['Public-Domain-US']);
-const SOURCE_HOSTS = new Set(['www.cdc.gov', 'archive.cdc.gov', 'stacks.cdc.gov', 'www.cancer.gov', 'medlineplus.gov', 'www.fda.gov']);
+const SOURCE_HOSTS = new Set(['www.cdc.gov', 'archive.cdc.gov', 'stacks.cdc.gov', 'www.cancer.gov', 'medlineplus.gov', 'www.fda.gov', 'digital.gov', 'www.cpsc.gov']);
 const UNSAFE_MATCHES = new Set(['positive', 'negative', 'discharge', 'stroke', 'acute', 'chronic', 'screening', 'transmission', 'toxic', 'mi', 'bp', 'ra', 'ms', 'iv', 'im', 'ct', 'cat']);
 const plainObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value);
 const normalize = (value) => value.normalize('NFKC').toLocaleLowerCase('en-US').replace(/\s+/gu, ' ').trim();
@@ -36,7 +37,7 @@ export function validateLexicon(lexicon) {
   }
   const ids = new Map();
   const phrases = new Map();
-  function review(value, path) {
+  function review(value, path, domain = 'health') {
     if (!plainObject(value)) {
       fail(path, 'must include review metadata');
       return;
@@ -46,7 +47,7 @@ export function validateLexicon(lexicon) {
     if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/u.test(date) || Number.isNaN(Date.parse(date)) || new Date(date).toISOString().slice(0, 10) !== date) {
       fail(`${path}.date`, 'must be a real date in YYYY-MM-DD format');
     }
-    if (value.method !== REVIEW_METHOD) fail(`${path}.method`, 'must state the editorial method and lack of independent clinical/user review');
+    if (value.method !== (domain === 'public-service' ? PILOT_REVIEW_METHOD : REVIEW_METHOD)) fail(`${path}.method`, 'must state the editorial method and lack of independent expert/user review');
   }
   function registerPhrase(value, path) {
     if (!string(value, path, 100)) return;
@@ -71,7 +72,7 @@ export function validateLexicon(lexicon) {
     registerPhrase(entry.term, `${base}.term`);
     if (!Array.isArray(entry.aliases)) fail(`${base}.aliases`, 'must be an array');
     else entry.aliases.forEach((alias, i) => registerPhrase(alias, `${base}.aliases[${i}]`));
-    if (entry.domain !== 'health') fail(`${base}.domain`, 'must be health in v0.1');
+    if (!['health', 'public-service'].includes(entry.domain)) fail(`${base}.domain`, 'must be health or the opt-in public-service pilot');
     string(entry.short, `${base}.short`, MAX_SHORT_LENGTH);
     string(entry.explanation, `${base}.explanation`);
     string(entry.context, `${base}.context`);
@@ -94,7 +95,7 @@ export function validateLexicon(lexicon) {
         fail(`${path}.url`, 'must be a valid absolute URL');
       }
     });
-    review(entry.review, `${base}.review`);
+    review(entry.review, `${base}.review`, entry.domain);
     if (Object.hasOwn(entry, 'inline')) {
       const path = `${base}.inline`;
       if (!plainObject(entry.inline)) {
@@ -103,7 +104,7 @@ export function validateLexicon(lexicon) {
       }
       if (Object.keys(entry.inline).some((key) => !['replacements', 'note', 'review'].includes(key))) fail(path, 'contains unsupported inline fields');
       string(entry.inline.note, `${path}.note`);
-      review(entry.inline.review, `${path}.review`);
+      review(entry.inline.review, `${path}.review`, entry.domain);
       if (plainObject(entry.inline.review) && Object.keys(entry.inline.review).some((key) => !['status', 'date', 'method'].includes(key))) fail(`${path}.review`, 'contains unsupported inline review fields');
       const replacements = entry.inline.replacements;
       if (!Array.isArray(replacements) || replacements.length === 0 || replacements.length > 64) {

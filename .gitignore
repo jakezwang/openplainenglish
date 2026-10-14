@@ -3,7 +3,7 @@ dist/
 release/
 .DS_Store
 *.log
-coverage/
+/coverage/
 .env*
 !.env.example
 artifacts/

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "OpenPlainEnglish",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "minimum_chrome_version": "116",
   "description": "Read health terms in plainer English on the page, compare original words, and restore the original text anytime.",
   "permissions": [
@@ -33,5 +33,21 @@
   },
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'none'; connect-src 'self'; base-uri 'none'"
+  },
+  "commands": {
+    "toggle-reading": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L",
+        "mac": "MacCtrl+Shift+L"
+      },
+      "description": "Toggle OpenPlainEnglish on this page"
+    },
+    "restore-original": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U",
+        "mac": "MacCtrl+Shift+U"
+      },
+      "description": "Restore original wording on this page"
+    }
   }
 }

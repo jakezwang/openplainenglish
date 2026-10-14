@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 1,
+  "id": "public-service-fixtures-v1",
+  "selectionDate": "2026-10-13",
+  "kind": "invented-regression-only",
+  "scope": "Invented government-reading examples for eight opt-in pilot entries. This is a behavior regression set, not a natural-text coverage benchmark or user study.",
+  "baseline": {
+    "version": "0.3.0",
+    "entries": []
+  },
+  "documents": [],
+  "behaviorCases": [
+    {
+      "id": "positive-1",
+      "kind": "invented-regression",
+      "text": "We will reply at a later date.",
+      "expectedOutput": "We will reply later.",
+      "expectedEntryIds": [
+        "at-a-later-date"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-2",
+      "kind": "invented-regression",
+      "text": "At the present time, the office is open.",
+      "expectedOutput": "Now, the office is open.",
+      "expectedEntryIds": [
+        "at-the-present-time"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-3",
+      "kind": "invented-regression",
+      "text": "Use this form for the purpose of requesting a copy.",
+      "expectedOutput": "Use this form for requesting a copy.",
+      "expectedEntryIds": [
+        "for-the-purpose-of"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-4",
+      "kind": "invented-regression",
+      "text": "In the event that the office closes, keep the receipt.",
+      "expectedOutput": "If the office closes, keep the receipt.",
+      "expectedEntryIds": [
+        "in-the-event-that"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-5",
+      "kind": "invented-regression",
+      "text": "Keep a copy so as to track the request.",
+      "expectedOutput": "Keep a copy to track the request.",
+      "expectedEntryIds": [
+        "so-as-to"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-6",
+      "kind": "invented-regression",
+      "text": "Write to us with regard to the appointment.",
+      "expectedOutput": "Write to us about the appointment.",
+      "expectedEntryIds": [
+        "with-regard-to"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-7",
+      "kind": "invented-regression",
+      "text": "Work may commence next week.",
+      "expectedOutput": "Work may start next week.",
+      "expectedEntryIds": [
+        "commence"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-8",
+      "kind": "invented-regression",
+      "text": "The session commences at noon.",
+      "expectedOutput": "The session starts at noon.",
+      "expectedEntryIds": [
+        "commence"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-9",
+      "kind": "invented-regression",
+      "text": "The session commenced at noon.",
+      "expectedOutput": "The session started at noon.",
+      "expectedEntryIds": [
+        "commence"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-10",
+      "kind": "invented-regression",
+      "text": "Work is commencing next week.",
+      "expectedOutput": "Work is starting next week.",
+      "expectedEntryIds": [
+        "commence"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-11",
+      "kind": "invented-regression",
+      "text": "You may utilize this form.",
+      "expectedOutput": "You may use this form.",
+      "expectedEntryIds": [
+        "utilize"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-12",
+      "kind": "invented-regression",
+      "text": "The office utilizes this form.",
+      "expectedOutput": "The office uses this form.",
+      "expectedEntryIds": [
+        "utilize"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-13",
+      "kind": "invented-regression",
+      "text": "The office utilized this form.",
+      "expectedOutput": "The office used this form.",
+      "expectedEntryIds": [
+        "utilize"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "positive-14",
+      "kind": "invented-regression",
+      "text": "The office is utilizing this form.",
+      "expectedOutput": "The office is using this form.",
+      "expectedEntryIds": [
+        "utilize"
+      ],
+      "note": "A complete sentence checks meaning, word type, tense and grammatical fit for this explicit pair."
+    },
+    {
+      "id": "event-of",
+      "kind": "invented-regression",
+      "text": "In the event of rain, stay inside.",
+      "expectedOutput": "In the event of rain, stay inside.",
+      "expectedEntryIds": [],
+      "note": "The phrase followed by a noun cannot be replaced with if."
+    },
+    {
+      "id": "separated-so-as",
+      "kind": "invented-regression",
+      "text": "The display is so bright as to hurt my eyes.",
+      "expectedOutput": "The display is so bright as to hurt my eyes.",
+      "expectedEntryIds": [],
+      "note": "A separated so ... as to pattern is not the purpose phrase."
+    },
+    {
+      "id": "shall",
+      "kind": "invented-regression",
+      "text": "The applicant shall receive a reply.",
+      "expectedOutput": "The applicant shall receive a reply.",
+      "expectedEntryIds": [],
+      "note": "Shall can express an obligation or prediction; no mechanical substitute."
+    },
+    {
+      "id": "in-order",
+      "kind": "invented-regression",
+      "text": "Put these pages in order to help the next reader.",
+      "expectedOutput": "Put these pages in order to help the next reader.",
+      "expectedEntryIds": [],
+      "note": "In order may describe ordering the pages; no automatic deletion."
+    },
+    {
+      "id": "noun-commencement",
+      "kind": "invented-regression",
+      "text": "The commencement date is on the form.",
+      "expectedOutput": "The commencement date is on the form.",
+      "expectedEntryIds": [],
+      "note": "Noun form is not generated from the verb pair."
+    },
+    {
+      "id": "noun-utilization",
+      "kind": "invented-regression",
+      "text": "The report measures utilization.",
+      "expectedOutput": "The report measures utilization.",
+      "expectedEntryIds": [],
+      "note": "Noun form is not generated from the verb pair."
+    },
+    {
+      "id": "regard",
+      "kind": "invented-regression",
+      "text": "They hold this office in high regard.",
+      "expectedOutput": "They hold this office in high regard.",
+      "expectedEntryIds": [],
+      "note": "Ordinary regard is not the complete topic phrase."
+    },
+    {
+      "id": "unlisted-purpose",
+      "kind": "invented-regression",
+      "text": "Use it for the sole purpose of requesting a copy.",
+      "expectedOutput": "Use it for the sole purpose of requesting a copy.",
+      "expectedEntryIds": [],
+      "note": "Only an explicitly listed complete phrase may replace text."
+    }
+  ]
+}

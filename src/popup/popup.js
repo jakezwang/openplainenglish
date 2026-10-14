@@ -1,8 +1,13 @@
+import { normalizePreferences } from '../shared/preferences.js';
+import { createLocalizer, translated } from '../options/i18n.js';
 const $ = (id) => document.getElementById(id);
 const toggle = $('toggle');
 let state = { enabled: false, mode: 'plain', count: 0, replacedCount: 0, annotatedCount: 0, truncated: false };
 let selectedMode = 'plain';
 let busy = false;
+let preferences = normalizePreferences();
+const localize = createLocalizer(document, () => preferences.language);
+const t = (text) => translated(text, preferences.language);
 
 function render() {
   toggle.textContent = state.enabled ? 'Restore original' : selectedMode === 'plain' ? 'Read in plain English ↗' : 'Explain terms on this page ↗';
@@ -22,6 +27,7 @@ function render() {
       : state.mode === 'plain' && state.replacedCount === 0 ? 'No reviewed substitutions match this page. Marked terms still have explanations.'
         : state.mode === 'plain' ? 'Only reviewed phrases change. Select a marked phrase for its original, context and source.'
           : 'Original wording is shown. Select a marked term for its meaning and source.') + limit;
+  localize();
 }
 
 function setBusy(value) {
@@ -29,6 +35,7 @@ function setBusy(value) {
   toggle.disabled = value;
   $('first').disabled = value;
   $('mode-picker').disabled = value;
+  $('popup-language').disabled = value;
 }
 
 async function request(type, fields = {}) {
@@ -40,7 +47,7 @@ async function request(type, fields = {}) {
     if (!response?.ok) throw new Error(response?.error || 'This page is not available. Try a regular website.');
     if (response.state) {
       state = { ...state, ...response.state };
-      selectedMode = state.mode === 'annotate' ? 'annotate' : 'plain';
+      if (state.enabled || type !== 'OPE_GET_ACTIVE_STATE') selectedMode = state.mode === 'annotate' ? 'annotate' : 'plain';
     }
     render();
     return true;
@@ -58,10 +65,53 @@ toggle.addEventListener('click', () => request('OPE_TOGGLE_ACTIVE', { mode: sele
 for (const input of document.querySelectorAll('input[name="mode"]')) input.addEventListener('change', () => {
   if (!input.checked || busy) return;
   if (state.enabled) request('OPE_SET_MODE_ACTIVE', { mode: input.value });
-  else { selectedMode = input.value; render(); }
+  else { selectedMode = input.value; savePreferences({ mode: selectedMode }); }
 });
 $('first').addEventListener('click', async () => {
   if (await request('OPE_OPEN_FIRST_ACTIVE')) window.close();
 });
 $('glossary-link').href = chrome.runtime.getURL('options.html');
-request('OPE_GET_ACTIVE_STATE');
+$('settings-link').href = chrome.runtime.getURL('options.html#preferences');
+function applyPreferences(value) {
+  preferences = normalizePreferences(value);
+  $('popup-language').value = preferences.language;
+  document.body.dataset.density = preferences.density;
+  document.body.dataset.highlight = preferences.highlight;
+  if (!state.enabled) selectedMode = preferences.mode;
+  render();
+}
+async function savePreferences(patch) {
+  setBusy(true);
+  $('error').hidden = true;
+  try {
+    const response = await chrome.runtime.sendMessage({ type: 'OPE_SET_PREFERENCES', preferences: patch });
+    if (!response?.ok) throw new Error();
+    applyPreferences(response.preferences);
+    if (response.state) { state = { ...state, ...response.state }; if (state.enabled) selectedMode = state.mode; }
+    render();
+  } catch {
+    applyPreferences(preferences);
+    $('error').textContent = t('Unable to save preferences. Please try again.');
+    $('error').hidden = false;
+  } finally { setBusy(false); }
+}
+$('popup-language').addEventListener('change', () => savePreferences({ language: $('popup-language').value }));
+chrome.storage?.onChanged?.addListener((changes, area) => {
+  if (area === 'local' && changes.opePreferences) applyPreferences(changes.opePreferences.newValue);
+});
+async function initialize() {
+  setBusy(true);
+  let preferenceFailure = false;
+  try {
+    const response = await chrome.runtime.sendMessage({ type: 'OPE_GET_PREFERENCES' });
+    if (!response?.ok) throw new Error();
+    applyPreferences(response.preferences);
+  } catch { preferenceFailure = true; }
+  setBusy(false);
+  await request('OPE_GET_ACTIVE_STATE');
+  if (preferenceFailure && $('error').hidden) {
+    $('error').textContent = t('Preferences unavailable. Defaults are shown; try reloading.');
+    $('error').hidden = false;
+  }
+}
+initialize();

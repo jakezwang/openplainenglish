@@ -124,6 +124,7 @@ test('bundled mode controls switch the actual page in place and restore the exac
   const source = paragraph.textContent;
   await eventually(() => !popup.getElementById('toggle').disabled);
   popup.getElementById('mode-annotate').click();
+  await eventually(() => !popup.getElementById('toggle').disabled);
   assert.equal(app.injections(), 0, 'choosing a mode while off does not access page content');
   assert.equal(paragraph.textContent, source);
   popup.getElementById('toggle').click();

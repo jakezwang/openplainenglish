@@ -203,3 +203,53 @@ test('missing active-tab access asks for a toolbar invocation without guessing a
   api.tabs.query = async () => [{ id: 0, url: 'https://example.org/' }];
   assert.equal((await actions.handle({ type: 'OPE_GET_ACTIVE_STATE' })).state.enabled, false);
 });
+
+test('preferences survive worker recreation, merge concurrent updates, and never activate pages', async () => {
+  const { actions, saved, calls, api } = mockBrowser();
+  await Promise.all([
+    actions.handle({ type: 'OPE_SET_PREFERENCES', preferences: { language: 'zh-CN', mode: 'annotate' } }),
+    actions.handle({ type: 'OPE_SET_PREFERENCES', preferences: { highlight: 'strong', density: 'compact' } }),
+  ]);
+  assert.deepEqual(saved.opePreferences, { language: 'zh-CN', density: 'compact', highlight: 'strong', mode: 'annotate' });
+  assert.equal(calls.some((call) => call.injection || call.message?.type === 'OPE_ENABLE'), false);
+  const restarted = createActions(api, async () => lexicon);
+  assert.equal((await restarted.handle({ type: 'OPE_GET_ACTIVE_STATE' })).state.mode, 'annotate');
+  await restarted.handle({ type: 'OPE_TOGGLE_ACTIVE' });
+  const enabled = calls.find((call) => call.message?.type === 'OPE_ENABLE').message;
+  assert.equal(enabled.mode, 'annotate');
+  assert.equal(enabled.preferences.language, 'zh-CN');
+});
+
+test('invalid preference writes are atomic; restore shortcut never injects', async () => {
+  const { actions, saved, calls } = mockBrowser();
+  await assert.rejects(actions.handle({ type: 'OPE_SET_PREFERENCES', preferences: { language: 'zh-CN', tracking: true } }));
+  assert.equal(saved.opePreferences, undefined);
+  assert.equal((await actions.handle({ type: 'OPE_DISABLE_ACTIVE' })).state.enabled, false);
+  assert.equal(calls.some((call) => call.injection), false);
+  await actions.handle({ type: 'OPE_TOGGLE_ACTIVE' });
+  assert.equal((await actions.handle({ type: 'OPE_DISABLE_ACTIVE' })).state.enabled, false);
+});
+
+test('preference broadcasts cannot overtake one another when tab discovery is delayed', async () => {
+  const { actions, saved, api, calls } = mockBrowser();
+  let release;
+  let queries = 0;
+  api.tabs.query = async () => {
+    if (++queries === 1) await new Promise((resolve) => { release = resolve; });
+    return [{ id: 7, url: 'https://example.org' }];
+  };
+  const first = actions.handle({ type: 'OPE_SET_PREFERENCES', preferences: { language: 'zh-CN' } });
+  while (!release) await new Promise((resolve) => setImmediate(resolve));
+  const second = actions.handle({ type: 'OPE_SET_PREFERENCES', preferences: { highlight: 'strong' } });
+  release();
+  await Promise.all([first, second]);
+  assert.deepEqual(calls.at(-1).message.preferences, saved.opePreferences);
+  assert.equal(calls.at(-1).message.preferences.highlight, 'strong');
+});
+
+test('overlapping toggle commands serialize without duplicate injection', async () => {
+  const { actions, calls } = mockBrowser();
+  await Promise.all([actions.handle({ type: 'OPE_TOGGLE_ACTIVE' }), actions.handle({ type: 'OPE_TOGGLE_ACTIVE' })]);
+  assert.equal(calls.filter((call) => call.injection).length, 1);
+  assert.equal((await actions.handle({ type: 'OPE_GET_ACTIVE_STATE' })).state.enabled, false);
+});

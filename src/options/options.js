@@ -1,3 +1,5 @@
+import { normalizePreferences } from '../shared/preferences.js';
+import { createLocalizer, translated } from './i18n.js';
 import {
   createFeedback,
   sanitizeFeedback,
@@ -22,11 +24,24 @@ let pendingDelete = null;
 let activeEntryId = '';
 let pendingImport = null;
 let importBusy = false;
+let preferences = normalizePreferences();
+let reviewedDraft = null;
+const localize = createLocalizer(document, () => preferences.language);
+const t = (text) => translated(text, preferences.language);
+
 
 function node(tag, className, text) {
   const element = document.createElement(tag);
   if (className) element.className = className;
+  if (['draft-note', 'entry-short', 'entry-context', 'entry-explanation', 'inline-from', 'inline-to', 'inline-note'].includes(className)) element.dataset.userContent = '';
+  if (['entry-short', 'entry-context', 'entry-explanation', 'inline-from', 'inline-to', 'inline-note'].includes(className)) element.lang = 'en';
   if (text !== undefined) element.textContent = text;
+  return element;
+}
+
+function contentNode(tag, className, text) {
+  const element = node(tag, className, text);
+  element.dataset.userContent = '';
   return element;
 }
 
@@ -69,7 +84,8 @@ function inlinePairs(entry) {
 function entryCard(entry) {
   const article = node('article', 'entry');
   const header = node('div', 'entry-header');
-  header.append(node('h2', '', entry.term), node('p', 'entry-short', entry.short));
+  header.lang = 'en';
+  header.append(contentNode('h2', '', entry.term), node('p', 'entry-short', entry.short));
   const replacements = inlinePairs(entry);
   const inline = node('div', 'entry-inline');
   if (replacements.length) {
@@ -82,12 +98,12 @@ function entryCard(entry) {
     }
     inline.append(pairs);
     if (typeof entry.inline.note === 'string' && entry.inline.note) inline.append(node('p', 'inline-note', entry.inline.note));
-  } else inline.append(node('p', 'inline-note', 'Explanation only. This term keeps its original wording in plain reading.'));
+  } else { const note = node('p', 'inline-note', 'Explanation only. This term keeps its original wording in plain reading.'); delete note.dataset.userContent; note.removeAttribute('lang'); inline.append(note); }
   const details = node('details');
   const summary = node('summary', '', 'Meaning, context & source');
   summary.setAttribute('aria-label', `Meaning, context and source for ${entry.term}`);
   const body = node('div', 'entry-details');
-  body.append(node('p', '', entry.explanation));
+  body.append(contentNode('p', 'entry-explanation', entry.explanation));
   if (entry.context) body.append(node('p', 'entry-context', entry.context));
   if (entry.aliases?.length) body.append(node('p', 'review-status', `Also written as: ${entry.aliases.join(', ')}`));
   const sources = node('ul', 'entry-sources');
@@ -121,6 +137,7 @@ function renderGlossary() {
     ? `${matching.length} ${matching.length === 1 ? 'match' : 'matches'} in ${lexicon.entries.length} health terms`
     : `${lexicon.entries.length} health terms, ready to explore`;
   $('empty-glossary').hidden = matching.length > 0;
+  localize();
 }
 
 function route({ focus = false } = {}) {
@@ -131,7 +148,8 @@ function route({ focus = false } = {}) {
   $('nav-glossary').removeAttribute('aria-current');
   $('nav-feedback').removeAttribute('aria-current');
   $(feedback ? 'nav-feedback' : 'nav-glossary').setAttribute('aria-current', 'page');
-  document.title = `${feedback ? 'Your feedback' : 'Glossary'} · OpenPlainEnglish`;
+  document.title = `${feedback ? t('Your feedback') : preferences.language === 'zh-CN' ? '词库' : 'Glossary'} · OpenPlainEnglish`;
+  if (section === 'preferences') $('preferences').open = true;
   const params = new URLSearchParams(query);
   if (feedback && params.has('entry')) {
     const entry = lexicon.entries.find((item) => item.id === params.get('entry'));
@@ -159,7 +177,9 @@ async function refreshDrafts() {
 }
 
 function reviewDraft(draft) {
-  $('share-preview').value = createFeedbackIssueBody(draft);
+  reviewedDraft = sanitizeFeedback(draft);
+  $('share-status').textContent = '';
+  $('share-preview').value = createFeedbackIssueBody(reviewedDraft);
   $('open-issue').href = createFeedbackIssueUrl(draft);
   $('share-dialog').showModal();
 }
@@ -178,11 +198,11 @@ function draftCard(draft) {
   const article = node('article', 'draft');
   const heading = node('div', 'draft-heading');
   const date = new Date(draft.createdAt);
-  const time = node('time', 'draft-date', date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }));
+  const time = node('time', 'draft-date', date.toLocaleDateString(preferences.language, { year: 'numeric', month: 'short', day: 'numeric' }));
   time.dateTime = draft.createdAt;
-  heading.append(node('h3', '', draft.term), time);
+  heading.append(contentNode('h3', '', draft.term), time);
   const actions = node('div', 'draft-actions');
-  const share = node('button', 'text-button', 'Review & share on GitHub ↗');
+  const share = node('button', 'text-button', 'Review & share');
   share.type = 'button';
   share.setAttribute('aria-label', `Review and share feedback on ${draft.term}`);
   share.addEventListener('click', () => reviewDraft(draft));
@@ -283,7 +303,7 @@ function previewImport(records, name) {
   const fragment = document.createDocumentFragment();
   for (const item of records) {
     const record = node('article', 'import-record');
-    record.append(node('h3', '', item.term), node('p', 'review-status', `${kindLabels[item.kind]} · ${item.createdAt.slice(0, 10)}`), node('p', 'draft-note', item.note));
+    record.append(contentNode('h3', '', item.term), node('p', 'review-status', `${kindLabels[item.kind]} · ${item.createdAt.slice(0, 10)}`), node('p', 'draft-note', item.note));
     fragment.append(record);
   }
   $('import-records').replaceChildren(fragment);
@@ -358,16 +378,70 @@ $('open-issue').addEventListener('click', () => $('share-dialog').close());
 $('search').addEventListener('input', renderGlossary);
 window.addEventListener('hashchange', () => route({ focus: true }));
 chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === 'local' && changes.opeFeedback) refreshDrafts().catch(() => error('Unable to refresh local drafts.'));
+  if (area !== 'local') return;
+  if (changes.opeFeedback) refreshDrafts().catch(() => error('Unable to refresh local drafts.'));
+  if (changes.opePreferences) applyPreferences(changes.opePreferences.newValue);
 });
 
+function applyPreferences(value) {
+  preferences = normalizePreferences(value);
+  for (const [key, value] of Object.entries(preferences)) $(`preference-${key}`).value = value;
+  document.body.dataset.density = preferences.density;
+  document.body.dataset.highlight = preferences.highlight;
+  renderDrafts();
+  route();
+  localize();
+}
+$('preferences-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  $('save-preferences').disabled = true;
+  try {
+    const patch = Object.fromEntries(Object.keys(preferences).map((key) => [key, $(`preference-${key}`).value]));
+    const response = await chrome.runtime.sendMessage({ type: 'OPE_SET_PREFERENCES', preferences: patch });
+    if (!response?.ok) throw new Error();
+    applyPreferences(response.preferences);
+    $('preferences-status').textContent = t('Preferences saved on this device.');
+  } catch { $('preferences-status').textContent = t('Unable to save preferences. Please try again.'); }
+  finally { $('save-preferences').disabled = false; }
+});
+$('copy-report').addEventListener('click', async () => {
+  if (!reviewedDraft) return;
+  const text = $('share-preview').value;
+  try {
+    await navigator.clipboard.writeText(text);
+    $('share-status').textContent = t('Report copied. Share it only where you choose.');
+  } catch {
+    $('share-preview').focus();
+    $('share-preview').select();
+    $('share-status').textContent = t('Clipboard unavailable. The report is selected; copy it with your keyboard.');
+  }
+});
+$('download-report').addEventListener('click', () => {
+  if (!reviewedDraft) return;
+  try {
+    const url = URL.createObjectURL(new Blob([$('share-preview').value], { type: 'text/plain;charset=utf-8' }));
+    const link = node('a');
+    link.href = url;
+    link.download = 'openplainenglish-feedback-report.txt';
+    document.body.append(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    $('share-status').textContent = t('Report downloaded. Nothing was sent.');
+  } catch {
+    $('share-preview').focus(); $('share-preview').select();
+    $('share-status').textContent = t('Unable to download the report. You can copy the selected text instead.');
+  }
+});
+$('share-dialog').addEventListener('close', () => { reviewedDraft = null; });
 route();
 async function initialize() {
   const results = await Promise.allSettled([
     chrome.runtime.sendMessage({ type: 'OPE_GET_LEXICON' }),
     refreshDrafts(),
+    chrome.runtime.sendMessage({ type: 'OPE_GET_PREFERENCES' }),
   ]);
-  const [dictionary, localFeedback] = results;
+  const [dictionary, localFeedback, savedPreferences] = results;
+  if (savedPreferences.status === 'fulfilled' && savedPreferences.value?.ok) applyPreferences(savedPreferences.value.preferences);
+  else $('preferences-status').textContent = 'Preferences unavailable. Defaults are shown; try reloading.';
   if (dictionary.status === 'fulfilled' && dictionary.value?.ok && Array.isArray(dictionary.value.lexicon?.entries)) {
     lexicon = dictionary.value.lexicon;
     lexicon.entries = [...lexicon.entries].sort((a, b) => a.term.localeCompare(b.term));

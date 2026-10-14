@@ -1,6 +1,6 @@
 # Privacy policy
 
-Effective date: 2026-10-13. This policy describes OpenPlainEnglish v0.3, an unpacked browser extension for Chrome and Edge, and its separately labeled online demo.
+Effective date: 2026-10-13. This policy describes OpenPlainEnglish v0.4, a browser-extension developer preview, and its separately labeled online tools.
 
 ## Page access
 
@@ -11,6 +11,8 @@ OpenPlainEnglish does not automatically collect or store page text, page titles,
 The website you visit retains its own behavior and privacy policy. The extension does not prevent that site or other installed extensions from making network requests or collecting information.
 
 ## Local feedback
+
+The four preferences (interface language, density, mark strength and reading mode) are saved locally as `opePreferences`. Changing settings updates readers already enabled by the user; it does not activate other tabs. Per-occurrence restoration and ignored words live only in the current page's reader memory. No page identifier or ignored-term history is saved.
 
 Feedback is saved in the browser's local extension storage. A record contains an ID, glossary entry ID, term, category (`unclear`, `inaccurate`, or `suggestion`), your note, creation time, and glossary version. Page URL, title, and body are not automatically added. The extension keeps up to 100 records; storage is not a cloud backup.
 
@@ -24,9 +26,13 @@ The public demo at `jakezwang.github.io/openplainenglish/` is hosted by GitHub P
 
 The reading example operates on invented text. The clearly labeled UI preview simulates browser extension APIs; it cannot access other tabs or establish that the installed extension works. Demo drafts use localStorage on the demo's web origin, separately from extension storage. They are not uploaded automatically. Other pages sharing the same web origin can access that storage, so use invented test feedback rather than personal information. Exports, imports, external source links and opening a GitHub draft follow the same explicit-action boundaries described here.
 
+The paragraph workshop retains pasted text only in its current tab memory. It does not use localStorage for paragraphs or upload them. Clipboard actions copy only after a click; clearing the workshop does not clear your device's clipboard. The study harness uses synthetic passages and keeps answers/timings in memory until the user explicitly exports a local results file. It has no automatic submission or analytics. The UI preview saves its four preferences separately from its test feedback. Do not enter private health records into public demonstration tools.
+
 ## Sharing and external links
 
 Saving feedback does not send it to the project. The feedback interface prepares a GitHub issue only after you choose to do so. Review the note before opening the issue, then review the prepared issue on GitHub before submitting it.
+
+After the same review step, you can copy or download a plain-text report without using GitHub. This creates content under your control; it does not deliver feedback to a maintainer or choose a recipient for you.
 
 Opening the prepared issue navigates the browser to GitHub. The prepared text appears in that navigation's URL and can be visible in browser history and to GitHub before you publish it. Published issues are public and may be copied, indexed, or retained. Deleting a local draft does not delete an opened URL from browser history or remove a GitHub issue. GitHub's privacy policy and account settings apply there.
 
@@ -38,9 +44,9 @@ Choosing a source link similarly opens the source website in your browser. Its p
 | --- | --- |
 | `activeTab` | Temporarily access the tab you invoke the extension on. |
 | `scripting` | Inject the reader and remove its markers on that tab. |
-| `storage` | Keep feedback drafts in local extension storage. |
+| `storage` | Keep feedback drafts and the four preferences in local extension storage. |
 
-The manifest does not request access to all websites, browsing history, cookies, or accounts. Browser-internal pages, PDF files and the built-in PDF viewer, iframes, and shadow roots are outside the supported reading surface. Matching runs within individual text nodes rather than across separate HTML elements.
+The manifest does not request access to all websites, browsing history, cookies, or accounts. Browser-internal pages, PDF files and the built-in PDF viewer, iframes, and shadow roots are outside the supported reading surface. Matching can span a bounded set of transparent inline formatting tags while preserving those elements.
 
 ## Limited Use
 

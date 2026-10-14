@@ -59,3 +59,55 @@ Decision: accept / revise / exclude
 Accept only when the sources support all substantive claims, the rights fit the project, aliases avoid a known harmful mismatch, and the text meets the structural checks. If reviewers disagree about a medical meaning, keep the prior supported wording or exclude the match until resolved. Do not average competing diagnoses or replace uncertainty with a simpler but inaccurate claim.
 
 Run `node scripts/validate-lexicon.mjs` and `node --test tests/lexicon.test.mjs` after an edit. Run the source audit separately when citations change. Structural validation, source reachability, editorial review, clinical review, and participant comprehension are distinct pieces of evidence; report each honestly.
+
+## Inline and pilot review
+
+An inline replacement has a higher burden than an annotation: it must fit the original sentence without turning a substance into a test, a noun into an adjective, or a possible outcome into a certainty. Review the complete `from`/`to` pair, its number and tense, surrounding articles, negation, modifiers, quoted uses, and proper names. An explanation being correct does not establish interchangeability. Check an ordinary use and a plausible counterexample for every new pair; do not generate unspecified inflections.
+
+The [public-service pilot](../data/pilots/public-service.json) uses **editorial source comparison; no independent domain-expert or user-comprehension review**. Its nonclinical scope does not justify altering legal force, interpreting eligibility, or changing a deadline. CPSC and Digital.gov authored text are the two additional reviewed sources, with their precise rights boundaries recorded in [LEXICON.md](LEXICON.md#separate-public-service-pilot). A source's plain-writing recommendation is not permission to apply that alternative in every grammatical construction.
+
+For v0.4, the twelve added health entries were compared with the seven cited MedlinePlus articles/summaries on 2026-10-13. Editorial checks distinguished a full metabolic panel from a basic panel, the A1C test from hemoglobin and a single blood-sugar reading, substances from disease names, reference ranges from a guarantee of health, and false results from all positive/negative results. The two public-service source tables were compared with all fourteen explicit pairs and their grammar. Inflected forms are editorial applications of the listed base verbs, not quotations claimed to appear in the source. These checks were AI-assisted and do not fulfill the independent human-review process.
+
+## Independent review package
+
+A maintainer can prepare this package for a willing reviewer. Do not recruit or send it on another person's behalf without authorization. Share public or invented passages only. Attach a stable data file/diff, corpus fixture, relevant audit JSON, source/right links, and the fields below. The package is ready to fill in; **no reviewer has completed it for this release**.
+
+```text
+REVIEW IDENTIFICATION
+Package ID / date:
+Data version / SHA-256 / exact diff or commit:
+Domain / entry IDs / from-to pairs in scope:
+Author / AI assistance used:
+Reviewer name or agreed public identifier:
+Relevant expertise and limitations:
+Relationship to author / conflicts of interest:
+
+FOR EACH ENTRY / PAIR
+Entry ID:
+Primary source / section / access date:
+Source claim compared with short / explanation / context:
+Alias-by-alias meaning and ambiguity findings:
+Inline pair / positive sentence / unchanged counterexample:
+Word type / number / tense / article / negation / uncertainty checks:
+Quotes / names / broader or narrower senses checked:
+Reuse policy / third-party exceptions / attribution checked:
+Correction needed (exact wording):
+Decision: supported / revise / exclude / unable to assess
+Remaining uncertainty:
+
+SEPARATE EVIDENCE
+Structural validation and fixture results / artifact hashes:
+URL availability (not factual approval):
+Independent factual review completed by / scope / date:
+Independent clinical or domain review completed by / scope / date:
+Participant comprehension evidence / protocol / sample / date:
+For any missing item, write not completed; do not leave implied approval.
+
+DISPOSITION
+Final diff rechecked by someone other than its author:
+Reviewer decision and date:
+Maintainer action / unresolved issue / excluded pairs:
+Changelog and follow-up source-review trigger:
+```
+
+The [community process](COMMUNITY.md) requires an author and a distinct human reviewer for community data changes. Store this completed record with the proposal, separate from the entry's `source-checked` metadata. Do not change the schema status to expert-verified or mark the whole lexicon reviewed based on a subset. If material revisions follow review, the revised wording and pairs need another review of the final diff.

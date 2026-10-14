@@ -80,13 +80,15 @@ test('forms, editing controls, interactive content, code, hidden and non-English
   assert.equal(document.querySelector('textarea').value, 'pain');
 });
 
-test('iframe and shadow-root content is not scanned; split-node phrases are not invented', (t) => {
+test('transparent split-node phrases are one logical match; iframe and shadow roots stay excluded', (t) => {
   const phrase = { ...entries[0], id: 'chest-pain', term: 'chest pain', aliases: [] };
   const { document, reader } = fixture(t, '<p>chest <em>pain</em></p><iframe></iframe><div id="shadow"></div>', { entries: [phrase] });
   document.getElementById('shadow').attachShadow({ mode: 'open' }).innerHTML = '<p>chest pain</p>';
   document.querySelector('iframe').contentDocument.body.innerHTML = '<p>chest pain</p>';
   reader.enable();
-  assert.equal(marks(document).length, 0);
+  assert.equal(reader.getState().count, 1);
+  assert.equal(marks(document).length, 2);
+  assert.equal(document.querySelectorAll('[data-ope-term][tabindex="0"]').length, 1);
   assert.equal(document.getElementById('shadow').shadowRoot.querySelector('[data-ope-term]'), null);
   assert.equal(document.querySelector('iframe').contentDocument.querySelector('[data-ope-term]'), null);
 });
@@ -557,4 +559,286 @@ test('replacement and annotation totals obey the shared mark limit in either mod
   assert.deepEqual(reader.setMode('annotate'), { enabled: true, mode: 'annotate', count: 2, replacedCount: 0, annotatedCount: 2, truncated: true });
   reader.disable();
   assert.equal(document.body.textContent, 'hypertensionpainhypertension');
+});
+
+const infarctionEntry = {
+  ...pressureEntry, id: 'infarction', term: 'myocardial infarction', aliases: ['myocardial infarctions', 'heart attack', 'heart attacks'],
+  inline: { ...pressureEntry.inline, replacements: [{ from: 'myocardial infarction', to: 'heart attack' }, { from: 'myocardial infarctions', to: 'heart attacks' }] },
+};
+
+test('cross-inline replacements preserve original elements, wording, attributes and listeners through undo cycles', (t) => {
+  const { dom, document, reader } = fixture(t, '<p id="reading"><strong class="original">Myocardial</strong> <em title="format">infarction</em>; myocardial <span>infarctions</span>.</p>', { entries: [infarctionEntry] });
+  const paragraph = document.getElementById('reading');
+  const originalHTML = paragraph.innerHTML;
+  const strong = paragraph.querySelector('strong');
+  const emphasis = paragraph.querySelector('em');
+  let events = 0;
+  emphasis.addEventListener('mouseenter', () => events++);
+  assert.equal(reader.enable().count, 2);
+  assert.equal(paragraph.textContent, 'Heart attack; heart attacks.');
+  assert.equal(reader.getState().replacedCount, 2);
+  assert.equal(paragraph.querySelectorAll('[role="button"]').length, 2, 'a split phrase has one logical button');
+  assert.equal(paragraph.querySelectorAll('[tabindex="0"]').length, 2);
+  for (let cycle = 0; cycle < 3; cycle++) {
+    reader.setMode('annotate');
+    assert.equal(paragraph.textContent, 'Myocardial infarction; myocardial infarctions.');
+    reader.setMode('plain');
+    assert.equal(paragraph.textContent, 'Heart attack; heart attacks.');
+  }
+  assert.equal(reader.getOriginalText(), 'Myocardial infarction; myocardial infarctions.');
+  reader.disable();
+  assert.equal(paragraph.innerHTML, originalHTML);
+  assert.equal(paragraph.querySelector('strong'), strong);
+  assert.equal(paragraph.querySelector('em'), emphasis);
+  emphasis.dispatchEvent(new dom.window.Event('mouseenter'));
+  assert.equal(events, 1);
+});
+
+test('cross-inline matching never bridges interactive, hidden, language, line-break or block boundaries', (t) => {
+  const { document, reader } = fixture(t, `
+    <p>myocardial <a href="/">infarction</a></p>
+    <p>myocardial <span hidden>ignored</span>infarction</p>
+    <p>myocardial <span lang="en">infarction</span></p>
+    <p>myocardial<br>infarction</p>
+    <p>myocardial <span style="display:block">infarction</span></p>
+    <p>myocardial </p><p>infarction</p>
+    <p id="allowed">myocardial <em><strong>infarction</strong></em></p>
+  `, { entries: [infarctionEntry] });
+  assert.equal(reader.enable().count, 1);
+  assert.equal(document.getElementById('allowed').textContent, 'heart attack');
+  assert.ok(marks(document).every((mark) => mark.closest('#allowed')));
+});
+
+test('the visible segment is the sole keyboard anchor when a short replacement leaves an empty first segment', (t) => {
+  const purpose = { ...pressureEntry, id: 'purpose', term: 'for the purpose of', aliases: [], inline: { ...pressureEntry.inline, replacements: [{ from: 'for the purpose of', to: 'for' }] } };
+  const { dom, document, reader } = fixture(t, '<p><span>f</span><em>or the purpose of</em> requesting a copy.</p>', { entries: [purpose] });
+  reader.enable();
+  const primary = document.querySelector('[data-ope-term][tabindex="0"]');
+  assert.equal(primary.textContent, 'for');
+  assert.equal(primary.hasAttribute('aria-hidden'), false);
+  assert.equal(document.querySelectorAll('[data-ope-term][role="button"]').length, 1);
+  primary.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+  assert.ok(panel(document));
+  panel(document).querySelector('.restore-occurrence').click();
+  const originalPrimary = document.querySelector('[data-ope-term][tabindex="0"]');
+  assert.equal(originalPrimary.textContent, 'f');
+  assert.equal(document.activeElement, originalPrimary);
+  reader.disable();
+  assert.equal(document.querySelector('p').innerHTML, '<span>f</span><em>or the purpose of</em> requesting a copy.');
+});
+
+test('cross-inline host edits, removed fragments and retained wrapped nodes are preserved on immediate disable', (t) => {
+  for (const action of ['edit', 'remove', 'wrap', 'new-node']) {
+    const { document, reader } = fixture(t, '<p><strong>myocardial</strong> <em>infarction</em></p>', { entries: [infarctionEntry] });
+    reader.enable();
+    const paragraph = document.querySelector('p');
+    const mark = document.querySelector('em [data-ope-term]');
+    if (action === 'edit') mark.firstChild.data = 'host result';
+    if (action === 'new-node') mark.textContent = mark.textContent;
+    if (action === 'remove') document.querySelector('em').remove();
+    if (action === 'wrap') { const small = document.createElement('small'); small.append(mark.firstChild); mark.append(small); }
+    reader.disable();
+    assert.equal(paragraph.textContent, action === 'edit' ? 'myocardial host result' : action === 'new-node' ? 'myocardial attack' : action === 'remove' ? 'myocardial ' : 'myocardial infarction');
+    assert.equal(paragraph.querySelector('[data-ope-term]'), null);
+    if (action === 'wrap') assert.equal(paragraph.querySelector('em small').textContent, 'infarction');
+  }
+});
+
+test('dynamic edits across inline fragments reconcile the full phrase without reusing rendered output', async (t) => {
+  const { document, reader } = fixture(t, '<p><strong>myocardial</strong> <em>infarction</em></p>', { entries: [infarctionEntry] });
+  reader.enable();
+  const paragraph = document.querySelector('p');
+  paragraph.querySelector('em [data-ope-term]').firstChild.data = 'condition';
+  await eventually(() => reader.getState().count === 0);
+  assert.equal(paragraph.textContent, 'myocardial condition');
+  paragraph.querySelector('em').textContent = 'infarction';
+  await eventually(() => reader.getState().replacedCount === 1);
+  paragraph.prepend(document.createTextNode('pre'));
+  await eventually(() => reader.getState().count === 0);
+  assert.equal(paragraph.textContent, 'premyocardial infarction');
+});
+
+test('restoring one occurrence leaves other replacements active and survives intact-source rescans', async (t) => {
+  const { document, reader } = fixture(t, '<p>hypertension and hypertension.</p>', { entries: [pressureEntry] });
+  reader.enable();
+  marks(document)[0].click();
+  panel(document).querySelector('.restore-occurrence').click();
+  assert.equal(document.querySelector('p').textContent, 'hypertension and high blood pressure.');
+  assert.equal(reader.getState().replacedCount, 1);
+  assert.equal(document.activeElement, marks(document)[0]);
+  document.querySelector('p').className = 'changed';
+  await new Promise((resolve) => setTimeout(resolve, 110));
+  assert.equal(document.querySelector('p').textContent, 'hypertension and high blood pressure.');
+  reader.setMode('annotate');
+  reader.setMode('plain');
+  assert.equal(reader.getState().replacedCount, 1);
+  reader.disable();
+  assert.equal(document.querySelector('p').textContent, 'hypertension and hypertension.');
+});
+
+test('ignoring a term restores all its forms and excludes new occurrences for this page session', async (t) => {
+  const { document, reader } = fixture(t, '<p>hypertension; high blood pressure; pain.</p>', { entries: [pressureEntry, entries[0]] });
+  reader.enable();
+  marks(document)[0].click();
+  panel(document).querySelector('.ignore-term').click();
+  assert.equal(reader.getState().count, 1);
+  assert.equal(document.querySelector('p').textContent, 'hypertension; high blood pressure; pain.');
+  assert.equal(panel(document), undefined);
+  assert.equal(document.activeElement.dataset.opeTerm, 'pain');
+  const added = document.createElement('p');
+  added.textContent = 'Hypertension and pain.';
+  document.body.append(added);
+  await eventually(() => reader.getState().count === 2);
+  reader.setMode('annotate');
+  reader.setMode('plain');
+  reader.disable();
+  reader.enable();
+  assert.equal(reader.getState().count, 2);
+  assert.equal(document.querySelectorAll('[data-ope-term="hypertension"]').length, 0);
+  assert.throws(() => reader.ignoreTerm('unknown'), TypeError);
+});
+
+test('plain-mode printing shows originals and afterprint respects host edits and a disabled reader', (t) => {
+  const { dom, document, reader } = fixture(t, '<p><strong>myocardial</strong> infarction; hypertension.</p>', { entries: [infarctionEntry, pressureEntry] });
+  reader.enable();
+  dom.window.dispatchEvent(new dom.window.Event('beforeprint'));
+  assert.equal(document.querySelector('p').textContent, 'myocardial infarction; hypertension.');
+  assert.equal(reader.getState().mode, 'plain', 'printing must not change the remembered preference');
+  assert.equal(reader.getState().replacedCount, 0);
+  document.querySelector('[data-ope-term="hypertension"]').firstChild.data = 'host print wording';
+  dom.window.dispatchEvent(new dom.window.Event('afterprint'));
+  assert.equal(document.querySelector('p').textContent, 'heart attack; host print wording.');
+  dom.window.dispatchEvent(new dom.window.Event('beforeprint'));
+  reader.disable();
+  dom.window.dispatchEvent(new dom.window.Event('afterprint'));
+  assert.equal(reader.getState().enabled, false);
+  assert.equal(document.querySelector('p').textContent, 'myocardial infarction; host print wording.');
+});
+
+test('preferences are validated atomically, remember mode while off and update panel labels without opening callbacks', (t) => {
+  let opens = 0;
+  const { document, reader } = fixture(t, '<p>hypertension</p>', { entries: [pressureEntry], preferences: { mode: 'annotate', language: 'zh-CN' }, onExplanationOpen: () => opens++ });
+  assert.equal(reader.getState().mode, 'annotate');
+  reader.setPreferences({ density: 'compact', highlight: 'strong', mode: 'plain' });
+  assert.equal(document.querySelector('[data-ope-owned]'), null);
+  reader.enable();
+  assert.equal(document.querySelector('p').textContent, 'high blood pressure');
+  assert.equal(marks(document)[0].dataset.opeHighlight, 'strong');
+  reader.openFirst();
+  assert.equal(opens, 1);
+  assert.equal(panel(document).querySelector('.panel').lang, 'zh-CN');
+  assert.ok(panel(document).querySelector('.panel').classList.contains('compact'));
+  assert.equal(panel(document).querySelector('.copy-original').textContent, '复制原词');
+  assert.equal(panel(document).querySelector('.context .label').textContent, '示例语境');
+  assert.equal(panel(document).querySelector('#ope-explanation').lang, 'en');
+  reader.setPreferences({ language: 'en', density: 'comfortable', highlight: 'subtle' });
+  assert.equal(opens, 1);
+  assert.equal(panel(document).querySelector('.context .label').textContent, 'Example context');
+  const html = document.body.innerHTML;
+  const state = reader.getState();
+  for (const invalid of [{ mode: 'rewrite', language: 'en' }, { language: 'fr' }, { extra: 'metadata' }, null]) {
+    assert.throws(() => reader.setPreferences(invalid), TypeError);
+    assert.equal(document.body.innerHTML, html);
+    assert.deepEqual(reader.getState(), state);
+  }
+});
+
+test('copy original is user-triggered, preserves exact spelling and announces success or a manual fallback', async (t) => {
+  const copied = [];
+  const { dom, document, reader } = fixture(t, '<p>HYPERTENSION</p>', { entries: [pressureEntry] });
+  Object.defineProperty(dom.window.navigator, 'clipboard', { configurable: true, value: { writeText: async (text) => copied.push(text) } });
+  reader.enable();
+  reader.openFirst();
+  assert.deepEqual(copied, []);
+  panel(document).querySelector('.copy-original').click();
+  await eventually(() => panel(document).querySelector('.copy-status').textContent.includes('copied'));
+  assert.deepEqual(copied, ['HYPERTENSION']);
+  assert.equal(panel(document).querySelector('.copy-status').getAttribute('role'), 'status');
+  assert.equal(document.querySelector('p').textContent, 'HIGH BLOOD PRESSURE');
+  Object.defineProperty(dom.window.navigator, 'clipboard', { configurable: true, value: undefined });
+  panel(document).querySelector('.copy-original').click();
+  await eventually(() => panel(document).querySelector('.copy-status').textContent.includes('Select'));
+  assert.deepEqual(copied, ['HYPERTENSION']);
+});
+
+test('explanation callbacks exclude stale markers and selection, and nonmodal Tab edges return focus to the phrase', (t) => {
+  const opened = [];
+  const { dom, document, reader } = fixture(t, '<p>hypertension</p>', { entries: [pressureEntry], onExplanationOpen: (entry) => opened.push(entry.id) });
+  reader.enable();
+  const mark = marks(document)[0];
+  const range = document.createRange();
+  range.selectNodeContents(mark);
+  document.getSelection().addRange(range);
+  mark.click();
+  assert.deepEqual(opened, []);
+  document.getSelection().removeAllRanges();
+  mark.click();
+  assert.deepEqual(opened, ['hypertension']);
+  assert.equal(panel(document).querySelector('.panel').getAttribute('aria-modal'), 'false');
+  panel(document).querySelector('.close').dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }));
+  assert.equal(panel(document), undefined);
+  assert.equal(document.activeElement, mark);
+  mark.firstChild.data = 'host text';
+  mark.click();
+  assert.deepEqual(opened, ['hypertension']);
+});
+
+test('literal names and enclosing quotations remain annotations while ordinary prose can change', (t) => {
+  const { document, reader } = fixture(t, '<p>The label says "history of hypertension". A patient has hypertension.</p><cite>Hypertension Review</cite><abbr title="name">hypertension</abbr><q>hypertension</q>', { entries: [pressureEntry] });
+  assert.equal(reader.enable().count, 5);
+  assert.equal(reader.getState().replacedCount, 1);
+  assert.equal(document.querySelector('p').textContent, 'The label says "history of hypertension". A patient has high blood pressure.');
+  assert.equal(document.querySelector('cite').textContent, 'Hypertension Review');
+});
+
+test('fragment and run limits bound pathological markup without making partial long-run replacements', (t) => {
+  const phrase = { ...pressureEntry, id: 'fragmented', term: 'abcdefghijklmnopqrstuvwxyz', aliases: [], inline: { ...pressureEntry.inline, replacements: [{ from: 'abcdefghijklmnopqrstuvwxyz', to: 'letters' }] } };
+  const fragmented = Array.from(phrase.term).map((letter) => `<span>${letter}</span>`).join('');
+  const { document, reader } = fixture(t, `<p>${fragmented}</p><p>${'x'.repeat(30000)}<em>${'x'.repeat(30000)}</em> hypertension</p>`, { entries: [phrase, pressureEntry] });
+  assert.equal(reader.enable().count, 0);
+  assert.equal(reader.getState().truncated, true);
+  assert.equal(document.querySelector('p').textContent, phrase.term);
+  assert.ok(document.querySelectorAll('p')[1].textContent.endsWith('hypertension'));
+});
+
+test('a node-budget cutoff cannot turn an unread continuation into a false phrase boundary', (t) => {
+  const { document, reader } = fixture(t, '<p><span>hypertension</span><em>-related</em></p><p>hypertension</p>', { entries: [pressureEntry], maxNodes: 1 });
+  assert.equal(reader.enable().count, 0);
+  assert.equal(reader.getState().truncated, true);
+  assert.equal(document.querySelector('p').textContent, 'hypertension-related');
+});
+
+test('embedding without a feedback callback has no inert feedback controls or local-draft claim', (t) => {
+  const { document, reader } = fixture(t, '<p>hypertension</p>', { entries: [pressureEntry] });
+  reader.enable();
+  reader.openFirst();
+  assert.equal(panel(document).querySelector('.feedback'), null);
+  assert.doesNotMatch(panel(document).textContent, /Feedback starts as a local draft|Help make this clearer/);
+  assert.match(panel(document).textContent, /Your page stays on your device/);
+});
+
+test('same-turn preference and occurrence actions do not discard queued host mutations', async (t) => {
+  for (const action of ['preferences', 'restore']) {
+    const { document, reader } = fixture(t, '<p>hypertension</p>', { entries: [pressureEntry] });
+    reader.enable();
+    const mark = marks(document)[0];
+    document.querySelector('p').prepend(document.createTextNode('pre'));
+    if (action === 'preferences') reader.setPreferences({ language: 'zh-CN', highlight: 'strong' });
+    else reader.restoreOccurrence(mark);
+    await eventually(() => reader.getState().count === 0);
+    assert.equal(document.querySelector('p').textContent, 'prehypertension');
+    reader.disable();
+    assert.equal(document.querySelector('p').textContent, 'prehypertension');
+  }
+});
+
+test('an excluded inline region does not create a false Unicode word boundary for adjacent text', (t) => {
+  const { document, reader } = fixture(t, '<p>hypertension<a href="/">ology</a></p><p><a href="/">pre</a>hypertension</p><p>hypertension<a href="/"> learn more</a></p><p>hypertension<a href="/">𐐀</a></p>', { entries: [pressureEntry] });
+  assert.equal(reader.enable().count, 1);
+  assert.equal(reader.getState().replacedCount, 1);
+  assert.equal(document.querySelectorAll('p')[0].textContent, 'hypertensionology');
+  assert.equal(document.querySelectorAll('p')[1].textContent, 'prehypertension');
+  assert.equal(document.querySelectorAll('p')[2].textContent, 'high blood pressure learn more');
+  assert.equal(document.querySelectorAll('p')[3].textContent, 'hypertension𐐀');
+  assert.equal(document.querySelector('a [data-ope-term]'), null);
 });

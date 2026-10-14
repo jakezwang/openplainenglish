@@ -2,11 +2,15 @@
 
 让专业语言更容易理解，让普通人也能平等地获取信息。
 
-OpenPlainEnglish 是一个开源的英文医疗阅读辅助工具。v0.3 加入**整页就地白话替换**：你主动开启后，经过单独核对的术语会直接变成更常见的表达，例如 `hypertension → high blood pressure`。点击可对照原词、查看释义与来源，也可以一键恢复。没有合适替换的词保留原文并提供解释。目前词库包含 100 个英文医疗词条，处理在本机完成。
+OpenPlainEnglish 是一个开源的英文医疗阅读辅助工具。v0.4 加入**整页就地白话替换**：你主动开启后，经过单独核对的术语会直接变成更常见的表达，例如 `hypertension → high blood pressure`。点击可对照原词、查看释义与来源，也可以一键恢复。没有合适替换的词保留原文并提供解释。目前词库包含 112 个英文医疗词条，处理在本机完成。
 
 [安装 OpenPlainEnglish](https://jakezwang.github.io/openplainenglish/demo/install.html) · [在线演示](https://jakezwang.github.io/openplainenglish/) · [English README](README.md) · [更新与反馈恢复](docs/UPGRADING.md)
 
-![白话阅读演示：直接替换网页中的术语，并显示原词对照](docs/images/online-demo-v0.3.jpg)
+[粘贴自己的段落试用](https://jakezwang.github.io/openplainenglish/demo/workbench.html) · [可复用引擎与词库](docs/SDK.md) · [P0–P2 完成记录](docs/BACKLOG.md)
+
+v0.4 进一步加入：单次撤销、本页忽略、中英界面、阅读偏好与快捷键、跨行内标签识别、复制原词和打印原文。公共服务用语试验可在段落页单独选用，不会混入默认医疗词库。Firefox 提供独立开发预览包；各浏览器仍需实际安装验收，详见[支持范围](docs/BROWSERS-AND-SURFACES.md)。
+
+![白话阅读演示：直接替换网页中的术语，并显示原词对照](docs/images/online-demo-v0.4.png)
 
 *截图来自网页演示。网页演示及模拟浏览器接口的预览，不能证明真实扩展的安装、权限和消息处理已通过验收；请查看相应版本的验证记录。*
 
@@ -32,7 +36,7 @@ OpenPlainEnglish 是一个开源的英文医疗阅读辅助工具。v0.3 加入*
 
 替换使用专门核对的词形与短语，不会把整段词典定义塞进正文。它不是全文翻译或句子改写工具，也不能理解所有语境。可替换的具体词形、例句、排除原因见[替换词库说明](docs/INLINE-LEXICON.md)。词库搜索也支持白话表达。
 
-**Explore the glossary** 可以搜索完整词库。工具不会解释图片、PDF、浏览器内部页面、本地文件、iframe 或 shadow root 中的文字；跨多个 HTML 元素的短语可能无法识别。表单、编辑区、链接、按钮、代码、隐藏内容和明确标记为非英文的段落会跳过。大页面可能只标记一部分，界面会说明。
+**Explore the glossary** 可以搜索完整词库。工具不会解释图片、PDF、浏览器内部页面、本地文件、iframe 或 shadow root 中的文字；短语可跨支持的粗体、斜体等行内标签，复杂或交互元素会截断匹配。表单、编辑区、链接、按钮、代码、隐藏内容和明确标记为非英文的段落会跳过。大页面可能只标记一部分，界面会说明。
 
 ## 反馈、备份与恢复
 
@@ -41,6 +45,7 @@ OpenPlainEnglish 是一个开源的英文医疗阅读辅助工具。v0.3 加入*
 - **Export JSON**：把本地草稿导出为备份文件。
 - **Import JSON**：在 v0.2 及之后版本中恢复备份，兼容 v0.1 的导出格式。先查看数量、内容和可能超出容量的草稿，再点击 **Merge local drafts** 确认合并。取消不会修改草稿。
 - **Review & share on GitHub**：先核对将要分享的文字，再由你决定是否打开 GitHub 草稿；在 GitHub 提交后才成为公开 issue。
+- **Copy report／Download report**：查看同一份分享预览后，可复制或下载文字报告；不需要 GitHub 账号，也不会自动发送给任何人。
 - **Delete／Delete all**：确认后删除本地草稿，不会删除已导出的文件或公开的 GitHub issue。
 
 本地最多保留 100 条草稿。导入时，相同 ID 优先保留本地草稿，其余按创建时间保留最新 100 条；同一时间按 ID 确定顺序。界面会显示被跳过的重复项，以及因容量限制无法保留的项。导入接受不超过 1 MiB、最多 1,000 条的有效反馈 JSON 备份；不符合格式的文件会整体拒绝。完整步骤见[更新指南](docs/UPGRADING.md)。

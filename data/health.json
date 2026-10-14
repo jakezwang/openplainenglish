@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "CC0-1.0",
   "entries": [
     {
@@ -46,6 +46,32 @@
         {
           "label": "FDA: Understanding Postmarket Safety Surveillance",
           "url": "https://www.fda.gov/drugs/cder-conversations/understanding-cders-postmarket-safety-surveillance-programs-and-public-data",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "albumin",
+      "term": "albumin",
+      "aliases": [],
+      "domain": "health",
+      "short": "a protein made by the liver and found in blood",
+      "explanation": "Albumin is the main protein in blood. It helps keep fluid inside blood vessels and carries substances through the body.",
+      "context": "A blood albumin measurement differs from testing for albumin in urine. A result needs its test type and other health information.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Albumin Blood Test",
+          "url": "https://medlineplus.gov/lab-tests/albumin-blood-test/",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "MedlinePlus, National Library of Medicine: Comprehensive Metabolic Panel (CMP)",
+          "url": "https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/",
           "license": "Public-Domain-US"
         }
       ],
@@ -219,6 +245,27 @@
       }
     },
     {
+      "id": "atherosclerosis",
+      "term": "atherosclerosis",
+      "aliases": [],
+      "domain": "health",
+      "short": "buildup of fatty deposits called plaque inside artery walls",
+      "explanation": "Cholesterol and other substances can collect as plaque in the walls of arteries. This buildup can narrow or block blood flow.",
+      "context": "This is one kind of artery disease. Do not use the term as a synonym for every cause of narrowed or hardened arteries.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Cholesterol",
+          "url": "https://medlineplus.gov/cholesterol.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "bacteria",
       "term": "bacteria",
       "aliases": [
@@ -290,6 +337,27 @@
           "date": "2026-10-13",
           "method": "editorial source comparison; no independent clinical or user-comprehension review"
         }
+      }
+    },
+    {
+      "id": "bilirubin",
+      "term": "bilirubin",
+      "aliases": [],
+      "domain": "health",
+      "short": "a waste substance made when old red blood cells break down",
+      "explanation": "The body produces bilirubin as it breaks down old red blood cells. The liver processes it so it can leave the body.",
+      "context": "Bilirubin is a substance, not the name of a disease. A measurement alone does not identify why its level changed.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Comprehensive Metabolic Panel (CMP)",
+          "url": "https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
       }
     },
     {
@@ -455,29 +523,6 @@
       }
     },
     {
-      "id": "case-report",
-      "term": "case report",
-      "aliases": [
-        "case reports"
-      ],
-      "domain": "health",
-      "short": "a written description of one patient's medical case",
-      "explanation": "The report describes a person's illness, symptoms, tests, treatment, and follow-up.",
-      "context": "One person's experience cannot show how common a result is for everyone.",
-      "sources": [
-        {
-          "label": "CDC Everyday Words: Case report",
-          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Case%20report",
-          "license": "Public-Domain-US"
-        }
-      ],
-      "review": {
-        "status": "source-checked",
-        "date": "2026-10-13",
-        "method": "editorial source comparison; no independent clinical or user-comprehension review"
-      }
-    },
-    {
       "id": "case-control-study",
       "term": "case-control study",
       "aliases": [
@@ -501,6 +546,29 @@
       }
     },
     {
+      "id": "case-report",
+      "term": "case report",
+      "aliases": [
+        "case reports"
+      ],
+      "domain": "health",
+      "short": "a written description of one patient's medical case",
+      "explanation": "The report describes a person's illness, symptoms, tests, treatment, and follow-up.",
+      "context": "One person's experience cannot show how common a result is for everyone.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Case report",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Case%20report",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "chemotherapy",
       "term": "chemotherapy",
       "aliases": [
@@ -514,6 +582,27 @@
         {
           "label": "National Cancer Institute: chemotherapy",
           "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/chemotherapy",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "cholesterol",
+      "term": "cholesterol",
+      "aliases": [],
+      "domain": "health",
+      "short": "a waxy, fat-like substance found in cells and used to make hormones",
+      "explanation": "The body needs cholesterol and makes its own supply. Too much cholesterol in blood can contribute to deposits in artery walls.",
+      "context": "Cholesterol itself is not a disease. A cholesterol measurement and a diagnosis of high cholesterol are different things.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Cholesterol",
+          "url": "https://medlineplus.gov/cholesterol.html",
           "license": "Public-Domain-US"
         }
       ],
@@ -648,6 +737,29 @@
       }
     },
     {
+      "id": "comprehensive-metabolic-panel",
+      "term": "comprehensive metabolic panel",
+      "aliases": [
+        "comprehensive metabolic panels"
+      ],
+      "domain": "health",
+      "short": "a group of blood tests that measures 14 substances",
+      "explanation": "This group of tests gives information about how the body uses energy, its chemical balance, and liver and kidney health.",
+      "context": "A basic metabolic panel measures a smaller set of substances. A panel result alone does not establish a diagnosis.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Comprehensive Metabolic Panel (CMP)",
+          "url": "https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "computed-tomography",
       "term": "computed tomography",
       "aliases": [
@@ -705,6 +817,27 @@
         {
           "label": "CDC Everyday Words: Contagious",
           "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Contagious",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "creatinine",
+      "term": "creatinine",
+      "aliases": [],
+      "domain": "health",
+      "short": "a waste substance made as muscles are used and break down",
+      "explanation": "The kidneys normally filter creatinine out of the blood and remove it in urine. Its level can help assess kidney function.",
+      "context": "Muscle amount, food, activity, and other factors affect levels. One result cannot diagnose a specific kidney condition.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Creatinine Test",
+          "url": "https://medlineplus.gov/lab-tests/creatinine-test/",
           "license": "Public-Domain-US"
         }
       ],
@@ -961,6 +1094,29 @@
       }
     },
     {
+      "id": "electrolyte",
+      "term": "electrolyte",
+      "aliases": [
+        "electrolytes"
+      ],
+      "domain": "health",
+      "short": "a mineral with an electric charge in body fluids",
+      "explanation": "Electrolytes, including sodium and potassium, help control fluid levels and the balance of acids and bases in the body.",
+      "context": "In health writing, this means substances in body fluids. The word also has a broader chemistry meaning.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Comprehensive Metabolic Panel (CMP)",
+          "url": "https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "embolism",
       "term": "embolism",
       "aliases": [],
@@ -1070,6 +1226,56 @@
         {
           "label": "CDC Everyday Words: Evidence-based",
           "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Evidence-based",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "false-negative-result",
+      "term": "false negative result",
+      "aliases": [
+        "false negative results",
+        "false-negative result",
+        "false-negative results"
+      ],
+      "domain": "health",
+      "short": "a result that wrongly indicates the tested condition is absent",
+      "explanation": "In a medical test, a false negative result fails to detect a disease or condition that the person has.",
+      "context": "A negative result is not automatically false. This explains a type of test error, not whether any particular result is wrong.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: How to Understand Your Lab Results",
+          "url": "https://medlineplus.gov/lab-tests/how-to-understand-your-lab-results/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "false-positive-result",
+      "term": "false positive result",
+      "aliases": [
+        "false positive results",
+        "false-positive result",
+        "false-positive results"
+      ],
+      "domain": "health",
+      "short": "a result that wrongly indicates the tested condition is present",
+      "explanation": "In a medical test, a false positive result indicates a disease or condition even though the person does not have it.",
+      "context": "A positive result is not automatically false. This explains a type of test error, not whether any particular result is wrong.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: How to Understand Your Lab Results",
+          "url": "https://medlineplus.gov/lab-tests/how-to-understand-your-lab-results/",
           "license": "Public-Domain-US"
         }
       ],
@@ -1257,6 +1463,33 @@
         {
           "label": "National Cancer Institute: hemoglobin",
           "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hemoglobin",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hemoglobin-a1c-test",
+      "term": "hemoglobin A1C test",
+      "aliases": [
+        "hemoglobin A1C (HbA1C) test",
+        "A1C test",
+        "A1C tests",
+        "HbA1c test",
+        "HbA1c tests"
+      ],
+      "domain": "health",
+      "short": "a blood test that reflects average blood sugar over about 2 to 3 months",
+      "explanation": "This test measures glucose attached to hemoglobin, the oxygen-carrying protein in red blood cells. It reflects blood sugar over time.",
+      "context": "It differs from a blood sugar reading at one moment and from a test of the amount of hemoglobin. Bare A1C is not an alias here.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Hemoglobin A1C (HbA1c) Test",
+          "url": "https://medlineplus.gov/lab-tests/hemoglobin-a1c-hba1c-test/",
           "license": "Public-Domain-US"
         }
       ],
@@ -2380,6 +2613,29 @@
       }
     },
     {
+      "id": "reference-range",
+      "term": "reference range",
+      "aliases": [
+        "reference ranges"
+      ],
+      "domain": "health",
+      "short": "a range of lab results used as a comparison for a particular test",
+      "explanation": "A reference range is based on results from a group of healthy people. Different labs, tests, and groups may have different ranges.",
+      "context": "Being inside the range does not guarantee good health; being outside it does not by itself establish illness. Use the range for that test.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: How to Understand Your Lab Results",
+          "url": "https://medlineplus.gov/lab-tests/how-to-understand-your-lab-results/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "renal",
       "term": "renal",
       "aliases": [],
@@ -2561,6 +2817,34 @@
         {
           "label": "CDC Everyday Words: Exposure",
           "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Exposure",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "triglyceride",
+      "term": "triglyceride",
+      "aliases": [
+        "triglycerides"
+      ],
+      "domain": "health",
+      "short": "a type of fat that the body can store and use for energy",
+      "explanation": "Triglycerides come from food and from extra calories the body converts into fat. They are carried in blood and stored in fat cells.",
+      "context": "Triglycerides and cholesterol are different substances, although they may be measured in the same set of blood tests.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Triglycerides",
+          "url": "https://medlineplus.gov/triglycerides.html",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "MedlinePlus, National Library of Medicine: Cholesterol",
+          "url": "https://medlineplus.gov/cholesterol.html",
           "license": "Public-Domain-US"
         }
       ],

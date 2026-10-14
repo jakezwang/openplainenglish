@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { assertReadingMode, getInlinePresentation, INLINE_REVIEW_METHOD, normalizeInlineText } from '../src/core/inline.js';
+import { assertReadingMode, getInlinePresentation, INLINE_REVIEW_METHOD, DOMAIN_INLINE_REVIEW_METHOD, normalizeInlineText } from '../src/core/inline.js';
 
 const review = { status: 'source-checked', date: '2026-10-13', method: INLINE_REVIEW_METHOD };
 const entry = {
@@ -81,4 +81,30 @@ test('invalid modes fail before a presentation is returned', () => {
     assert.throws(() => assertReadingMode(mode), TypeError);
     assert.throws(() => getInlinePresentation(entry, entry.term, mode), TypeError);
   }
+});
+
+test('literal quotations, explicit names and possessives keep exact source wording', () => {
+  for (const context of [
+    { before: 'The manual defines “', after: '”.' },
+    { before: 'The title is “severe ', after: ' today”.' },
+    { before: 'It calls this "', after: '".' },
+    { before: "The phrase '", after: "'." },
+    { literal: true }, { after: '’s definition' }, { after: "'s history" },
+  ]) {
+    const result = getInlinePresentation(entry, entry.term, 'plain', context);
+    assert.equal(result.replaced, false);
+    assert.equal(result.displayText, entry.term);
+  }
+  for (const context of [
+    { before: "The patient's ", after: ' is recorded.' },
+    { before: 'The word “condition” precedes ', after: '.' },
+    { before: 'a ', after: ', followed by a checkup.' },
+    { before: 'The manual defines ', after: '.' },
+  ]) assert.equal(getInlinePresentation(entry, entry.term, 'plain', context).replaced, true);
+});
+
+test('the separately declared domain-expert review method is accepted without broadening review trust', () => {
+  const generic = { ...entry, inline: { ...entry.inline, review: { ...review, method: DOMAIN_INLINE_REVIEW_METHOD } } };
+  assert.equal(getInlinePresentation(generic, entry.term).displayText, 'heart attack');
+  assert.equal(getInlinePresentation({ ...generic, inline: { ...generic.inline, review: { ...review, method: 'editorial source comparison' } } }, entry.term).replaced, false);
 });

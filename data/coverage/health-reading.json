@@ -1,0 +1,2217 @@
+{
+  "schemaVersion": 1,
+  "id": "health-reading-v1",
+  "selectionDate": "2026-10-13",
+  "kind": "public-reading-excerpts",
+  "scope": "Four deliberately selected MedlinePlus patient-reading pages: metabolic panel, understanding lab reports, A1C, cholesterol. No traffic rank or representative frequency claim. Labels are selected technical concepts, not every difficult word.",
+  "normalization": "HTML text only; collapse internal whitespace; paragraphs separated by two newlines; headings omitted. Named complete sections only. No references, outside content, images, or clinical instructions selected.",
+  "baseline": {
+    "version": "0.3.0",
+    "entries": [
+      {
+        "id": "acute-illness",
+        "term": "acute illness",
+        "aliases": [
+          "acute disease",
+          "acute condition"
+        ]
+      },
+      {
+        "id": "adverse-event",
+        "term": "adverse event",
+        "aliases": [
+          "adverse events"
+        ]
+      },
+      {
+        "id": "anemia",
+        "term": "anemia",
+        "aliases": [
+          "anaemia"
+        ]
+      },
+      {
+        "id": "angina",
+        "term": "angina",
+        "aliases": [
+          "angina pectoris"
+        ]
+      },
+      {
+        "id": "antibody",
+        "term": "antibody",
+        "aliases": [
+          "antibodies"
+        ]
+      },
+      {
+        "id": "antigen",
+        "term": "antigen",
+        "aliases": [
+          "antigens"
+        ]
+      },
+      {
+        "id": "arrhythmia",
+        "term": "arrhythmia",
+        "aliases": [
+          "arrhythmias",
+          "cardiac arrhythmia"
+        ]
+      },
+      {
+        "id": "arthritis",
+        "term": "arthritis",
+        "aliases": []
+      },
+      {
+        "id": "asthma",
+        "term": "asthma",
+        "aliases": []
+      },
+      {
+        "id": "bacteria",
+        "term": "bacteria",
+        "aliases": [
+          "bacterium"
+        ]
+      },
+      {
+        "id": "benign-tumor",
+        "term": "benign tumor",
+        "aliases": [
+          "benign tumour",
+          "benign tumors",
+          "benign tumours"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "benign tumor",
+              "to": "noncancerous growth"
+            },
+            {
+              "from": "benign tumour",
+              "to": "noncancerous growth"
+            },
+            {
+              "from": "benign tumors",
+              "to": "noncancerous growths"
+            },
+            {
+              "from": "benign tumours",
+              "to": "noncancerous growths"
+            }
+          ],
+          "note": "Keep singular and plural growths distinct. Noncancerous does not mean harmless or that treatment is unnecessary.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "biopsy",
+        "term": "biopsy",
+        "aliases": [
+          "biopsies"
+        ]
+      },
+      {
+        "id": "blood-glucose",
+        "term": "blood glucose",
+        "aliases": [
+          "blood sugar"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "blood glucose",
+              "to": "blood sugar"
+            }
+          ],
+          "note": "Only the full blood-glucose phrase is replaced. The already plain alias blood sugar stays unchanged; no test result is interpreted.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "bradycardia",
+        "term": "bradycardia",
+        "aliases": [],
+        "inline": {
+          "replacements": [
+            {
+              "from": "bradycardia",
+              "to": "slow heart rate"
+            }
+          ],
+          "note": "This names the slow-rate finding without specifying a threshold, cause, severity, or treatment.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "bronchitis",
+        "term": "bronchitis",
+        "aliases": []
+      },
+      {
+        "id": "carcinogen",
+        "term": "carcinogen",
+        "aliases": [
+          "carcinogens"
+        ]
+      },
+      {
+        "id": "carcinoma",
+        "term": "carcinoma",
+        "aliases": [
+          "carcinomas"
+        ]
+      },
+      {
+        "id": "case-report",
+        "term": "case report",
+        "aliases": [
+          "case reports"
+        ]
+      },
+      {
+        "id": "case-control-study",
+        "term": "case-control study",
+        "aliases": [
+          "case-control studies"
+        ]
+      },
+      {
+        "id": "chemotherapy",
+        "term": "chemotherapy",
+        "aliases": [
+          "chemo"
+        ]
+      },
+      {
+        "id": "chronic-disease",
+        "term": "chronic disease",
+        "aliases": [
+          "chronic illness",
+          "chronic condition",
+          "chronic diseases",
+          "chronic conditions"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "chronic disease",
+              "to": "long-term disease"
+            },
+            {
+              "from": "chronic illness",
+              "to": "long-term illness"
+            },
+            {
+              "from": "chronic condition",
+              "to": "long-term condition"
+            },
+            {
+              "from": "chronic diseases",
+              "to": "long-term diseases"
+            },
+            {
+              "from": "chronic conditions",
+              "to": "long-term conditions"
+            }
+          ],
+          "note": "Each complete phrase keeps its noun and number. Long-term describes duration, not severity, permanence, or hopelessness; standalone chronic is excluded.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "chronic-obstructive-pulmonary-disease",
+        "term": "chronic obstructive pulmonary disease",
+        "aliases": [
+          "COPD"
+        ]
+      },
+      {
+        "id": "cirrhosis",
+        "term": "cirrhosis",
+        "aliases": []
+      },
+      {
+        "id": "complete-blood-count",
+        "term": "complete blood count",
+        "aliases": [
+          "full blood count",
+          "CBC"
+        ]
+      },
+      {
+        "id": "computed-tomography",
+        "term": "computed tomography",
+        "aliases": [
+          "computed tomography scan",
+          "CT scan",
+          "CAT scan"
+        ]
+      },
+      {
+        "id": "constipation",
+        "term": "constipation",
+        "aliases": []
+      },
+      {
+        "id": "contagious",
+        "term": "contagious",
+        "aliases": []
+      },
+      {
+        "id": "dehydration",
+        "term": "dehydration",
+        "aliases": []
+      },
+      {
+        "id": "diabetes-mellitus",
+        "term": "diabetes mellitus",
+        "aliases": [
+          "diabetes"
+        ]
+      },
+      {
+        "id": "dialysis",
+        "term": "dialysis",
+        "aliases": []
+      },
+      {
+        "id": "diarrhea",
+        "term": "diarrhea",
+        "aliases": [
+          "diarrhoea"
+        ]
+      },
+      {
+        "id": "dysphagia",
+        "term": "dysphagia",
+        "aliases": [],
+        "inline": {
+          "replacements": [
+            {
+              "from": "dysphagia",
+              "to": "swallowing difficulty"
+            }
+          ],
+          "note": "Keep the symptom as a noun phrase. It does not identify a cause or imply pain when swallowing.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "dyspnea",
+        "term": "dyspnea",
+        "aliases": [
+          "dyspnoea",
+          "shortness of breath"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "dyspnea",
+              "to": "shortness of breath"
+            },
+            {
+              "from": "dyspnoea",
+              "to": "shortness of breath"
+            }
+          ],
+          "note": "Use the established symptom phrase for either spelling. The already plain alias stays unchanged; this does not identify a cause.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "echocardiogram",
+        "term": "echocardiogram",
+        "aliases": [
+          "echocardiograms"
+        ]
+      },
+      {
+        "id": "edema",
+        "term": "edema",
+        "aliases": [
+          "oedema"
+        ]
+      },
+      {
+        "id": "electrocardiogram",
+        "term": "electrocardiogram",
+        "aliases": [
+          "electrocardiograms",
+          "ECG",
+          "EKG"
+        ]
+      },
+      {
+        "id": "embolism",
+        "term": "embolism",
+        "aliases": []
+      },
+      {
+        "id": "end-stage-renal-disease",
+        "term": "end-stage renal disease",
+        "aliases": [
+          "end stage renal disease",
+          "end-stage kidney disease",
+          "ESRD"
+        ]
+      },
+      {
+        "id": "epidemiology",
+        "term": "epidemiology",
+        "aliases": []
+      },
+      {
+        "id": "esophagus",
+        "term": "esophagus",
+        "aliases": [
+          "oesophagus"
+        ]
+      },
+      {
+        "id": "evidence-based-care",
+        "term": "evidence-based care",
+        "aliases": [
+          "evidence-based practice",
+          "evidence-based treatment"
+        ]
+      },
+      {
+        "id": "gastritis",
+        "term": "gastritis",
+        "aliases": []
+      },
+      {
+        "id": "gastroesophageal-reflux-disease",
+        "term": "gastroesophageal reflux disease",
+        "aliases": [
+          "gastro-oesophageal reflux disease",
+          "GERD"
+        ]
+      },
+      {
+        "id": "health-care-provider",
+        "term": "health care provider",
+        "aliases": [
+          "healthcare provider",
+          "health care providers",
+          "healthcare providers"
+        ]
+      },
+      {
+        "id": "health-disparities",
+        "term": "health disparities",
+        "aliases": [
+          "health disparity"
+        ]
+      },
+      {
+        "id": "health-screening",
+        "term": "health screening",
+        "aliases": [
+          "screening test",
+          "screening tests",
+          "cancer screening"
+        ]
+      },
+      {
+        "id": "hematocrit",
+        "term": "hematocrit",
+        "aliases": [
+          "haematocrit"
+        ]
+      },
+      {
+        "id": "hematuria",
+        "term": "hematuria",
+        "aliases": [
+          "haematuria"
+        ]
+      },
+      {
+        "id": "hemoglobin",
+        "term": "hemoglobin",
+        "aliases": [
+          "haemoglobin"
+        ]
+      },
+      {
+        "id": "hepatitis",
+        "term": "hepatitis",
+        "aliases": []
+      },
+      {
+        "id": "hyperglycemia",
+        "term": "hyperglycemia",
+        "aliases": [
+          "hyperglycaemia"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "hyperglycemia",
+              "to": "high blood sugar"
+            },
+            {
+              "from": "hyperglycaemia",
+              "to": "high blood sugar"
+            }
+          ],
+          "note": "Both spellings keep the direction high. No numeric cutoff, cause, diabetes diagnosis, or treatment is added.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "hypertension",
+        "term": "hypertension",
+        "aliases": [
+          "high blood pressure"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "hypertension",
+              "to": "high blood pressure"
+            }
+          ],
+          "note": "Use the established plain term only for hypertension. The already plain alias stays unchanged; this does not diagnose a reader from one measurement.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "hypoglycemia",
+        "term": "hypoglycemia",
+        "aliases": [
+          "hypoglycaemia"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "hypoglycemia",
+              "to": "low blood sugar"
+            },
+            {
+              "from": "hypoglycaemia",
+              "to": "low blood sugar"
+            }
+          ],
+          "note": "Both spellings keep the direction low. No numeric cutoff, cause, or treatment is added.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "hypotension",
+        "term": "hypotension",
+        "aliases": [
+          "low blood pressure"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "hypotension",
+              "to": "low blood pressure"
+            }
+          ],
+          "note": "Use the established plain term only for hypotension. The already plain alias stays unchanged; cause and significance still need context.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "hypoxemia",
+        "term": "hypoxemia",
+        "aliases": [
+          "hypoxaemia"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "hypoxemia",
+              "to": "low blood oxygen"
+            },
+            {
+              "from": "hypoxaemia",
+              "to": "low blood oxygen"
+            }
+          ],
+          "note": "Keep blood explicit for both spellings. This must not be substituted for low oxygen in body tissue or interpreted as a measurement.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "hypoxia",
+        "term": "hypoxia",
+        "aliases": [],
+        "inline": {
+          "replacements": [
+            {
+              "from": "hypoxia",
+              "to": "low tissue oxygen"
+            }
+          ],
+          "note": "Keep tissue explicit, distinct from blood oxygen. This names reduced oxygen supply without identifying a cause or severity.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "immune-system",
+        "term": "immune system",
+        "aliases": []
+      },
+      {
+        "id": "immunization",
+        "term": "immunization",
+        "aliases": [
+          "immunisation"
+        ]
+      },
+      {
+        "id": "immunosuppression",
+        "term": "immunosuppression",
+        "aliases": []
+      },
+      {
+        "id": "immunotherapy",
+        "term": "immunotherapy",
+        "aliases": []
+      },
+      {
+        "id": "incidence-rate",
+        "term": "incidence rate",
+        "aliases": []
+      },
+      {
+        "id": "incubation-period",
+        "term": "incubation period",
+        "aliases": []
+      },
+      {
+        "id": "infection",
+        "term": "infection",
+        "aliases": [
+          "infections"
+        ]
+      },
+      {
+        "id": "infection-transmission",
+        "term": "infection transmission",
+        "aliases": [
+          "disease transmission"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "infection transmission",
+              "to": "infection spread"
+            },
+            {
+              "from": "disease transmission",
+              "to": "disease spread"
+            }
+          ],
+          "note": "Only these complete infection-related phrases are replaced. Standalone transmission is excluded; the route and timing of spread are not inferred.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "infectious-disease",
+        "term": "infectious disease",
+        "aliases": [
+          "infectious diseases"
+        ]
+      },
+      {
+        "id": "inflammation",
+        "term": "inflammation",
+        "aliases": []
+      },
+      {
+        "id": "insulin",
+        "term": "insulin",
+        "aliases": []
+      },
+      {
+        "id": "ischemic-heart-disease",
+        "term": "ischemic heart disease",
+        "aliases": [
+          "ischaemic heart disease",
+          "coronary artery disease"
+        ]
+      },
+      {
+        "id": "jaundice",
+        "term": "jaundice",
+        "aliases": []
+      },
+      {
+        "id": "magnetic-resonance-imaging",
+        "term": "magnetic resonance imaging",
+        "aliases": [
+          "MRI",
+          "MRI scan"
+        ]
+      },
+      {
+        "id": "malignant-tumor",
+        "term": "malignant tumor",
+        "aliases": [
+          "malignant tumour",
+          "malignant tumors",
+          "malignant tumours"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "malignant tumor",
+              "to": "cancerous growth"
+            },
+            {
+              "from": "malignant tumour",
+              "to": "cancerous growth"
+            },
+            {
+              "from": "malignant tumors",
+              "to": "cancerous growths"
+            },
+            {
+              "from": "malignant tumours",
+              "to": "cancerous growths"
+            }
+          ],
+          "note": "Keep singular and plural growths distinct. This names cancerous behavior without declaring that spread has already occurred or supplying a stage.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "metastasis",
+        "term": "metastasis",
+        "aliases": [
+          "metastases"
+        ]
+      },
+      {
+        "id": "morbidity",
+        "term": "morbidity",
+        "aliases": []
+      },
+      {
+        "id": "mortality-rate",
+        "term": "mortality rate",
+        "aliases": [
+          "death rate"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "mortality rate",
+              "to": "death rate"
+            }
+          ],
+          "note": "Keep rate, rather than reducing it to a death count. The population and time period still come from the source text; death rate stays unchanged.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "myocardial-infarction",
+        "term": "myocardial infarction",
+        "aliases": [
+          "heart attack",
+          "myocardial infarctions",
+          "heart attacks"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "myocardial infarction",
+              "to": "heart attack"
+            },
+            {
+              "from": "myocardial infarctions",
+              "to": "heart attacks"
+            }
+          ],
+          "note": "Use the established singular and plural names. Already plain heart attack aliases stay unchanged; no statement about a reader having an emergency is inferred.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "nausea",
+        "term": "nausea",
+        "aliases": []
+      },
+      {
+        "id": "osteoporosis",
+        "term": "osteoporosis",
+        "aliases": []
+      },
+      {
+        "id": "peripheral-neuropathy",
+        "term": "peripheral neuropathy",
+        "aliases": []
+      },
+      {
+        "id": "platelet",
+        "term": "platelet",
+        "aliases": [
+          "platelets",
+          "thrombocyte",
+          "thrombocytes"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "thrombocyte",
+              "to": "platelet"
+            },
+            {
+              "from": "thrombocytes",
+              "to": "platelets"
+            }
+          ],
+          "note": "Only the technical synonyms are replaced, with number preserved. Platelet and platelets stay unchanged, especially in phrases such as low platelets.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "pneumonia",
+        "term": "pneumonia",
+        "aliases": []
+      },
+      {
+        "id": "prevalence",
+        "term": "prevalence",
+        "aliases": []
+      },
+      {
+        "id": "prognosis",
+        "term": "prognosis",
+        "aliases": [
+          "prognoses"
+        ]
+      },
+      {
+        "id": "proteinuria",
+        "term": "proteinuria",
+        "aliases": []
+      },
+      {
+        "id": "public-health",
+        "term": "public health",
+        "aliases": []
+      },
+      {
+        "id": "pulse-oximetry",
+        "term": "pulse oximetry",
+        "aliases": []
+      },
+      {
+        "id": "radiation-therapy",
+        "term": "radiation therapy",
+        "aliases": [
+          "radiotherapy"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "radiation therapy",
+              "to": "radiation treatment"
+            },
+            {
+              "from": "radiotherapy",
+              "to": "radiation treatment"
+            }
+          ],
+          "note": "Keep radiation as the treatment type. This does not change the treatment into a particular medicine, dose, route, or schedule.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "red-blood-cell",
+        "term": "red blood cell",
+        "aliases": [
+          "red blood cells",
+          "erythrocyte",
+          "erythrocytes"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "erythrocytes",
+              "to": "red blood cells"
+            }
+          ],
+          "note": "Only the plural technical synonym is eligible. Singular erythrocyte stays annotation-only because replacing it after an would require an article change.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "renal",
+        "term": "renal",
+        "aliases": []
+      },
+      {
+        "id": "respiratory",
+        "term": "respiratory",
+        "aliases": []
+      },
+      {
+        "id": "risk-factor",
+        "term": "risk factor",
+        "aliases": [
+          "risk factors"
+        ]
+      },
+      {
+        "id": "sleep-apnea",
+        "term": "sleep apnea",
+        "aliases": [
+          "sleep apnoea"
+        ]
+      },
+      {
+        "id": "spirometry",
+        "term": "spirometry",
+        "aliases": []
+      },
+      {
+        "id": "tachycardia",
+        "term": "tachycardia",
+        "aliases": [],
+        "inline": {
+          "replacements": [
+            {
+              "from": "tachycardia",
+              "to": "fast heart rate"
+            }
+          ],
+          "note": "This names the fast-rate finding without specifying a threshold, cause, severity, or treatment.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      },
+      {
+        "id": "thrombosis",
+        "term": "thrombosis",
+        "aliases": []
+      },
+      {
+        "id": "toxic-exposure",
+        "term": "toxic exposure",
+        "aliases": []
+      },
+      {
+        "id": "ultrasound",
+        "term": "ultrasound",
+        "aliases": [
+          "ultrasonography"
+        ]
+      },
+      {
+        "id": "urinary-tract-infection",
+        "term": "urinary tract infection",
+        "aliases": [
+          "urinary tract infections",
+          "UTI"
+        ]
+      },
+      {
+        "id": "vaccine",
+        "term": "vaccine",
+        "aliases": [
+          "vaccines"
+        ]
+      },
+      {
+        "id": "virus",
+        "term": "virus",
+        "aliases": [
+          "viruses"
+        ]
+      },
+      {
+        "id": "white-blood-cell",
+        "term": "white blood cell",
+        "aliases": [
+          "white blood cells",
+          "leukocyte",
+          "leukocytes"
+        ],
+        "inline": {
+          "replacements": [
+            {
+              "from": "leukocyte",
+              "to": "white blood cell"
+            },
+            {
+              "from": "leukocytes",
+              "to": "white blood cells"
+            }
+          ],
+          "note": "Only the technical synonyms are replaced, with number preserved. Already plain white blood cell phrases stay unchanged; a cell count is not interpreted.",
+          "review": {
+            "status": "source-checked",
+            "date": "2026-10-13",
+            "method": "editorial source comparison; no independent clinical or user-comprehension review"
+          }
+        }
+      }
+    ]
+  },
+  "goldSelection": [
+    {
+      "id": "albumin",
+      "term": "albumin",
+      "aliases": []
+    },
+    {
+      "id": "atherosclerosis",
+      "term": "atherosclerosis",
+      "aliases": []
+    },
+    {
+      "id": "bilirubin",
+      "term": "bilirubin",
+      "aliases": []
+    },
+    {
+      "id": "blood-glucose",
+      "term": "blood glucose",
+      "aliases": [
+        "blood sugar"
+      ]
+    },
+    {
+      "id": "cholesterol",
+      "term": "cholesterol",
+      "aliases": []
+    },
+    {
+      "id": "comprehensive-metabolic-panel",
+      "term": "comprehensive metabolic panel",
+      "aliases": [
+        "comprehensive metabolic panels"
+      ]
+    },
+    {
+      "id": "creatinine",
+      "term": "creatinine",
+      "aliases": []
+    },
+    {
+      "id": "diabetes-mellitus",
+      "term": "diabetes mellitus",
+      "aliases": [
+        "diabetes"
+      ]
+    },
+    {
+      "id": "electrolyte",
+      "term": "electrolyte",
+      "aliases": [
+        "electrolytes"
+      ]
+    },
+    {
+      "id": "false-negative-result",
+      "term": "false negative result",
+      "aliases": [
+        "false negative results",
+        "false-negative result",
+        "false-negative results"
+      ]
+    },
+    {
+      "id": "false-positive-result",
+      "term": "false positive result",
+      "aliases": [
+        "false positive results",
+        "false-positive result",
+        "false-positive results"
+      ]
+    },
+    {
+      "id": "hemoglobin",
+      "term": "hemoglobin",
+      "aliases": [
+        "haemoglobin"
+      ]
+    },
+    {
+      "id": "hemoglobin-a1c-test",
+      "term": "hemoglobin A1C test",
+      "aliases": [
+        "hemoglobin A1C (HbA1C) test",
+        "A1C test",
+        "A1C tests",
+        "HbA1c test",
+        "HbA1c tests"
+      ]
+    },
+    {
+      "id": "insulin",
+      "term": "insulin",
+      "aliases": []
+    },
+    {
+      "id": "ischemic-heart-disease",
+      "term": "ischemic heart disease",
+      "aliases": [
+        "ischaemic heart disease",
+        "coronary artery disease"
+      ]
+    },
+    {
+      "id": "red-blood-cell",
+      "term": "red blood cell",
+      "aliases": [
+        "red blood cells",
+        "erythrocyte",
+        "erythrocytes"
+      ]
+    },
+    {
+      "id": "reference-range",
+      "term": "reference range",
+      "aliases": [
+        "reference ranges"
+      ]
+    },
+    {
+      "id": "triglyceride",
+      "term": "triglyceride",
+      "aliases": [
+        "triglycerides"
+      ]
+    },
+    {
+      "id": "metabolism",
+      "term": "metabolism",
+      "aliases": []
+    },
+    {
+      "id": "calcium",
+      "term": "calcium",
+      "aliases": []
+    },
+    {
+      "id": "sodium",
+      "term": "sodium",
+      "aliases": []
+    },
+    {
+      "id": "potassium",
+      "term": "potassium",
+      "aliases": []
+    },
+    {
+      "id": "bicarbonate",
+      "term": "bicarbonate",
+      "aliases": []
+    },
+    {
+      "id": "chloride",
+      "term": "chloride",
+      "aliases": []
+    },
+    {
+      "id": "total-protein",
+      "term": "total protein",
+      "aliases": []
+    },
+    {
+      "id": "globulin",
+      "term": "globulins",
+      "aliases": []
+    },
+    {
+      "id": "enzyme",
+      "term": "enzymes",
+      "aliases": []
+    },
+    {
+      "id": "blood-urea-nitrogen",
+      "term": "blood urea nitrogen",
+      "aliases": []
+    },
+    {
+      "id": "low-density-lipoprotein",
+      "term": "low-density lipoprotein",
+      "aliases": [
+        "LDL"
+      ]
+    },
+    {
+      "id": "high-density-lipoprotein",
+      "term": "high-density lipoprotein",
+      "aliases": [
+        "HDL"
+      ]
+    },
+    {
+      "id": "very-low-density-lipoprotein",
+      "term": "very low-density lipoprotein",
+      "aliases": [
+        "VLDL"
+      ]
+    },
+    {
+      "id": "lipoprotein",
+      "term": "lipoproteins",
+      "aliases": []
+    },
+    {
+      "id": "prediabetes",
+      "term": "prediabetes",
+      "aliases": []
+    },
+    {
+      "id": "hormone",
+      "term": "hormone",
+      "aliases": [
+        "hormones"
+      ]
+    },
+    {
+      "id": "plaque",
+      "term": "plaque",
+      "aliases": []
+    }
+  ],
+  "documents": [
+    {
+      "id": "cmp",
+      "title": "Comprehensive Metabolic Panel (CMP)",
+      "url": "https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/",
+      "sections": [
+        "What is a comprehensive metabolic panel (CMP)?"
+      ],
+      "text": "A comprehensive metabolic panel (CMP) is a routine blood test that measures 14 different substances in a sample of your blood. It provides important information about your metabolism (how your body uses food and energy) and the balance of certain chemicals in your body.\n\nA CMP includes tests that measure your blood levels of:\n\nGlucose, also called \"blood sugar.\" Glucose is your body's main source of energy. Calcium. This is one of the most important minerals in your body. Most of it is stored in your bones and teeth. Having the right amount of calcium in your blood is necessary for your nerves, muscles, and heart to work properly. Sodium, potassium, bicarbonate, and chloride. These are electrolytes, electrically charged minerals that help control the amount of fluid in your body. They also help control the balance of acids and bases (pH balance) in your body. Albumin. This is the main protein in your blood. It's made in your liver. Total protein. This is the total amount of protein in your blood. It includes albumin and globulins, which are mainly made in your liver. ALP (alkaline phosphatase), ALT (alanine transaminase), and AST (aspartate aminotransferase). These are types of enzymes that are mainly made in your liver. Enzymes are proteins that speed up certain chemical reactions in your body. Bilirubin. This is a waste product your body makes when it breaks down old red blood cells. Your liver removes most of the bilirubin from your body. BUN (blood urea nitrogen) and creatinine. These are waste products that your kidneys filter out of your blood and remove from your body through urine (pee).\n\nOther names: chem 14, chemistry panel, chemistry screen, metabolic panel",
+      "gold": [
+        {
+          "start": 2,
+          "end": 31,
+          "text": "comprehensive metabolic panel",
+          "entryId": "comprehensive-metabolic-panel"
+        },
+        {
+          "start": 172,
+          "end": 182,
+          "text": "metabolism",
+          "entryId": "metabolism"
+        },
+        {
+          "start": 351,
+          "end": 362,
+          "text": "blood sugar",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 411,
+          "end": 418,
+          "text": "Calcium",
+          "entryId": "calcium"
+        },
+        {
+          "start": 550,
+          "end": 557,
+          "text": "calcium",
+          "entryId": "calcium"
+        },
+        {
+          "start": 639,
+          "end": 645,
+          "text": "Sodium",
+          "entryId": "sodium"
+        },
+        {
+          "start": 647,
+          "end": 656,
+          "text": "potassium",
+          "entryId": "potassium"
+        },
+        {
+          "start": 658,
+          "end": 669,
+          "text": "bicarbonate",
+          "entryId": "bicarbonate"
+        },
+        {
+          "start": 675,
+          "end": 683,
+          "text": "chloride",
+          "entryId": "chloride"
+        },
+        {
+          "start": 695,
+          "end": 707,
+          "text": "electrolytes",
+          "entryId": "electrolyte"
+        },
+        {
+          "start": 872,
+          "end": 879,
+          "text": "Albumin",
+          "entryId": "albumin"
+        },
+        {
+          "start": 946,
+          "end": 959,
+          "text": "Total protein",
+          "entryId": "total-protein"
+        },
+        {
+          "start": 1024,
+          "end": 1031,
+          "text": "albumin",
+          "entryId": "albumin"
+        },
+        {
+          "start": 1036,
+          "end": 1045,
+          "text": "globulins",
+          "entryId": "globulin"
+        },
+        {
+          "start": 1197,
+          "end": 1204,
+          "text": "enzymes",
+          "entryId": "enzyme"
+        },
+        {
+          "start": 1241,
+          "end": 1248,
+          "text": "Enzymes",
+          "entryId": "enzyme"
+        },
+        {
+          "start": 1317,
+          "end": 1326,
+          "text": "Bilirubin",
+          "entryId": "bilirubin"
+        },
+        {
+          "start": 1392,
+          "end": 1407,
+          "text": "red blood cells",
+          "entryId": "red-blood-cell"
+        },
+        {
+          "start": 1440,
+          "end": 1449,
+          "text": "bilirubin",
+          "entryId": "bilirubin"
+        },
+        {
+          "start": 1471,
+          "end": 1490,
+          "text": "blood urea nitrogen",
+          "entryId": "blood-urea-nitrogen"
+        },
+        {
+          "start": 1496,
+          "end": 1506,
+          "text": "creatinine",
+          "entryId": "creatinine"
+        }
+      ],
+      "sha256": "2811644bb6ceafacd05ad405de16528a759e3c1dcffc74d84b5dcff8ca704498",
+      "capturedOn": "2026-10-13",
+      "license": "Public-Domain-US",
+      "attribution": "Source: MedlinePlus, National Library of Medicine.",
+      "reusePolicy": "https://medlineplus.gov/about/using/usingcontent/"
+    },
+    {
+      "id": "labs",
+      "title": "How to Understand Your Lab Results",
+      "url": "https://medlineplus.gov/lab-tests/how-to-understand-your-lab-results/",
+      "sections": [
+        "What is a reference range?",
+        "What are false positive and false negative results?"
+      ],
+      "text": "Lab test results are reported in different ways. Some results are a number. For example, your low-density lipoprotein (LDL) result for a cholesterol test may be 125 or 80. But how do you know what that number means?\n\nTo answer that question, your lab report tells you whether your test result is in a normal range called a reference range or \"normal values.\" A reference range is a set of numbers that form the high and low ends of the range of results that's considered to be normal. The ranges are based on the test results from large groups of healthy people. A test may have different reference ranges for different groups. For example, there may be separate ranges for children and adults.\n\nBecause these ranges can vary, the term \"normal\" can be misleading. Reference ranges show the average results in a healthy test group. So:\n\nA test result that is higher or lower than the range that applies to you may or may not be a sign of a health problem. It's common for healthy people to sometimes have results outside the reference range. If your results are outside of the range, your provider will look at other information about your health to understand what may have affected your results. A test result that is within a reference range isn't always a guarantee of good health. Some people with health problems can have results that are considered \"normal.\" Therefore, even if you have a test result within the normal range, you may need additional testing, especially if you have symptoms of a health condition.\n\nWhen looking at your lab test results, it's helpful to consider two important facts. First, because labs often use different testing methods, they often use different reference ranges to describe normal results. This means that:\n\nTo find out how your test results compare with the normal range, you need to check the reference range listed on your lab report. You can't compare your results to reference ranges that you might find elsewhere. This is why our Medical Test information cannot provide normal reference ranges for most tests. You can't compare test results from different labs. If you're looking for trends in your test results over time, it's important to try to use the same lab for testing.\n\nSecond, test results are measured with different units of measurement. Just as you might measure ingredients for a recipe in teaspoons, cups, or ounces, different tests use different units of measurement. Examples of measurement you may see include:\n\nMcg/dL = micrograms per deciliter Micromole/L = micromoles per liter Pg/mL = picograms per milliliter\n\nTests results are usually accurate, but no test is perfect.\n\nA false positive result means your test shows you have a disease or condition, but you don't really have it. A false negative result means your test shows you don't have a disease or condition, but you really do.\n\nThese incorrect results don't happen often, but they are more likely with certain types of tests, or if testing wasn't done right. If your provider thinks your test result may be inaccurate, you may need to have another test.",
+      "gold": [
+        {
+          "start": 94,
+          "end": 117,
+          "text": "low-density lipoprotein",
+          "entryId": "low-density-lipoprotein"
+        },
+        {
+          "start": 119,
+          "end": 122,
+          "text": "LDL",
+          "entryId": "low-density-lipoprotein"
+        },
+        {
+          "start": 137,
+          "end": 148,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 323,
+          "end": 338,
+          "text": "reference range",
+          "entryId": "reference-range"
+        },
+        {
+          "start": 361,
+          "end": 376,
+          "text": "reference range",
+          "entryId": "reference-range"
+        },
+        {
+          "start": 589,
+          "end": 605,
+          "text": "reference ranges",
+          "entryId": "reference-range"
+        },
+        {
+          "start": 764,
+          "end": 780,
+          "text": "Reference ranges",
+          "entryId": "reference-range"
+        },
+        {
+          "start": 1024,
+          "end": 1039,
+          "text": "reference range",
+          "entryId": "reference-range"
+        },
+        {
+          "start": 1228,
+          "end": 1243,
+          "text": "reference range",
+          "entryId": "reference-range"
+        },
+        {
+          "start": 1688,
+          "end": 1704,
+          "text": "reference ranges",
+          "entryId": "reference-range"
+        },
+        {
+          "start": 1838,
+          "end": 1853,
+          "text": "reference range",
+          "entryId": "reference-range"
+        },
+        {
+          "start": 1915,
+          "end": 1931,
+          "text": "reference ranges",
+          "entryId": "reference-range"
+        },
+        {
+          "start": 2026,
+          "end": 2042,
+          "text": "reference ranges",
+          "entryId": "reference-range"
+        },
+        {
+          "start": 2645,
+          "end": 2666,
+          "text": "false positive result",
+          "entryId": "false-positive-result"
+        },
+        {
+          "start": 2754,
+          "end": 2775,
+          "text": "false negative result",
+          "entryId": "false-negative-result"
+        }
+      ],
+      "sha256": "f08c07f8b68cf1f6b890043592312e3eb234ca92f98523e6a756dc413356652f",
+      "capturedOn": "2026-10-13",
+      "license": "Public-Domain-US",
+      "attribution": "Source: MedlinePlus, National Library of Medicine.",
+      "reusePolicy": "https://medlineplus.gov/about/using/usingcontent/"
+    },
+    {
+      "id": "a1c",
+      "title": "Hemoglobin A1C (HbA1c) Test",
+      "url": "https://medlineplus.gov/lab-tests/hemoglobin-a1c-hba1c-test/",
+      "sections": [
+        "What is a hemoglobin A1C (HbA1C) test?",
+        "What is it used for?"
+      ],
+      "text": "A hemoglobin A1C (HbA1C) test is a blood test that shows your average level of blood glucose, also called blood sugar, over the past two to three months.\n\nGlucose is a type of sugar in your blood that comes from the foods you eat. Your cells use glucose for energy. A hormone called insulin helps glucose get into your cells. If you have diabetes your body doesn't make enough insulin, or your cells don't use it well. As a result, glucose can't get into your cells, so your blood glucose levels increase.\n\nGlucose in your blood sticks to hemoglobin, a protein in your red blood cells. As your blood glucose levels increase, more of your hemoglobin will be coated with glucose. An A1C test measures the percentage of your red blood cells that have glucose-coated hemoglobin.\n\nAn A1C test can show your average glucose level for the past three months because:\n\nGlucose sticks to hemoglobin for as long as the red blood cells are alive. Red blood cells live about three months.\n\nHigh A1C levels are a sign of high blood glucose from diabetes. Diabetes can cause serious health problems, including heart disease, kidney disease, and nerve damage. But with treatment and lifestyle changes, you can control your blood glucose levels.\n\nOther names: HbA1C, A1C, glycohemoglobin, glycated hemoglobin, glycosylated hemoglobin\n\nYour blood glucose level changes all the time. If you're checking it at home, you are measuring what your blood glucose level is at that time. An A1C test gives you an average level of your blood glucose level over the past two to three months.\n\nAn A1C test may be used to screen for or diagnose:\n\nType 2 diabetes. With type 2 diabetes your blood glucose gets too high because your body doesn't make enough insulin or doesn't use insulin well. The glucose then stays in your blood and not enough goes into your cells. Prediabetes. Prediabetes means that your blood glucose levels are higher than normal, but not high enough to be diagnosed as diabetes. Lifestyle changes, such as healthy eating and exercise, may help delay or prevent prediabetes from becoming type 2 diabetes.\n\nIf you have diabetes or prediabetes, an A1C test can help monitor your condition and check how well you've been able to control your blood glucose levels.\n\nThe A1C test isn't used to diagnose type 1 diabetes but may be used for monitoring your blood glucose levels.",
+      "gold": [
+        {
+          "start": 2,
+          "end": 29,
+          "text": "hemoglobin A1C (HbA1C) test",
+          "entryId": "hemoglobin-a1c-test"
+        },
+        {
+          "start": 79,
+          "end": 92,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 106,
+          "end": 117,
+          "text": "blood sugar",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 268,
+          "end": 275,
+          "text": "hormone",
+          "entryId": "hormone"
+        },
+        {
+          "start": 283,
+          "end": 290,
+          "text": "insulin",
+          "entryId": "insulin"
+        },
+        {
+          "start": 338,
+          "end": 346,
+          "text": "diabetes",
+          "entryId": "diabetes-mellitus"
+        },
+        {
+          "start": 377,
+          "end": 384,
+          "text": "insulin",
+          "entryId": "insulin"
+        },
+        {
+          "start": 475,
+          "end": 488,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 539,
+          "end": 549,
+          "text": "hemoglobin",
+          "entryId": "hemoglobin"
+        },
+        {
+          "start": 569,
+          "end": 584,
+          "text": "red blood cells",
+          "entryId": "red-blood-cell"
+        },
+        {
+          "start": 594,
+          "end": 607,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 638,
+          "end": 648,
+          "text": "hemoglobin",
+          "entryId": "hemoglobin"
+        },
+        {
+          "start": 681,
+          "end": 689,
+          "text": "A1C test",
+          "entryId": "hemoglobin-a1c-test"
+        },
+        {
+          "start": 722,
+          "end": 737,
+          "text": "red blood cells",
+          "entryId": "red-blood-cell"
+        },
+        {
+          "start": 763,
+          "end": 773,
+          "text": "hemoglobin",
+          "entryId": "hemoglobin"
+        },
+        {
+          "start": 779,
+          "end": 787,
+          "text": "A1C test",
+          "entryId": "hemoglobin-a1c-test"
+        },
+        {
+          "start": 878,
+          "end": 888,
+          "text": "hemoglobin",
+          "entryId": "hemoglobin"
+        },
+        {
+          "start": 908,
+          "end": 923,
+          "text": "red blood cells",
+          "entryId": "red-blood-cell"
+        },
+        {
+          "start": 935,
+          "end": 950,
+          "text": "Red blood cells",
+          "entryId": "red-blood-cell"
+        },
+        {
+          "start": 1012,
+          "end": 1025,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 1031,
+          "end": 1039,
+          "text": "diabetes",
+          "entryId": "diabetes-mellitus"
+        },
+        {
+          "start": 1041,
+          "end": 1049,
+          "text": "Diabetes",
+          "entryId": "diabetes-mellitus"
+        },
+        {
+          "start": 1207,
+          "end": 1220,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 1281,
+          "end": 1291,
+          "text": "hemoglobin",
+          "entryId": "hemoglobin"
+        },
+        {
+          "start": 1306,
+          "end": 1316,
+          "text": "hemoglobin",
+          "entryId": "hemoglobin"
+        },
+        {
+          "start": 1323,
+          "end": 1336,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 1424,
+          "end": 1437,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 1464,
+          "end": 1472,
+          "text": "A1C test",
+          "entryId": "hemoglobin-a1c-test"
+        },
+        {
+          "start": 1508,
+          "end": 1521,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 1567,
+          "end": 1575,
+          "text": "A1C test",
+          "entryId": "hemoglobin-a1c-test"
+        },
+        {
+          "start": 1623,
+          "end": 1631,
+          "text": "diabetes",
+          "entryId": "diabetes-mellitus"
+        },
+        {
+          "start": 1645,
+          "end": 1653,
+          "text": "diabetes",
+          "entryId": "diabetes-mellitus"
+        },
+        {
+          "start": 1659,
+          "end": 1672,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 1725,
+          "end": 1732,
+          "text": "insulin",
+          "entryId": "insulin"
+        },
+        {
+          "start": 1748,
+          "end": 1755,
+          "text": "insulin",
+          "entryId": "insulin"
+        },
+        {
+          "start": 1836,
+          "end": 1847,
+          "text": "Prediabetes",
+          "entryId": "prediabetes"
+        },
+        {
+          "start": 1849,
+          "end": 1860,
+          "text": "Prediabetes",
+          "entryId": "prediabetes"
+        },
+        {
+          "start": 1877,
+          "end": 1890,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 1961,
+          "end": 1969,
+          "text": "diabetes",
+          "entryId": "diabetes-mellitus"
+        },
+        {
+          "start": 2053,
+          "end": 2064,
+          "text": "prediabetes",
+          "entryId": "prediabetes"
+        },
+        {
+          "start": 2086,
+          "end": 2094,
+          "text": "diabetes",
+          "entryId": "diabetes-mellitus"
+        },
+        {
+          "start": 2109,
+          "end": 2117,
+          "text": "diabetes",
+          "entryId": "diabetes-mellitus"
+        },
+        {
+          "start": 2121,
+          "end": 2132,
+          "text": "prediabetes",
+          "entryId": "prediabetes"
+        },
+        {
+          "start": 2137,
+          "end": 2145,
+          "text": "A1C test",
+          "entryId": "hemoglobin-a1c-test"
+        },
+        {
+          "start": 2230,
+          "end": 2243,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        },
+        {
+          "start": 2257,
+          "end": 2265,
+          "text": "A1C test",
+          "entryId": "hemoglobin-a1c-test"
+        },
+        {
+          "start": 2296,
+          "end": 2304,
+          "text": "diabetes",
+          "entryId": "diabetes-mellitus"
+        },
+        {
+          "start": 2341,
+          "end": 2354,
+          "text": "blood glucose",
+          "entryId": "blood-glucose"
+        }
+      ],
+      "sha256": "cdc642c4ddccec73f5a16da5ac634be138822199a887fab5681b3647af99a575",
+      "capturedOn": "2026-10-13",
+      "license": "Public-Domain-US",
+      "attribution": "Source: MedlinePlus, National Library of Medicine.",
+      "reusePolicy": "https://medlineplus.gov/about/using/usingcontent/"
+    },
+    {
+      "id": "cholesterol",
+      "title": "Cholesterol",
+      "url": "https://medlineplus.gov/cholesterol.html",
+      "sections": [
+        "What is cholesterol?",
+        "What are HDL, LDL, and VLDL?"
+      ],
+      "text": "Cholesterol is a waxy, fat-like substance that's found in all the cells in your body. Your body needs some cholesterol to make hormones, vitamin D, and substances that help you digest foods. Your body makes all the cholesterol it needs. Cholesterol is also found in foods from animal sources, such as egg yolks, meat, and cheese.\n\nIf you have too much cholesterol in your blood, it can combine with other substances in the blood to form plaque. Plaque sticks to the walls of your arteries. This buildup of plaque is known as atherosclerosis. It can lead to coronary artery disease, a condition in which your coronary arteries become narrow or even blocked.\n\nHDL, LDL, and VLDL are lipoproteins. They are a combination of fat (lipid) and protein. The lipids need to be attached to the proteins so they can move through the blood. Different types of lipoproteins have different purposes:\n\nHDL stands for high-density lipoprotein. It is sometimes called \"good\" cholesterol because it helps your body get rid of cholesterol. It carries cholesterol from other parts of your body back to your liver. Your liver then removes the cholesterol from your body. LDL stands for low-density lipoprotein. It is sometimes called \"bad\" cholesterol because a high LDL level leads to the buildup of plaque in your arteries. VLDL stands for very low-density lipoprotein. Some people also call VLDL a \"bad\" cholesterol because it too contributes to the buildup of plaque in your arteries. But VLDL and LDL are different; VLDL mainly carries triglycerides and LDL mainly carries cholesterol.",
+      "gold": [
+        {
+          "start": 0,
+          "end": 11,
+          "text": "Cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 107,
+          "end": 118,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 127,
+          "end": 135,
+          "text": "hormones",
+          "entryId": "hormone"
+        },
+        {
+          "start": 215,
+          "end": 226,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 237,
+          "end": 248,
+          "text": "Cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 352,
+          "end": 363,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 437,
+          "end": 443,
+          "text": "plaque",
+          "entryId": "plaque"
+        },
+        {
+          "start": 445,
+          "end": 451,
+          "text": "Plaque",
+          "entryId": "plaque"
+        },
+        {
+          "start": 506,
+          "end": 512,
+          "text": "plaque",
+          "entryId": "plaque"
+        },
+        {
+          "start": 525,
+          "end": 540,
+          "text": "atherosclerosis",
+          "entryId": "atherosclerosis"
+        },
+        {
+          "start": 557,
+          "end": 580,
+          "text": "coronary artery disease",
+          "entryId": "ischemic-heart-disease"
+        },
+        {
+          "start": 658,
+          "end": 661,
+          "text": "HDL",
+          "entryId": "high-density-lipoprotein"
+        },
+        {
+          "start": 663,
+          "end": 666,
+          "text": "LDL",
+          "entryId": "low-density-lipoprotein"
+        },
+        {
+          "start": 672,
+          "end": 676,
+          "text": "VLDL",
+          "entryId": "very-low-density-lipoprotein"
+        },
+        {
+          "start": 681,
+          "end": 693,
+          "text": "lipoproteins",
+          "entryId": "lipoprotein"
+        },
+        {
+          "start": 848,
+          "end": 860,
+          "text": "lipoproteins",
+          "entryId": "lipoprotein"
+        },
+        {
+          "start": 887,
+          "end": 890,
+          "text": "HDL",
+          "entryId": "high-density-lipoprotein"
+        },
+        {
+          "start": 902,
+          "end": 926,
+          "text": "high-density lipoprotein",
+          "entryId": "high-density-lipoprotein"
+        },
+        {
+          "start": 958,
+          "end": 969,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 1008,
+          "end": 1019,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 1032,
+          "end": 1043,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 1122,
+          "end": 1133,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 1150,
+          "end": 1153,
+          "text": "LDL",
+          "entryId": "low-density-lipoprotein"
+        },
+        {
+          "start": 1165,
+          "end": 1188,
+          "text": "low-density lipoprotein",
+          "entryId": "low-density-lipoprotein"
+        },
+        {
+          "start": 1219,
+          "end": 1230,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 1246,
+          "end": 1249,
+          "text": "LDL",
+          "entryId": "low-density-lipoprotein"
+        },
+        {
+          "start": 1280,
+          "end": 1286,
+          "text": "plaque",
+          "entryId": "plaque"
+        },
+        {
+          "start": 1305,
+          "end": 1309,
+          "text": "VLDL",
+          "entryId": "very-low-density-lipoprotein"
+        },
+        {
+          "start": 1321,
+          "end": 1349,
+          "text": "very low-density lipoprotein",
+          "entryId": "very-low-density-lipoprotein"
+        },
+        {
+          "start": 1373,
+          "end": 1377,
+          "text": "VLDL",
+          "entryId": "very-low-density-lipoprotein"
+        },
+        {
+          "start": 1386,
+          "end": 1397,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        },
+        {
+          "start": 1443,
+          "end": 1449,
+          "text": "plaque",
+          "entryId": "plaque"
+        },
+        {
+          "start": 1472,
+          "end": 1476,
+          "text": "VLDL",
+          "entryId": "very-low-density-lipoprotein"
+        },
+        {
+          "start": 1481,
+          "end": 1484,
+          "text": "LDL",
+          "entryId": "low-density-lipoprotein"
+        },
+        {
+          "start": 1500,
+          "end": 1504,
+          "text": "VLDL",
+          "entryId": "very-low-density-lipoprotein"
+        },
+        {
+          "start": 1520,
+          "end": 1533,
+          "text": "triglycerides",
+          "entryId": "triglyceride"
+        },
+        {
+          "start": 1538,
+          "end": 1541,
+          "text": "LDL",
+          "entryId": "low-density-lipoprotein"
+        },
+        {
+          "start": 1557,
+          "end": 1568,
+          "text": "cholesterol",
+          "entryId": "cholesterol"
+        }
+      ],
+      "sha256": "4b699800117873136b0f039116c0298ea6a1a129c7c032dbf4441f251ebbcf2f",
+      "capturedOn": "2026-10-13",
+      "license": "Public-Domain-US",
+      "attribution": "Source: MedlinePlus, National Library of Medicine.",
+      "reusePolicy": "https://medlineplus.gov/about/using/usingcontent/"
+    }
+  ],
+  "behaviorCases": [
+    {
+      "id": "comprehensive-metabolic-panel-annotation",
+      "kind": "invented-regression",
+      "text": "A comprehensive metabolic panel includes several tests.",
+      "expectedOutput": "A comprehensive metabolic panel includes several tests.",
+      "expectedEntryIds": [
+        "comprehensive-metabolic-panel"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "electrolyte-annotation",
+      "kind": "invented-regression",
+      "text": "The report lists electrolytes.",
+      "expectedOutput": "The report lists electrolytes.",
+      "expectedEntryIds": [
+        "electrolyte"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "albumin-annotation",
+      "kind": "invented-regression",
+      "text": "Albumin was measured in blood.",
+      "expectedOutput": "Albumin was measured in blood.",
+      "expectedEntryIds": [
+        "albumin"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "bilirubin-annotation",
+      "kind": "invented-regression",
+      "text": "The test measures bilirubin.",
+      "expectedOutput": "The test measures bilirubin.",
+      "expectedEntryIds": [
+        "bilirubin"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "creatinine-annotation",
+      "kind": "invented-regression",
+      "text": "The report shows a creatinine result.",
+      "expectedOutput": "The report shows a creatinine result.",
+      "expectedEntryIds": [
+        "creatinine"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "hemoglobin-a1c-test-annotation",
+      "kind": "invented-regression",
+      "text": "An A1C test reflects blood sugar over time.",
+      "expectedOutput": "An A1C test reflects blood sugar over time.",
+      "expectedEntryIds": [
+        "hemoglobin-a1c-test",
+        "blood-glucose"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "reference-range-annotation",
+      "kind": "invented-regression",
+      "text": "A result outside the reference range is not a diagnosis.",
+      "expectedOutput": "A result outside the reference range is not a diagnosis.",
+      "expectedEntryIds": [
+        "reference-range"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "false-positive-result-annotation",
+      "kind": "invented-regression",
+      "text": "A false positive result can happen.",
+      "expectedOutput": "A false positive result can happen.",
+      "expectedEntryIds": [
+        "false-positive-result"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "false-negative-result-annotation",
+      "kind": "invented-regression",
+      "text": "A false negative result can happen.",
+      "expectedOutput": "A false negative result can happen.",
+      "expectedEntryIds": [
+        "false-negative-result"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "cholesterol-annotation",
+      "kind": "invented-regression",
+      "text": "The test measures cholesterol.",
+      "expectedOutput": "The test measures cholesterol.",
+      "expectedEntryIds": [
+        "cholesterol"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "triglyceride-annotation",
+      "kind": "invented-regression",
+      "text": "The report lists triglycerides.",
+      "expectedOutput": "The report lists triglycerides.",
+      "expectedEntryIds": [
+        "triglyceride"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "atherosclerosis-annotation",
+      "kind": "invented-regression",
+      "text": "The article describes atherosclerosis.",
+      "expectedOutput": "The article describes atherosclerosis.",
+      "expectedEntryIds": [
+        "atherosclerosis"
+      ],
+      "note": "The new concept needs a definition; no inline substitute is authorized."
+    },
+    {
+      "id": "positive-negative",
+      "kind": "invented-regression",
+      "text": "The positive outlook followed a negative review.",
+      "expectedOutput": "The positive outlook followed a negative review.",
+      "expectedEntryIds": [],
+      "note": "An everyday word, different substance, or ambiguous abbreviation is not an alias."
+    },
+    {
+      "id": "creatine-not-creatinine",
+      "kind": "invented-regression",
+      "text": "The label says creatine.",
+      "expectedOutput": "The label says creatine.",
+      "expectedEntryIds": [],
+      "note": "An everyday word, different substance, or ambiguous abbreviation is not an alias."
+    },
+    {
+      "id": "cmp-abbreviation",
+      "kind": "invented-regression",
+      "text": "CMP appears as an unexplained abbreviation.",
+      "expectedOutput": "CMP appears as an unexplained abbreviation.",
+      "expectedEntryIds": [],
+      "note": "An everyday word, different substance, or ambiguous abbreviation is not an alias."
+    },
+    {
+      "id": "range-ordinary",
+      "kind": "invented-regression",
+      "text": "The hiking range is wide.",
+      "expectedOutput": "The hiking range is wide.",
+      "expectedEntryIds": [],
+      "note": "An everyday word, different substance, or ambiguous abbreviation is not an alias."
+    }
+  ]
+}

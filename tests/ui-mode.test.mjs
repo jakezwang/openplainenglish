@@ -6,17 +6,21 @@ import { build } from 'esbuild';
 
 const pause = () => new Promise((resolve) => setTimeout(resolve, 10));
 const off = { enabled: false, mode: 'plain', count: 0, replacedCount: 0, annotatedCount: 0, truncated: false };
-async function popupHarness({ initial = off, failMode = false } = {}) {
+async function popupHarness({ initial = off, failMode = false, savedPreferences = {}, failPreferences = false } = {}) {
   const html = await readFile(new URL('../src/popup/popup.html', import.meta.url), 'utf8');
-  const script = await readFile(new URL('../src/popup/popup.js', import.meta.url), 'utf8');
+  const bundled = await build({ entryPoints: [new URL('../src/popup/popup.js', import.meta.url).pathname], bundle: true, write: false, format: 'iife' });
+  const script = bundled.outputFiles[0].text;
   const dom = new JSDOM(html, { runScripts: 'outside-only', url: 'https://extension.test/popup.html' });
   const messages = [];
   let state = { ...initial };
+  let preferences = { language: 'en', density: 'comfortable', highlight: 'subtle', mode: 'plain', ...savedPreferences };
   const active = (mode) => ({ enabled: true, mode, count: 3, replacedCount: mode === 'plain' ? 2 : 0, annotatedCount: mode === 'plain' ? 1 : 3, truncated: false });
   dom.window.chrome = { runtime: {
     getURL: (path) => `https://extension.test/${path}`,
     sendMessage: async (message) => {
       messages.push(message);
+      if (message.type === 'OPE_GET_PREFERENCES') return { ok: true, preferences };
+      if (message.type === 'OPE_SET_PREFERENCES') { if (failPreferences) return { ok: false }; preferences = { ...preferences, ...message.preferences }; return { ok: true, preferences }; }
       if (message.type === 'OPE_TOGGLE_ACTIVE') state = state.enabled ? { ...off, mode: state.mode } : active(message.mode);
       if (message.type === 'OPE_SET_MODE_ACTIVE') {
         if (failMode) return { ok: false, error: 'The page changed. Please try again.' };
@@ -41,7 +45,9 @@ test('popup mode selection while off does not activate; chosen mode is sent only
   try {
     const doc = dom.window.document;
     chooseMode(dom, 'annotate');
-    assert.equal(messages.length, 1);
+    await pause();
+    assert.equal(messages.some((item) => item.type === 'OPE_TOGGLE_ACTIVE' || item.type === 'OPE_SET_MODE_ACTIVE'), false);
+    assert.equal(messages.at(-1).type, 'OPE_SET_PREFERENCES');
     assert.equal(doc.getElementById('toggle').textContent, 'Explain terms on this page ↗');
     doc.getElementById('toggle').click();
     await pause();
@@ -113,5 +119,22 @@ test('glossary shows and searches only approved explicit replacement pairs, neve
     search.value = 'invalid replacement';
     search.dispatchEvent(new dom.window.Event('input'));
     assert.match(doc.getElementById('result-count').textContent, /0 matches/);
+  } finally { dom.window.close(); }
+});
+
+
+test('popup loads remembered mode without activating and rolls failed preference changes back', async () => {
+  const { dom, messages } = await popupHarness({ savedPreferences: { language: 'zh-CN', mode: 'annotate', density: 'compact' }, failPreferences: true });
+  try {
+    const doc = dom.window.document;
+    assert.equal(doc.documentElement.lang, 'zh-CN');
+    assert.equal(doc.body.dataset.density, 'compact');
+    assert.equal(doc.getElementById('mode-annotate').checked, true);
+    assert.equal(doc.getElementById('toggle').textContent, '解释本页词语 ↗');
+    assert.equal(messages.some((item) => item.type === 'OPE_TOGGLE_ACTIVE'), false);
+    chooseMode(dom, 'plain'); await pause();
+    assert.equal(doc.getElementById('mode-annotate').checked, true);
+    assert.match(doc.getElementById('error').textContent, /无法保存偏好/);
+    assert.equal(doc.getElementById('toggle').disabled, false);
   } finally { dom.window.close(); }
 });
