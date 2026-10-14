@@ -6,7 +6,7 @@ import { root } from './build.mjs';
 const siteMode = process.argv.includes('--site');
 const serveRoot = siteMode ? path.join(root, 'site') : root;
 const mount = siteMode ? '/openplainenglish/' : '/demo/';
-const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.svg': 'image/svg+xml' };
+const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.png': 'image/png', '.svg': 'image/svg+xml', '.pdf': 'application/pdf', '.wasm': 'application/wasm', '.gz': 'application/gzip', '.bcmap': 'application/octet-stream' };
 const server = http.createServer(async (request, response) => {
   try {
     const requested = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
@@ -14,7 +14,7 @@ const server = http.createServer(async (request, response) => {
     if (siteMode && !requested.startsWith(mount)) { response.writeHead(404); response.end('Not found'); return; }
     const relative = (siteMode ? requested.slice(mount.length) : requested.replace(/^\//, '')) + (requested.endsWith('/') ? 'index.html' : '');
     const filename = path.resolve(serveRoot, relative);
-    if (!filename.startsWith(`${serveRoot}${path.sep}`) || (!siteMode && !['demo/', 'src/', 'data/', 'assets/', 'dist/'].some((prefix) => relative.startsWith(prefix))) || relative.split('/').some((part) => part.startsWith('.'))) {
+    if (!filename.startsWith(`${serveRoot}${path.sep}`) || (!siteMode && !['demo/', 'src/', 'data/', 'assets/', 'dist/', 'vendor/'].some((prefix) => relative.startsWith(prefix))) || relative.split('/').some((part) => part.startsWith('.'))) {
       response.writeHead(403); response.end('Not available'); return;
     }
     const content = await readFile(filename);

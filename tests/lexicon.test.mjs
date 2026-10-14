@@ -11,9 +11,9 @@ const changed = (mutate) => {
 };
 const has = (errors, pattern) => assert.ok(errors.some((error) => pattern.test(error)), JSON.stringify(errors));
 
-test('release lexicon has 112 fully attributed entries and honest review metadata', () => {
+test('release lexicon has 132 fully attributed entries and honest review metadata', () => {
   assert.deepEqual(validateLexicon(lexicon), []);
-  assert.ok(lexicon.entries.length === 112);
+  assert.ok(lexicon.entries.length === 132);
   assert.equal(assertValidLexicon(lexicon), lexicon);
   assert.ok(lexicon.entries.every((entry) => entry.review.status === 'source-checked'));
 });
@@ -75,8 +75,8 @@ const withInline = (data) => data.entries.find((entry) => entry.id === 'hyperten
 
 test('inline data is optional and carries explicit pairs, inherited sources, and its own honest review', () => {
   const eligible = lexicon.entries.filter((entry) => entry.inline);
-  assert.equal(eligible.length, 21);
-  assert.equal(eligible.reduce((n, entry) => n + entry.inline.replacements.length, 0), 40);
+  assert.equal(eligible.length, 30);
+  assert.equal(eligible.reduce((n, entry) => n + entry.inline.replacements.length, 0), 56);
   assert.ok(eligible.every((entry) => entry.sources.length && entry.inline.note && entry.inline.review.method === REVIEW_METHOD));
   assert.deepEqual(changed((data) => { for (const entry of data.entries) delete entry.inline; }), []);
   has(changed((data) => { withInline(data).sources = []; }), /at least one source/u);
@@ -132,7 +132,7 @@ test('curated sentence pairs preserve noun number, articles, and important modif
 
 test('definition-only terms, unsafe articles, abbreviations, and already plain aliases stay annotation-only', () => {
   const sources = new Set(lexicon.entries.flatMap((entry) => entry.inline?.replacements.map((pair) => pair.from) ?? []));
-  for (const phrase of ['biopsy', 'biopsies', 'renal', 'respiratory', 'edema', 'esophagus', 'erythrocyte', 'hemoglobin', 'anemia', 'high blood pressure', 'low blood pressure', 'blood sugar', 'heart attack', 'heart attacks', 'platelet', 'platelets', 'death rate', 'shortness of breath', 'chronic illnesses', 'ECG', 'EKG', 'COPD', 'MRI', 'UTI']) {
+  for (const phrase of ['biopsy', 'biopsies', 'renal', 'respiratory', 'edema', 'esophagus', 'erythrocyte', 'hemoglobin', 'anemia', 'high blood pressure', 'low blood pressure', 'blood sugar', 'heart attack', 'heart attacks', 'platelet', 'platelets', 'death rate', 'shortness of breath', 'ECG', 'EKG', 'COPD', 'MRI', 'UTI', 'arrhythmia', 'enzyme', 'low-density lipoprotein', 'lipoprotein (a)', 'prediabetes']) {
     assert.equal(sources.has(phrase), false, phrase);
   }
 });

@@ -2,6 +2,7 @@ import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { root } from './build.mjs';
+import { buildVendor } from './build-vendor.mjs';
 
 /** A static allowlist: no extension installation, credentials or draft exports. */
 export async function buildSite(output = path.join(root, 'site')) {
@@ -16,9 +17,14 @@ export async function buildSite(output = path.join(root, 'site')) {
     await mkdir(path.dirname(path.join(output, file)), { recursive: true });
     await cp(path.join(root, file), path.join(output, file));
   }
-  for (const dir of ['core', 'shared', 'options', 'popup']) {
+  for (const dir of ['content', 'core', 'shared', 'options', 'popup']) {
     await cp(path.join(root, 'src', dir), path.join(output, 'src', dir), { recursive: true });
   }
+  await rm(path.join(output, 'src/content/index.js'), { force: true });
+  for (const name of ['documents', 'guide', 'sentences']) for (const extension of ['html', 'js', 'css']) await cp(path.join(root, `demo/${name}.${extension}`), path.join(output, `demo/${name}.${extension}`));
+  await cp(path.join(root, 'demo/fixtures'), path.join(output, 'demo/fixtures'), { recursive: true });
+  await cp(path.join(root, 'data/feedback-config.json'), path.join(output, 'data/feedback-config.json'));
+  await buildVendor(path.join(output, 'vendor'));
   // Relative URLs work at both a custom-domain root and a /repository/ prefix.
   const html = await readFile(path.join(root, 'demo/index.html'), 'utf8');
   // Fragment links must stay on this root document despite the asset base URL.

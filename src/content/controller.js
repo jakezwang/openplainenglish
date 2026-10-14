@@ -2,6 +2,7 @@ import { createMatcher } from '../core/matcher.js';
 import { assertReadingMode, getInlinePresentation } from '../core/inline.js';
 import { DEFAULT_PREFERENCES, validatePreferences } from '../shared/preferences.js';
 import { createPanel } from './panel.js';
+import { composedParent, composedClosest, createScanBudget, createSurfaceRegistry } from './surfaces.js';
 
 const SKIP = 'script,style,noscript,form,label,textarea,input,select,option,button,summary,a,code,pre,kbd,samp,svg,math,canvas,iframe,video,audio,[contenteditable]:not([contenteditable="false" i]),[role="button"],[role="link"],[role="textbox"],[aria-hidden="true"],[hidden],[inert],[data-ope-owned]';
 const TRANSPARENT = new Set(['SPAN', 'EM', 'STRONG', 'B', 'I', 'U', 'SMALL', 'MARK', 'S', 'DEL', 'INS']);
@@ -35,7 +36,7 @@ function splitPresentation(original, display, pieces) {
   });
 }
 
-export function createReader({ document, entries, onFeedback, onStateChange, onExplanationOpen, preferences = {}, maxMarks = 750, maxNodes = 15000 }) {
+function createSurfaceReader({ document, entries, onFeedback, onStateChange, onExplanationOpen, preferences = {}, maxMarks = 750, maxNodes = 15000, scope = document, shared }) {
   if (!Array.isArray(entries) || entries.length > 5000) throw new TypeError('The reader needs a bounded glossary.');
   const ids = new Set();
   for (const entry of entries) {
@@ -54,7 +55,10 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
   const marks = new Map();
   const groups = new Set();
   const restoredHints = new WeakMap();
-  const ignored = new Set();
+  const ignored = shared?.ignored || new Set();
+  const work = shared || { maxMarks, maxNodes, marked: 0, nodesRead: 0, elementsRead: 0, active: false };
+  const contentRoot = () => scope.nodeType === 9 ? document.body : scope;
+  const contextElement = (node) => node?.parentElement || (node?.getRootNode?.() === scope ? scope.host : null);
   const pendingRoots = new Set();
   let enabled = false;
   let mode = prefs.mode;
@@ -62,16 +66,14 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
   let truncated = false;
   let style;
   let timer;
-  let nodesRead = 0;
-  let elementsRead = 0;
   let processing = false;
   let visibilityCache = new WeakMap();
   const panel = createPanel({ document, onFeedback, preferences: prefs,
     onRestore: (element) => { const group = marks.get(element)?.group; restoreOccurrence(element); return group?.primary; },
-    onIgnore: (entry) => ignoreTerm(entry.id),
+    onIgnore: (entry) => shared?.onIgnore ? shared.onIgnore(entry.id) : ignoreTerm(entry.id),
   });
 
-  function inDocument(mark) { return mark.ownerDocument === document && mark.isConnected; }
+  function inDocument(mark) { return mark.ownerDocument === document && mark.isConnected && scope.contains(mark); }
   function unchanged(mark, record = marks.get(mark)) {
     return Boolean(record && mark.childNodes.length === 1 && mark.firstChild === record.node && record.node.data === record.displayText);
   }
@@ -89,7 +91,8 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
   }
   function notify() { onStateChange?.(getState()); }
   function observe() {
-    if (enabled && document.documentElement) observer.observe(document.documentElement, {
+    const target = scope.nodeType === 9 ? document.documentElement : scope;
+    if (enabled && target) observer.observe(target, {
       childList: true, subtree: true, characterData: true, attributes: true,
       attributeFilter: ['class', 'style', 'hidden', 'aria-hidden', 'lang', 'contenteditable', 'inert', 'role', 'open', 'tabindex', 'onclick', 'itemprop', 'data-ope-term', 'data-ope-owned'],
     });
@@ -118,20 +121,21 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
   }
   function scanRoot(node) {
     let root = node?.nodeType === 3 ? node.parentElement : node;
-    if (root === document.documentElement) return document.body;
+    if (root === scope || root === document.documentElement) return contentRoot();
+    if (root?.getRootNode?.() === scope && !root.parentElement) return scope;
     while (root?.parentElement && (transparent(root) || marks.has(root))) root = root.parentElement;
     return root;
   }
   function visible(element) {
     const own = computed(element);
     if (own.visibility === 'hidden' || own.visibility === 'collapse') return false;
-    for (let parent = element; parent; parent = parent.parentElement) if (computed(parent).display === 'none') return false;
+    for (let parent = element; parent; parent = composedParent(parent)) if (computed(parent).display === 'none') return false;
     return true;
   }
   function eligible(node) {
-    const parent = node.parentElement;
-    if (!parent || !node.data || parent.closest(SKIP) || parent.closest('details:not([open])')) return false;
-    const lang = parent.closest('[lang]')?.getAttribute('lang');
+    const parent = contextElement(node);
+    if (!parent || !node.data || composedClosest(parent, SKIP) || composedClosest(parent, 'details:not([open])')) return false;
+    const lang = composedClosest(parent, '[lang]')?.getAttribute('lang');
     return !(lang && !/^en(?:-|$)/i.test(lang)) && visible(parent);
   }
   function restoreMark(mark) {
@@ -154,7 +158,7 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
   function restoreGroup(group) {
     const parents = new Set();
     for (const piece of group.pieces) { const parent = restoreMark(piece.mark); if (parent) parents.add(parent); }
-    groups.delete(group);
+    if (groups.delete(group)) work.marked--;
     return parents;
   }
   function restoreAll({ normalize = false } = {}) {
@@ -168,7 +172,7 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
     if (!enabled || processing) return;
     const invalidated = new Set();
     for (const mutation of mutations) {
-      const element = mutation.target.nodeType === 1 ? mutation.target : mutation.target.parentElement;
+      const element = mutation.target.nodeType === 1 ? mutation.target : contextElement(mutation.target);
       const changedMark = element?.closest('[data-ope-term]') || (marks.has(element) ? element : null);
       if (marks.has(changedMark)) { invalidated.add(marks.get(changedMark).group); continue; }
       if (element?.closest('[data-ope-owned]')) continue;
@@ -187,7 +191,7 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
     });
     for (const root of [...pendingRoots]) if (!root?.isConnected) pendingRoots.delete(root);
     if (!pendingRoots.size) { if (removed) notify(); return; }
-    if (!timer) timer = view.setTimeout(flush, 80);
+    if (!timer) { if (shared) { timer = true; shared.schedule(flush); } else timer = view.setTimeout(flush, 80); }
   }
   const observer = new view.MutationObserver(processMutations);
 
@@ -298,7 +302,7 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
       if (ignored.has(match.entry.id)) continue;
       if ((match.start === 0 && beforeEdge && /[\p{L}\p{N}\p{M}_]/u.test(beforeEdge))
         || (match.end === text.length && afterEdge && /[\p{L}\p{N}\p{M}_]/u.test(afterEdge))) continue;
-      if (groups.size >= maxMarks) { truncated = true; break; }
+      if (work.marked >= maxMarks) { truncated = true; break; }
       const parts = run.filter((part) => part.start < match.end && part.end > match.start);
       // Extremely fragmented markup is deliberately left alone.
       if (!parts.length || parts.length > 24) continue;
@@ -306,7 +310,7 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
         const hint = restoredHints.get(part.node);
         return hint?.entryId === match.entry.id && hint.originalText === match.matchedText;
       });
-      const context = { before: text.slice(0, match.start), after: text.slice(match.end), literal: parts.some((part) => part.node.parentElement.closest(LITERAL)) };
+      const context = { before: text.slice(0, match.start), after: text.slice(match.end), literal: parts.some((part) => composedClosest(contextElement(part.node), LITERAL)) };
       let presentation = getInlinePresentation(match.entry, match.matchedText, printing ? 'annotate' : mode, context);
       if (restored) presentation = { ...presentation, displayText: match.matchedText, replaced: false, reason: 'You restored this occurrence to its original wording.' };
       const group = { entry: match.entry, originalText: match.matchedText, presentation, pieces: [], restored };
@@ -324,6 +328,7 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
       }
       renderGroup(group, presentation);
       groups.add(group);
+      work.marked++;
     }
     for (const [node, pieces] of edits) {
       const fragment = document.createDocumentFragment();
@@ -340,7 +345,7 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
   }
   function scan(root) {
     root = scanRoot(root);
-    if (!root?.isConnected || root.nodeType !== 1 || root.closest(SKIP)) return;
+    if (!root?.isConnected || ![1, 11].includes(root.nodeType) || (root.nodeType === 1 && composedClosest(root, SKIP))) return;
     const stack = [{ node: root }];
     const runs = [];
     let run = [];
@@ -358,8 +363,8 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
       const node = frame.node;
       if (node.nodeType === 3) {
         if (!node.data) continue;
-        if (nodesRead >= maxNodes) { truncated = true; run = []; oversizedRun = true; break; }
-        nodesRead++;
+        if (work.nodesRead >= maxNodes) { truncated = true; run = []; oversizedRun = true; break; }
+        work.nodesRead++;
         if (eligible(node)) {
           runLength += node.data.length;
           if (runLength > 50000) { truncated = true; oversizedRun = true; run = []; }
@@ -367,20 +372,20 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
         } else finish();
         continue;
       }
-      if (node.nodeType !== 1) { finish(); continue; }
-      if (++elementsRead > maxNodes * 8 + 512) { truncated = true; run = []; oversizedRun = true; break; }
-      if (node.closest(SKIP) || BREAK.has(node.tagName)) { finish(); continue; }
-      const boundary = !transparent(node);
+      if (![1, 11].includes(node.nodeType)) { finish(); continue; }
+      if (++work.elementsRead > maxNodes * 8 + 512) { truncated = true; run = []; oversizedRun = true; break; }
+      if (node.nodeType === 1 && (composedClosest(node, SKIP) || BREAK.has(node.tagName))) { finish(); continue; }
+      const boundary = node.nodeType === 11 || !transparent(node);
       if (boundary) { finish(); stack.push({ end: true }); }
       if (node.firstChild) stack.push({ child: node.firstChild });
     }
     finish();
     for (const [index, current] of runs.entries()) {
-      if (groups.size >= maxMarks) { if (current.some((part) => part.node.data.trim()) || index + 1 < runs.length) truncated = true; break; }
+      if (work.marked >= maxMarks) { if (current.some((part) => part.node.data.trim()) || index + 1 < runs.length) truncated = true; break; }
       decorateRun(current);
     }
   }
-  function beginScan() { nodesRead = 0; elementsRead = 0; visibilityCache = new WeakMap(); }
+  function beginScan() { if (!work.active) { work.nodesRead = 0; work.elementsRead = 0; } visibilityCache = new WeakMap(); }
   function flush() {
     timer = undefined;
     if (!enabled) return;
@@ -401,13 +406,14 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
   }
   function openMark(mark) {
     const group = marks.get(mark)?.group;
-    const pending = group && [...pendingRoots].some((root) => root?.nodeType === 1 && group.pieces.some((piece) => root.contains(piece.mark)));
+    const pending = group && [...pendingRoots].some((root) => [1, 11].includes(root?.nodeType) && group.pieces.some((piece) => root.contains(piece.mark)));
     const readable = group && group.pieces.every((piece) => {
-      const parent = piece.mark.parentElement;
-      const lang = parent?.closest('[lang]')?.getAttribute('lang');
-      return parent && !parent.closest(SKIP) && !(lang && !/^en(?:-|$)/i.test(lang));
+      const parent = contextElement(piece.mark);
+      const lang = composedClosest(parent, '[lang]')?.getAttribute('lang');
+      return parent && !composedClosest(parent, SKIP) && !(lang && !/^en(?:-|$)/i.test(lang));
     });
     if (!pending && group && readable && usableGroup(group)) {
+      shared?.onBeforeOpen?.();
       panel.show(group.entry, group.primary, group.presentation);
       onExplanationOpen?.(group.entry);
       return true;
@@ -426,13 +432,13 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
     event.preventDefault();
     openMark(mark);
   }
-  function cancelPending() { if (timer) view.clearTimeout(timer); timer = undefined; pendingRoots.clear(); }
+  function cancelPending() { if (shared) shared.cancel(flush); else if (timer) view.clearTimeout(timer); timer = undefined; pendingRoots.clear(); }
   function setMode(nextMode) {
     assertReadingMode(nextMode);
     if (mode === nextMode) return getState();
     mode = nextMode;
     prefs = { ...prefs, mode };
-    if (enabled) suspended(() => { cancelPending(); restoreAll(); truncated = false; beginScan(); scan(document.body); });
+    if (enabled) suspended(() => { cancelPending(); restoreAll(); truncated = false; beginScan(); scan(contentRoot()); });
     panel.setPreferences(prefs);
     notify();
     return getState();
@@ -459,12 +465,11 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
     style = document.createElement('style');
     style.dataset.opeOwned = 'styles';
     style.textContent = MARK_STYLE;
-    (document.head || document.documentElement).append(style);
-    scan(document.body);
-    document.addEventListener('click', click);
-    document.addEventListener('keydown', keydown);
-    view.addEventListener('beforeprint', beforePrint);
-    view.addEventListener('afterprint', afterPrint);
+    (scope.nodeType === 11 ? scope : document.head || document.documentElement).append(style);
+    scan(contentRoot());
+    scope.addEventListener('click', click);
+    scope.addEventListener('keydown', keydown);
+    if (!shared) { view.addEventListener('beforeprint', beforePrint); view.addEventListener('afterprint', afterPrint); }
     observe();
     notify();
     return getState();
@@ -475,10 +480,9 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
     observer.disconnect();
     cancelPending();
     restoreAll({ normalize: true });
-    document.removeEventListener('click', click);
-    document.removeEventListener('keydown', keydown);
-    view.removeEventListener('beforeprint', beforePrint);
-    view.removeEventListener('afterprint', afterPrint);
+    scope.removeEventListener('click', click);
+    scope.removeEventListener('keydown', keydown);
+    if (!shared) { view.removeEventListener('beforeprint', beforePrint); view.removeEventListener('afterprint', afterPrint); }
     style?.remove();
     style = undefined;
     truncated = false;
@@ -488,13 +492,13 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
   function beforePrint() {
     if (!enabled || printing) return;
     printing = true;
-    suspended(() => { cancelPending(); restoreAll(); beginScan(); scan(document.body); });
+    suspended(() => { cancelPending(); restoreAll(); beginScan(); scan(contentRoot()); });
     notify();
   }
   function afterPrint() {
     if (!enabled || !printing) return;
     printing = false;
-    suspended(() => { cancelPending(); restoreAll(); beginScan(); scan(document.body); });
+    suspended(() => { cancelPending(); restoreAll(); beginScan(); scan(contentRoot()); });
     notify();
   }
   function openFirst() {
@@ -506,7 +510,7 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
     // A read-only text-content view. Still-owned segments use private originals;
     // replaced/edited site nodes use the site's current text instead.
     const ownedNodes = new Map([...marks.values()].map((piece) => [piece.node, piece]));
-    const walker = document.createTreeWalker(document.body || document.documentElement, view.NodeFilter.SHOW_TEXT);
+    const walker = document.createTreeWalker(contentRoot() || document.documentElement, view.NodeFilter.SHOW_TEXT);
     let text = '';
     let node;
     while ((node = walker.nextNode())) {
@@ -517,5 +521,128 @@ export function createReader({ document, entries, onFeedback, onStateChange, onE
     }
     return text;
   }
-  return { enable, disable, setMode, setPreferences, getState, openFirst, restoreOccurrence, ignoreTerm, getOriginalText, destroy() { disable(); panel.destroy(); } };
+  return { enable, disable, setMode, setPreferences, getState, openFirst, restoreOccurrence, ignoreTerm, getOriginalText,
+    hasMark: (element) => marks.has(element), closePanel: () => panel.close({ restoreFocus: false }),
+    preparePrint: beforePrint, finishPrint: afterPrint,
+    destroy() { disable(); panel.destroy(); } };
+}
+
+/** One explicit reading session across the top page and opted-in accessible DOM. */
+export function createReader(options) {
+  const { document, entries, onStateChange, preferences = {}, maxMarks = 750, maxNodes = 15000 } = options;
+  let prefs = { ...DEFAULT_PREFERENCES, ...validatePreferences(preferences) };
+  let enabled = false;
+  let printing = false;
+  let actionDepth = 0;
+  const readers = new Map();
+  const owners = new Map();
+  const printViews = new Set();
+  const budget = createScanBudget({ view: document.defaultView, maxMarks, maxNodes });
+  const emit = () => { if (!actionDepth) onStateChange?.(getState()); };
+  const action = (operation) => {
+    actionDepth++;
+    try { return budget.batch(operation); }
+    finally { actionDepth--; if (!actionDepth) onStateChange?.(getState()); }
+  };
+  budget.onIgnore = ignoreTerm;
+  budget.onBeforeOpen = () => { for (const reader of readers.values()) reader.closePanel(); };
+  const surfaceReader = (surface) => createSurfaceReader({ ...options, document: surface.document, scope: surface.root, shared: budget, preferences: prefs, onStateChange: emit });
+  const primary = surfaceReader({ root: document, document });
+  readers.set(document, primary);
+  owners.set(document, document);
+  const registry = createSurfaceRegistry({ document, budget, getPreferences: () => prefs, onChange: reconcile });
+
+  function syncPrintViews() {
+    const next = new Set(enabled ? [...readers.keys()].map((root) => root.nodeType === 9 ? root.defaultView : root.ownerDocument.defaultView).filter(Boolean) : []);
+    for (const view of printViews) if (!next.has(view)) { view.removeEventListener('beforeprint', beforePrint); view.removeEventListener('afterprint', afterPrint); printViews.delete(view); }
+    for (const view of next) if (!printViews.has(view)) { view.addEventListener('beforeprint', beforePrint); view.addEventListener('afterprint', afterPrint); printViews.add(view); }
+  }
+  function reconcile(surfaces) {
+    const next = new Set(surfaces.map((surface) => surface.root));
+    for (const [root, reader] of [...readers]) if (root !== document && (!next.has(root) || surfaces.some((surface) => surface.root === root && owners.get(root) !== surface.document))) {
+      reader.destroy(); readers.delete(root); owners.delete(root);
+    }
+    for (const surface of surfaces) if (!readers.has(surface.root)) {
+      const reader = surfaceReader(surface);
+      readers.set(surface.root, reader);
+      owners.set(surface.root, surface.document);
+      if (enabled) { reader.enable({ mode: prefs.mode }); if (printing) reader.preparePrint(); }
+    }
+    syncPrintViews();
+  }
+  function getState() {
+    let count = 0;
+    let replacedCount = 0;
+    let truncated = enabled && registry.isTruncated();
+    for (const reader of readers.values()) {
+      const state = reader.getState();
+      count += state.count;
+      replacedCount += state.replacedCount;
+      truncated ||= state.truncated;
+    }
+    return { enabled, mode: prefs.mode, count, replacedCount, annotatedCount: count - replacedCount, truncated: Boolean(truncated) };
+  }
+  function setMode(mode) {
+    assertReadingMode(mode);
+    if (mode === prefs.mode) return getState();
+    action(() => { prefs = { ...prefs, mode }; for (const reader of readers.values()) reader.setMode(mode); });
+    return getState();
+  }
+  function setPreferences(update) {
+    const next = { ...prefs, ...validatePreferences(update) };
+    action(() => {
+      const surfacesChanged = next.includeFrames !== prefs.includeFrames || next.includeShadowRoots !== prefs.includeShadowRoots;
+      prefs = next;
+      for (const reader of readers.values()) reader.setPreferences(prefs);
+      if (enabled && surfacesChanged) registry.refresh();
+    });
+    return getState();
+  }
+  function enable(settings = {}) {
+    if (!settings || typeof settings !== 'object' || Array.isArray(settings)) throw new TypeError('Reader options must specify a valid mode.');
+    const mode = settings.mode === undefined ? prefs.mode : assertReadingMode(settings.mode);
+    if (enabled) { setMode(mode); refreshSurfaces(); return getState(); }
+    action(() => {
+      prefs = { ...prefs, mode };
+      enabled = true;
+      primary.setPreferences(prefs);
+      primary.enable({ mode });
+      registry.start();
+      syncPrintViews();
+    });
+    return getState();
+  }
+  function disable() {
+    action(() => {
+      enabled = false;
+      printing = false;
+      registry.stop();
+      budget.clear();
+      for (const [root, reader] of [...readers]) { if (root === document) reader.disable(); else { reader.destroy(); readers.delete(root); owners.delete(root); } }
+      syncPrintViews();
+    });
+    return getState();
+  }
+  function refreshSurfaces() { if (enabled) action(() => registry.refresh()); return getState(); }
+  function ignoreTerm(entryId) {
+    if (!entries.some((entry) => entry.id === entryId)) throw new TypeError('Choose a glossary term to ignore on this page.');
+    action(() => { for (const reader of readers.values()) reader.ignoreTerm(entryId); });
+    return getState();
+  }
+  function restoreOccurrence(element) {
+    action(() => { for (const reader of readers.values()) if (reader.hasMark(element)) { reader.restoreOccurrence(element); break; } });
+    return getState();
+  }
+  function beforePrint() {
+    if (!enabled || printing) return;
+    action(() => { printing = true; for (const reader of readers.values()) reader.preparePrint(); });
+  }
+  function afterPrint() {
+    if (!enabled || !printing) return;
+    action(() => { printing = false; for (const reader of readers.values()) reader.finishPrint(); });
+  }
+  function openFirst() { for (const reader of readers.values()) if (reader.openFirst()) return true; return false; }
+  return { enable, disable, setMode, setPreferences, getState, openFirst, ignoreTerm, restoreOccurrence, refreshSurfaces,
+    getOriginalText: () => [...readers.values()].map((reader) => reader.getOriginalText()).join('\n'),
+    destroy() { disable(); primary.destroy(); } };
 }

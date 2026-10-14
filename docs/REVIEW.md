@@ -111,3 +111,13 @@ Changelog and follow-up source-review trigger:
 ```
 
 The [community process](COMMUNITY.md) requires an author and a distinct human reviewer for community data changes. Store this completed record with the proposal, separate from the entry's `source-checked` metadata. Do not change the schema status to expert-verified or mark the whole lexicon reviewed based on a subset. If material revisions follow review, the revised wording and pairs need another review of the final diff.
+
+## v0.5 package ready for independent review
+
+Status: **prepared, no independent human review completed**. Data version 0.5.0; health SHA-256 `a13025d277a48cbd483b651ce9a9f5e1e0a1cb3f0dfa62c79d19cacad902ddf2`. Scope: 20 new entries (see [source-comparison ledger](LEXICON.md#v05-additions-and-source-comparison)), 16 added pairs across 10 entries, and the new chronic illnesses alias. The 10 pair-bearing entries are carcinogen, chronic-disease, end-stage-renal-disease, hematuria, hormone, lipoprotein, renal-disease, renal-failure, renal-function, ultrasound. New inline comparisons are dated 2026-10-14; unchanged definition dates remain intact.
+
+Attach these exact materials to a future review request: `data/health.json`, the v0.4→v0.5 diff, `data/coverage/health-reading.json`, `artifacts/source-audit-v0.5.0.json`, and `artifacts/coverage-v0.5.0.json`. The [inline ledger](INLINE-LEXICON.md#v05-pair-additions-and-rejected-candidates) records sources, retained cases and rejected alternatives. The four source texts and all 122 gold spans are unchanged; a frozen v0.4 baseline and the v0.3 historical baseline are included.
+
+Review priority: (1) particle versus cholesterol and protection of named lipoprotein subtypes; (2) hormone versus the broader chemical-messenger paraphrase in compounds; (3) renal disease/failure/function distinctions; (4) hematuria without an inferred cause; (5) preserving end-stage, number and uncertainty; (6) annotation-only laboratory quantities and substances. Inspect the actual sources, not just the audit’s available status. A finding that a pair loses specificity is a reason to remove the pair while keeping its annotation.
+
+Fill the independent package form above with actual reviewer identity/role, conflicts, checked IDs, source claims, counterexamples and final disposition. Leave factual, clinical/domain and user-comprehension review marked not completed until corresponding evidence exists. The new analysis CLI prepares blinded scoring material from actual sessions; it does not establish any of those reviews. No recruitment message was sent.

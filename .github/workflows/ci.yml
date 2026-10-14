@@ -36,6 +36,7 @@ jobs:
       - run: npm run package:firefox
       - run: npm run package:sdk
       - run: npm run check:coverage -- --output artifacts/coverage.json
+      - run: npm run analyze:study -- --output artifacts/study-analysis-empty.json
       - name: Verify ZIP integrity independently
         run: for archive in release/*.zip; do unzip -t "$archive"; done
       - name: Verify package checksum
@@ -50,6 +51,7 @@ jobs:
             release/*.sha256
             release/*.tgz
             artifacts/coverage.json
+            artifacts/study-analysis-empty.json
           if-no-files-found: error
           retention-days: 14
 

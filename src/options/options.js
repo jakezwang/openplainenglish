@@ -1,5 +1,6 @@
 import { normalizePreferences } from '../shared/preferences.js';
 import { createLocalizer, translated } from './i18n.js';
+import { validateFeedbackDestination, createFeedbackMailto } from './feedback-destination.js';
 import {
   createFeedback,
   sanitizeFeedback,
@@ -26,6 +27,8 @@ let pendingImport = null;
 let importBusy = false;
 let preferences = normalizePreferences();
 let reviewedDraft = null;
+let feedbackDestination = { schemaVersion: 1, email: null };
+let reviewTrigger = null;
 const localize = createLocalizer(document, () => preferences.language);
 const t = (text) => translated(text, preferences.language);
 
@@ -177,10 +180,23 @@ async function refreshDrafts() {
 }
 
 function reviewDraft(draft) {
+  reviewTrigger = document.activeElement;
   reviewedDraft = sanitizeFeedback(draft);
   $('share-status').textContent = '';
   $('share-preview').value = createFeedbackIssueBody(reviewedDraft);
   $('open-issue').href = createFeedbackIssueUrl(draft);
+  $('mail-recipient').textContent = feedbackDestination.email || '';
+  $('mail-subject').textContent = `OpenPlainEnglish feedback: ${reviewedDraft.term}`;
+  $('email-destination').hidden = !feedbackDestination.email;
+  $('email-unavailable').hidden = Boolean(feedbackDestination.email);
+  $('open-email').hidden = true;
+  $('open-email').removeAttribute('href');
+  if (feedbackDestination.email) {
+    try {
+      $('open-email').href = createFeedbackMailto(feedbackDestination, { subject: $('mail-subject').textContent, body: $('share-preview').value });
+      $('open-email').hidden = false;
+    } catch { $('share-status').textContent = t('This report is too long for an email link. Copy or download it instead.'); }
+  }
   $('share-dialog').showModal();
 }
 
@@ -385,7 +401,9 @@ chrome.storage.onChanged.addListener((changes, area) => {
 
 function applyPreferences(value) {
   preferences = normalizePreferences(value);
-  for (const [key, value] of Object.entries(preferences)) $(`preference-${key}`).value = value;
+  for (const key of ['language', 'density', 'highlight', 'mode']) $(`preference-${key}`).value = preferences[key];
+  for (const key of ['includeFrames', 'includeShadowRoots']) $(`preference-${key}`).checked = preferences[key];
+  $('guide-status').textContent = preferences.guideCompleted ? 'Practice completed on this device. You can repeat it anytime.' : 'Try the reading controls on a short, invented example.';
   document.body.dataset.density = preferences.density;
   document.body.dataset.highlight = preferences.highlight;
   renderDrafts();
@@ -396,7 +414,8 @@ $('preferences-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   $('save-preferences').disabled = true;
   try {
-    const patch = Object.fromEntries(Object.keys(preferences).map((key) => [key, $(`preference-${key}`).value]));
+    const patch = Object.fromEntries(['language', 'density', 'highlight', 'mode'].map((key) => [key, $(`preference-${key}`).value]));
+    for (const key of ['includeFrames', 'includeShadowRoots']) patch[key] = $(`preference-${key}`).checked;
     const response = await chrome.runtime.sendMessage({ type: 'OPE_SET_PREFERENCES', preferences: patch });
     if (!response?.ok) throw new Error();
     applyPreferences(response.preferences);
@@ -431,13 +450,28 @@ $('download-report').addEventListener('click', () => {
     $('share-status').textContent = t('Unable to download the report. You can copy the selected text instead.');
   }
 });
-$('share-dialog').addEventListener('close', () => { reviewedDraft = null; });
+$('share-dialog').addEventListener('close', () => { reviewedDraft = null; if (reviewTrigger?.isConnected) reviewTrigger.focus(); reviewTrigger = null; });
+$('open-email').addEventListener('click', (event) => {
+  if (!reviewedDraft || !feedbackDestination.email || !$('open-email').getAttribute('href')) { event.preventDefault(); return; }
+  $('share-status').textContent = t('OpenPlainEnglish does not send this email. Review and send it in your mail app.');
+});
+$('guide-link').href = chrome.runtime.getURL?.('guide.html') || 'guide.html';
+async function loadFeedbackDestination() {
+  const url = chrome.runtime.getURL?.('data/feedback-config.json');
+  if (!url) return;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) return;
+    feedbackDestination = validateFeedbackDestination(await response.json());
+  } catch { /* Copy/download remain available when the owner has not configured a valid address. */ }
+}
 route();
 async function initialize() {
   const results = await Promise.allSettled([
     chrome.runtime.sendMessage({ type: 'OPE_GET_LEXICON' }),
     refreshDrafts(),
     chrome.runtime.sendMessage({ type: 'OPE_GET_PREFERENCES' }),
+    loadFeedbackDestination(),
   ]);
   const [dictionary, localFeedback, savedPreferences] = results;
   if (savedPreferences.status === 'fulfilled' && savedPreferences.value?.ok) applyPreferences(savedPreferences.value.preferences);

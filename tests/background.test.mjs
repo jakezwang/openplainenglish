@@ -210,7 +210,7 @@ test('preferences survive worker recreation, merge concurrent updates, and never
     actions.handle({ type: 'OPE_SET_PREFERENCES', preferences: { language: 'zh-CN', mode: 'annotate' } }),
     actions.handle({ type: 'OPE_SET_PREFERENCES', preferences: { highlight: 'strong', density: 'compact' } }),
   ]);
-  assert.deepEqual(saved.opePreferences, { language: 'zh-CN', density: 'compact', highlight: 'strong', mode: 'annotate' });
+  assert.deepEqual(saved.opePreferences, { language: 'zh-CN', density: 'compact', highlight: 'strong', mode: 'annotate', includeFrames: false, includeShadowRoots: false, guideCompleted: false });
   assert.equal(calls.some((call) => call.injection || call.message?.type === 'OPE_ENABLE'), false);
   const restarted = createActions(api, async () => lexicon);
   assert.equal((await restarted.handle({ type: 'OPE_GET_ACTIVE_STATE' })).state.mode, 'annotate');

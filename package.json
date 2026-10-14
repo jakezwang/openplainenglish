@@ -1,12 +1,12 @@
 {
   "name": "openplainenglish",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "description": "An open, local-first browser reading aid for everyday understanding of health terminology.",
   "type": "module",
   "license": "MIT",
   "engines": {
-    "node": ">=22"
+    "node": ">=22.13.0"
   },
   "scripts": {
     "build": "node scripts/build.mjs",
@@ -22,10 +22,15 @@
     "build:sdk": "node scripts/build-sdk.mjs",
     "package:sdk": "node scripts/package-sdk.mjs",
     "check:coverage": "node scripts/check-coverage.mjs",
-    "check:compatibility": "node scripts/check-compatibility.mjs"
+    "check:compatibility": "node scripts/check-compatibility.mjs",
+    "build:vendor": "node scripts/build-vendor.mjs",
+    "analyze:study": "node scripts/analyze-study.mjs"
   },
   "devDependencies": {
+    "@tesseract.js-data/eng": "1.0.0",
     "esbuild": "0.25.12",
-    "jsdom": "26.1.0"
+    "jsdom": "26.1.0",
+    "pdfjs-dist": "6.4.299",
+    "tesseract.js": "7.0.0"
   }
 }

@@ -37,6 +37,11 @@ for (const [en, zh] of Object.entries({
   'Open OpenPlainEnglish from the browser toolbar on the page you want to read, then try again.':'请在需要阅读的网页上，通过浏览器工具栏打开 OpenPlainEnglish 后重试。',
   'This page cannot be annotated, or it changed while opening. Try a regular web page and enable the reader again.':'本页不受支持，或打开时页面已改变。请在普通网页重新开启阅读。'
 })) translations.set(en, zh);
+for (const [en, zh] of Object.entries({
+  'Reading guide':'阅读演练','Make yourself at home.':'先试一试，放心阅读。','Try the reading controls on a short, invented example.':'用一小段虚构文字练习阅读操作。','Practice completed on this device. You can repeat it anytime.':'已在本机完成演练，随时可以重做。','Open the reading guide ↗':'打开阅读演练 ↗','New here? Try the one-minute guide →':'第一次使用？试试一分钟演练 →','Practice with the reading guide ↗':'重新练习阅读操作 ↗',
+  'Additional reading areas — off by default':'额外读取区域（默认关闭）','Include accessible same-origin frames':'包含可访问的同源内嵌页面','Include open shadow-root components':'包含开放的 Shadow DOM 组件','These optional areas can contain more page text. Cross-origin frames and closed components remain inaccessible. Enabling these settings does not turn reading on; restore original to stop reading.':'这些可选区域可能包含更多网页文字。跨域内嵌页面与封闭组件仍无法访问。勾选设置不会开启阅读；可用“恢复原文”停止阅读。',
+  'Configured feedback email':'已配置的反馈邮箱','To':'收件人','Subject':'主题','The email body is exactly the report above. Your mail app may add its own signature. Review there before sending.':'邮件正文就是上方报告。邮件应用可能加上自己的签名，请发送前再次检查。','Open email draft ↗':'打开邮件草稿 ↗','No feedback email is configured. You can still copy or download this report; neither action sends it to the project.':'暂未配置反馈邮箱，仍可复制或下载报告；这两种操作都不会把内容发送给项目。','OpenPlainEnglish does not send this email. Review and send it in your mail app.':'OpenPlainEnglish 不会发送此邮件。请在邮件应用中检查，再自行发送。','This report is too long for an email link. Copy or download it instead.':'报告过长，无法通过邮件链接打开，请复制或下载。',
+})) translations.set(en, zh);
 const reverse = new Map([...translations].map(([en, zh]) => [zh, en]));
 const patterns = [
  [/^(Hard to understand|May be inaccurate|Suggestion or new term) · (.+)$/, (_, kind, date) => `${translations.get(kind)} · ${date}`],

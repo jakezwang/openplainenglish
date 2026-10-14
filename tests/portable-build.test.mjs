@@ -27,7 +27,7 @@ test('independent SDK runs from its built artifact and ships only code, data and
   assert.equal(pkg.dependencies, undefined);
   assert.equal(pkg.version, health.version);
   const files = await readdir(temporary, { recursive: true });
-  assert.deepEqual(files.filter((file) => /\.(?:js|json)$/u.test(file)).sort(), ['browser.js', 'data/health.json', 'data/pilots/public-service.json', 'index.js', 'package.json']);
+  assert.deepEqual(files.filter((file) => /\.(?:js|json)$/u.test(file)).sort(), ['browser.js', 'data/health.json', 'data/pilots/public-service.json', 'documents.js', 'index.js', 'package.json', 'sentences.js']);
 });
 
 test('packed SDK installs offline in an empty consumer and resolves documented exports', async (t) => {
@@ -35,7 +35,7 @@ test('packed SDK installs offline in an empty consumer and resolves documented e
   t.after(() => rm(temporary, { recursive: true, force: true }));
   const directory = await buildSDK(path.join(temporary, 'build'));
   const packed = await packageSDK({ directory, outputDir: path.join(temporary, 'release') });
-  assert.deepEqual(packed.files.sort(), ['LICENSE', 'README.md', 'browser.js', 'data/LICENSE', 'data/health.json', 'data/pilots/public-service.json', 'index.js', 'package.json'].sort());
+  assert.deepEqual(packed.files.sort(), ['LICENSE', 'README.md', 'browser.js', 'documents.js', 'sentences.js', 'data/LICENSE', 'data/health.json', 'data/pilots/public-service.json', 'index.js', 'package.json'].sort());
   const digest = createHash('sha256').update(await readFile(packed.packagePath)).digest('hex');
   assert.equal(await readFile(packed.checksumPath, 'utf8'), `${digest}  ${path.basename(packed.packagePath)}\n`);
   const consumer = path.join(temporary, 'consumer');
@@ -46,6 +46,10 @@ test('packed SDK installs offline in an empty consumer and resolves documented e
     import assert from 'node:assert/strict';
     import { createTextEngine } from 'openplainenglish-core';
     import { createReader } from 'openplainenglish-core/browser';
+    import { proposeSentenceSplits } from 'openplainenglish-core/sentences';
+    import { extractPageText } from 'openplainenglish-core/documents';
+    assert.equal(proposeSentenceSplits('The report is clear; it is brief.').changes.length, 1);
+    assert.deepEqual(extractPageText([]).positions, []);
     import health from 'openplainenglish-core/data/health.json' with { type: 'json' };
     import pilot from 'openplainenglish-core/data/pilots/public-service.json' with { type: 'json' };
     assert.equal(typeof createReader, 'function');

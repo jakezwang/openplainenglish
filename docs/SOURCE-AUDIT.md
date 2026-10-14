@@ -1,16 +1,16 @@
 # Source URL audit
 
-The latest v0.4 audit checked **all 112 unique URLs cited by the 112 health entries**, plus a separate audit of the **2 URLs cited by the 8 opt-in public-service entries**. All 114 returned available HTTP responses. Official API requests returned term evidence for all 91 CDC Everyday Words and NCI dictionary URLs. No missing, blocked, timeout, or network-error result was observed. These checks occurred on 2026-10-13 local time (2026-10-14 UTC).
+The latest v0.5 health audit checked **all 125 unique URLs cited by 132 entries** on 2026-10-14. All 125 were available; 94 CDC/NCI API probes returned term evidence. No missing, blocked, timeout or network-error result was observed. The separate v0.5 public-service audit checked both unchanged pilot sources at 2026-10-14T09:22:03.675Z; both were available.
 
-This establishes reachability and selected term presence at that time. It is not a finding that every sentence is accurate, that every page is licensed for every use, or that the lexicon has passed independent clinical or comprehension review. Review metadata remains unchanged: `source-checked`, dated `2026-10-13`, with the existing editorial method and limitations.
+This establishes reachability and selected term presence at that time. It is not a finding that every sentence is accurate, that every page is licensed for every use, or that the lexicon has passed independent clinical or comprehension review. A URL audit never upgrades review status or changes a review date. Unchanged definition reviews retain 2026-10-13; new v0.5 definition and inline comparisons are dated 2026-10-14 and remain source-checked with the same limitations.
 
 ## Reproduce and inspect
 
 Requires Node.js 22 or later; no additional dependency or API key. From the repository root:
 
 ```sh
-node scripts/check-sources.mjs --output artifacts/source-audit-v0.4.0.json
-node scripts/check-sources.mjs --input data/pilots/public-service.json --output artifacts/source-audit-public-service-v0.4.0.json
+node scripts/check-sources.mjs --output artifacts/source-audit-v0.5.0.json
+node scripts/check-sources.mjs --input data/pilots/public-service.json --output artifacts/source-audit-public-service-v0.5.0.json
 node --test tests/source-checker.test.mjs
 ```
 
@@ -19,6 +19,21 @@ The JSON file is a generated local artifact in the ignored `artifacts/` director
 The checker performs GET requests only. It never edits the lexicon, changes review status, or sends page content from a user's browsing session. It follows redirects, records the final URL, limits response bodies to 2 MiB, and retries a transient network failure, timeout, HTTP 429, or server failure once. Review unexpected redirect destinations manually. Known challenge-page titles count as blocked even when HTTP status is 200; unrecognized challenge pages and soft-404 pages can still escape that heuristic.
 
 A completed audit exits successfully even if some sources are unavailable; inspect the report's status counts and individual records. CLI/configuration failures exit nonzero. Live network availability is deliberately separate from offline tests and should not be a blocking CI assertion.
+
+## v0.5 health result
+
+- Checked at UTC: `2026-10-14T09:15:23.851Z`.
+- Lexicon: 0.5.0, 132 entries, 125 unique cited URLs.
+- Reachability: 125 available; no unavailable category.
+- Official API term evidence: 94 found.
+- Input SHA-256: `a13025d277a48cbd483b651ce9a9f5e1e0a1cb3f0dfa62c79d19cacad902ddf2`.
+- Artifact: `artifacts/source-audit-v0.5.0.json`.
+
+The 13 additional citation URLs are verified MedlinePlus medical-test/health-topic pages and NCI definitions. The [v0.5 editorial ledger](LEXICON.md#v05-additions-and-source-comparison) separately documents comparison of changed meanings and pairs, including candidates rejected for ambiguous or narrowed meaning. Two exploratory NCI API slugs (lipoprotein and arrhythmia) returned no definition; neither guessed URL was added. Existing MedlinePlus sources were used instead, and arrhythmia remained annotation-only. The current audit measures only URLs actually cited in the final data. No original entry citation required repair.
+
+### v0.5 public-service result
+
+The unchanged eight-entry / fourteen-pair pilot was audited separately at `2026-10-14T09:22:03.675Z` after its release-version update. Both cited URLs were available. Input SHA-256: `daf0fa17c2f4630ae8eae5055927974a3174103ac36512cc346caa895713732c`. Artifact: `artifacts/source-audit-public-service-v0.5.0.json`. This availability check does not change the original 2026-10-13 editorial comparison dates.
 
 ## v0.4 recorded result
 

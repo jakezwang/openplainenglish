@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0 — 2026-10-14 (preview)
+
+- Add a real four-step reading guide with optional local completion, safe defaults and English/Chinese controls.
+- Extend opt-in reading to accessible same-origin HTML frames and open Shadow DOM with shared limits, lifecycle handling and precise restoration. Cross-origin frames and closed roots stay excluded.
+- Add local PDF rendering/text extraction and English image/scanned-page OCR, source comparison, correction gate, copy/restore/cancel, and version-pinned same-origin engine assets. No document uploads or persistence.
+- Add a conservative sentence-splitting experiment with changed-span preview, explicit review and exact undo; withhold quoted/conditional patterns.
+- Expand health data to 132 entries and 56 explicit pairs across 30 entries. Frozen-corpus coverage grows from 80/122 to 104/122 spans; actual inline substitutions grow from 12 to 16.
+- Add strict study-export analysis and blinded two-reviewer scoring/adjudication support. No real participant data or benefit claim.
+- Add an optional configured email draft after exact feedback review; default destination remains unset. Improve narrow-screen layouts and export sentence/document helpers in the SDK.
+- Refresh Chromium/unsigned Firefox/SDK packages, source audits, store preparation and documentation. Native-extension acceptance, store publication and independent review remain pending.
+
 ## 0.4.0 — 2026-10-13 (preview)
 
 - Add English/Chinese interface controls, local density and highlight preferences, remembered reading mode, and keyboard commands for toggle and restore. Fresh documents still start disabled; changing preferences alone does not activate page access.

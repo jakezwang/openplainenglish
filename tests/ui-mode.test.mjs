@@ -138,3 +138,16 @@ test('popup loads remembered mode without activating and rolls failed preference
     assert.equal(doc.getElementById('toggle').disabled, false);
   } finally { dom.window.close(); }
 });
+
+test('first-use invitation is local, optional and always reopenable without page activation', async () => {
+  for (const guideCompleted of [false,true]) {
+    const { dom, messages } = await popupHarness({ savedPreferences:{ guideCompleted } });
+    try {
+      const doc = dom.window.document;
+      assert.equal(doc.getElementById('first-use').hidden, guideCompleted);
+      assert.equal(doc.getElementById('guide-link').href, 'https://extension.test/guide.html');
+      assert.equal(doc.getElementById('guide-link').hidden, false);
+      assert.equal(messages.some((message) => ['OPE_TOGGLE_ACTIVE','OPE_SET_PREFERENCES'].includes(message.type)), false);
+    } finally { dom.window.close(); }
+  }
+});

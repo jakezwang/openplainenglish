@@ -23,7 +23,7 @@ An author prepares the proposal; a distinct human reviewer checks its final diff
 
 The minimum editorial decision checks factual support, alias ambiguity, reuse rights, and plain wording. For a health meaning dispute or material clinical distinction, obtain a reviewer with relevant clinical expertise or keep the change out of the default data. A general editorial approval is not clinical certification. A clinician's scoped review is not a user-comprehension study. Human review records remain separate from the current schema, which only represents source comparison.
 
-When no independent person is available, keep the proposal explicitly pending. Do not invent a name, credential, approval, test session, or successful outcome. The current seed and v0.4 additions remain an AI-assisted, source-compared preview awaiting this review process.
+When no independent person is available, keep the proposal explicitly pending. Do not invent a name, credential, approval, test session, or successful outcome. The current seed and v0.4/v0.5 additions remain an AI-assisted, source-compared preview awaiting this review process.
 
 ## Disagreements and corrections
 
@@ -61,3 +61,9 @@ Date / maintainer disposition / changelog entry:
 ```
 
 This template is blank on purpose. Submitting it or running a script does not complete a review.
+
+## v0.5 review queue status
+
+The 20 new entries and 16 new inline pairs are a maintainer preview, with source comparison and regression evidence. The independent human-review gate above is **pending**, not completed by the AI-assisted preparation or the second software review. The [v0.5 review package](REVIEW.md#v05-package-ready-for-independent-review) binds the exact data hash, changed entry IDs, source audit and unchanged corpus. No reviewer has been recruited or contacted by this work.
+
+Keep participant exports and answer packets out of issues, pull requests and release assets. The analysis CLI can create a private scoring packet from actual exports; only aggregate results with explicit permission and an agreed disclosure plan should become a community report. A scoring file or a reviewer code alone is not evidence of independent human participation.

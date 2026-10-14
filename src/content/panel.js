@@ -3,7 +3,7 @@ import { DOMAIN_INLINE_REVIEW_METHOD } from '../core/inline.js';
 const STYLE = `
 :host { all:initial; font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; color:#172e2a; font-size:15px; line-height:1.5; color-scheme:light; }
 * { box-sizing:border-box; }
-.panel { font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:15px; line-height:1.5; color:#172e2a; color-scheme:light; position:fixed; z-index:2147483647; right:24px; bottom:24px; width:390px; max-width:calc(100vw - 24px); max-height:min(760px,calc(100dvh - 32px)); overflow-y:auto; background:#fffdf7; border:1px solid #b8cec4; border-radius:20px; box-shadow:0 14px 64px #142e293b; padding:24px; text-align:left; }
+.panel { font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; font-size:15px; line-height:1.5; color:#172e2a; color-scheme:light; position:fixed; z-index:2147483647; right:24px; bottom:24px; width:390px; max-width:calc(100% - 24px); max-height:min(760px,calc(100dvh - 32px)); overflow-y:auto; background:#fffdf7; border:1px solid #b8cec4; border-radius:20px; box-shadow:0 14px 64px #142e293b; padding:24px; text-align:left; }
 .panel.compact { padding:16px; font-size:14px; } .compact p { margin:7px 0; } .compact .context { margin:10px 0; } .compact h2 { font-size:23px; margin-bottom:10px; }
 .top { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-bottom:12px; border-bottom:1px solid #e1e6dc; }
 .brand { font-size:11px; font-weight:750; letter-spacing:.06em; color:#49695b; }

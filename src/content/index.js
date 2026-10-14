@@ -36,6 +36,7 @@ if (!globalThis.__openPlainEnglishInstalled) {
       else if (message.type === 'OPE_DISABLE') respond({ ok: true, state: reader?.disable() || offState() });
       else if (message.type === 'OPE_GET_STATE') respond({ ok: true, state: reader?.getState() || offState() });
       else if (message.type === 'OPE_OPEN_FIRST') respond({ ok: true, opened: reader?.openFirst() || false, state: reader?.getState() || offState() });
+      else if (message.type === 'OPE_REFRESH_SURFACES') respond({ ok: true, state: reader?.refreshSurfaces() || offState() });
       else return false;
     } catch {
       respond({ ok: false, error: 'The reader could not load this glossary. Reload the extension and try again.' });

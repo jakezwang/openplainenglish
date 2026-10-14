@@ -20,6 +20,7 @@ export async function buildExtension(dist = path.join(root, 'dist'), { browser =
       content: 'src/content/index.js',
       popup: 'src/popup/popup.js',
       options: 'src/options/options.js',
+      guide: 'demo/guide.js',
     },
     absWorkingDir: root,
     outdir: dist,
@@ -41,8 +42,10 @@ export async function buildExtension(dist = path.join(root, 'dist'), { browser =
   for (const area of ['popup', 'options']) {
     for (const extension of ['html', 'css']) await cp(path.join(root, `src/${area}/${area}.${extension}`), path.join(dist, `${area}.${extension}`));
   }
+  for (const ext of ['html', 'css']) await cp(path.join(root, `demo/guide.${ext}`), path.join(dist, `guide.${ext}`));
   await cp(path.join(root, 'assets/icons'), path.join(dist, 'icons'), { recursive: true });
   await mkdir(path.join(dist, 'data'));
+  await cp(path.join(root, 'data/feedback-config.json'), path.join(dist, 'data/feedback-config.json'));
   await cp(path.join(root, 'data/health.json'), path.join(dist, 'data/health.json'));
   // Keep license/attribution in the downloadable artifact as well as the repository.
   for (const file of ['LICENSE', 'data/LICENSE', 'data/LICENSE.md', 'data/LICENSE.txt']) {

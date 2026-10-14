@@ -1,9 +1,9 @@
 # OpenPlainEnglish engine and data
 
-The v0.4.0 build produces `openplainenglish-core-0.4.0.tgz`: an independent ES module package with a local text engine, an optional DOM reader, a health glossary and a separate public-service pilot. It has no runtime dependencies, network calls, telemetry, account or API key. Install the local tarball after building it or downloading it from the release assets; it has **not** been published to the npm registry. Node.js 22 or newer is required for the example below.
+The v0.5.0 build produces `openplainenglish-core-0.5.0.tgz`: an independent ES module package with a local text engine, an optional DOM reader, document-text helpers, conservative sentence splitting and two glossaries. It has no runtime dependencies, network calls, telemetry, account or API key. Install the local tarball after building it or downloading it from the release assets; it has **not** been published to the npm registry. Node.js 22.13 or newer is required for the example below.
 
 ```sh
-npm install ./openplainenglish-core-0.4.0.tgz
+npm install ./openplainenglish-core-0.5.0.tgz
 ```
 
 ```js
@@ -33,7 +33,19 @@ reader.enable({ mode: 'plain' });
 // Later: reader.setMode('annotate'), reader.disable(), or reader.destroy().
 ```
 
-The DOM reader changes eligible text in the supplied document, skips editable/interactive/hidden regions, and restores owned original text while preserving website mutations. Keep your own controls inside elements with `data-ope-owned="your-ui"`. It does not scan iframes or shadow roots. Call `destroy()` on teardown. Integration tests and native browser checks are still the integrator's responsibility.
+The DOM reader changes eligible text in the supplied document, skips editable/interactive/hidden regions, and restores owned original text while preserving website mutations. Keep your controls inside elements with `data-ope-owned="your-ui"`. `includeFrames` and `includeShadowRoots` are default-off preferences for accessible same-origin HTML frame documents and open roots. Cross-origin frames and closed roots remain excluded; attaching a shadow root to an already-existing host can require a reader refresh. All scopes share work limits. Call `destroy()` on teardown. Native integration checks remain the integrator's responsibility.
+
+```js
+import { proposeSentenceSplits } from 'openplainenglish-core/sentences';
+import { extractPageText, validateDocumentFile, DOCUMENT_LIMITS } from 'openplainenglish-core/documents';
+const proposal = proposeSentenceSplits('The note lists 10 mg; it does not list 100 mg.');
+console.log(proposal.text); // The note lists 10 mg. It does not list 100 mg.
+console.log(proposal.changes); // Original UTF-16 offsets, old/new punctuation and initial.
+```
+
+Sentence proposals accept at most 20,000 characters and retain exact `original` text for undo. Only explicit clause patterns at a semicolon are considered; quoted input and recognized conditional wording are withheld. Token preservation is a mechanical check, not a semantic guarantee. Show the difference, ask for meaning review and preserve a way to undo; never silently replace a document with a candidate.
+
+Document helpers validate sizes/types and map PDF.js-style text items to extracted text plus original item coordinates. They preserve engine order, flag some complex layouts and do not reconstruct arbitrary columns. The package includes neither a PDF parser nor an OCR model; callers provide those and must render the original for checking. The website demonstrates PDF.js and Tesseract separately. Limits are 15 MiB per input file, 100 PDF pages, 20 million image pixels and 20,000 extracted characters/items per page. No document is read or uploaded by importing these helpers.
 
 The public-service pilot lives at `data/pilots/public-service.json`; opt into its entries explicitly instead of mixing domains by default. Data is CC0-1.0 (`data/LICENSE`); code is MIT (`LICENSE`). Explanations and phrases are editorial source comparisons, without completed independent expert review or reader-comprehension testing. Source links remain part of each entry. Respect the provenance notes when reusing source material.
 

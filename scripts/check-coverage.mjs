@@ -38,6 +38,7 @@ function measure(doc, entries) {
 }
 
 export function analyzeCorpus(corpus, lexicon) {
+  const historicalBaselines = corpus.historicalBaselines || [];
   const documentIds = new Set();
   const documents = corpus.documents.map((doc) => {
     if (documentIds.has(doc.id)) throw new Error(`Duplicate document ${doc.id}`);
@@ -57,17 +58,19 @@ export function analyzeCorpus(corpus, lexicon) {
       goldOccurrences: doc.gold.length,
       baseline: measure(doc, corpus.baseline.entries),
       current: measure(doc, lexicon.entries),
+      historical: Object.fromEntries(historicalBaselines.map((baseline) => [baseline.version, measure(doc, baseline.entries)])),
     };
   });
   const goldOccurrences = documents.reduce((n, doc) => n + doc.goldOccurrences, 0);
-  const summarize = (key) => {
-    const covered = documents.reduce((n, doc) => n + doc[key].goldCovered, 0);
+  const summarize = (key, historicalVersion) => {
+    const measurement = (doc) => historicalVersion ? doc.historical[historicalVersion] : doc[key];
+    const covered = documents.reduce((n, doc) => n + measurement(doc).goldCovered, 0);
     return {
-      literalMatches: documents.reduce((n, doc) => n + doc[key].matches, 0),
-      inlineReplacements: documents.reduce((n, doc) => n + doc[key].inlineReplacements, 0),
+      literalMatches: documents.reduce((n, doc) => n + measurement(doc).matches, 0),
+      inlineReplacements: documents.reduce((n, doc) => n + measurement(doc).inlineReplacements, 0),
       goldCovered: covered,
       goldOccurrenceCoverage: goldOccurrences ? Number((covered / goldOccurrences).toFixed(6)) : null,
-      uniqueCoveredConcepts: [...new Set(documents.flatMap((doc) => doc[key].coveredConcepts))].length,
+      uniqueCoveredConcepts: [...new Set(documents.flatMap((doc) => measurement(doc).coveredConcepts))].length,
     };
   };
   const behaviorCases = (corpus.behaviorCases || []).map((fixture) => {
@@ -88,6 +91,7 @@ export function analyzeCorpus(corpus, lexicon) {
     goldOccurrences,
     uniqueGoldConcepts: new Set(corpus.documents.flatMap((doc) => doc.gold.map((gold) => gold.entryId))).size,
     baseline: summarize('baseline'), current: summarize('current'),
+    historical: historicalBaselines.map((baseline) => ({ version: baseline.version, ...summarize(null, baseline.version) })),
     documents,
     behaviorSummary: { total: behaviorCases.length, passed: behaviorCases.filter((item) => item.pass).length },
     behaviorCases,

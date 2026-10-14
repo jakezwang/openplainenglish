@@ -6,7 +6,8 @@
   "scope": "Four deliberately selected MedlinePlus patient-reading pages: metabolic panel, understanding lab reports, A1C, cholesterol. No traffic rank or representative frequency claim. Labels are selected technical concepts, not every difficult word.",
   "normalization": "HTML text only; collapse internal whitespace; paragraphs separated by two newlines; headings omitted. Named complete sections only. No references, outside content, images, or clinical instructions selected.",
   "baseline": {
-    "version": "0.3.0",
+    "version": "0.4.0",
+    "sourceSha256": "d285c6f3e09a57430d1d4962fdcde173aedfc633a42633d35175dbddba2db0aa",
     "entries": [
       {
         "id": "acute-illness",
@@ -22,6 +23,11 @@
         "aliases": [
           "adverse events"
         ]
+      },
+      {
+        "id": "albumin",
+        "term": "albumin",
+        "aliases": []
       },
       {
         "id": "anemia",
@@ -70,6 +76,11 @@
         "aliases": []
       },
       {
+        "id": "atherosclerosis",
+        "term": "atherosclerosis",
+        "aliases": []
+      },
+      {
         "id": "bacteria",
         "term": "bacteria",
         "aliases": [
@@ -110,6 +121,11 @@
             "method": "editorial source comparison; no independent clinical or user-comprehension review"
           }
         }
+      },
+      {
+        "id": "bilirubin",
+        "term": "bilirubin",
+        "aliases": []
       },
       {
         "id": "biopsy",
@@ -178,17 +194,17 @@
         ]
       },
       {
-        "id": "case-report",
-        "term": "case report",
-        "aliases": [
-          "case reports"
-        ]
-      },
-      {
         "id": "case-control-study",
         "term": "case-control study",
         "aliases": [
           "case-control studies"
+        ]
+      },
+      {
+        "id": "case-report",
+        "term": "case report",
+        "aliases": [
+          "case reports"
         ]
       },
       {
@@ -199,13 +215,19 @@
         ]
       },
       {
+        "id": "cholesterol",
+        "term": "cholesterol",
+        "aliases": []
+      },
+      {
         "id": "chronic-disease",
         "term": "chronic disease",
         "aliases": [
           "chronic illness",
           "chronic condition",
           "chronic diseases",
-          "chronic conditions"
+          "chronic conditions",
+          "chronic illnesses"
         ],
         "inline": {
           "replacements": [
@@ -228,12 +250,16 @@
             {
               "from": "chronic conditions",
               "to": "long-term conditions"
+            },
+            {
+              "from": "chronic illnesses",
+              "to": "long-term illnesses"
             }
           ],
           "note": "Each complete phrase keeps its noun and number. Long-term describes duration, not severity, permanence, or hopelessness; standalone chronic is excluded.",
           "review": {
             "status": "source-checked",
-            "date": "2026-10-13",
+            "date": "2026-10-14",
             "method": "editorial source comparison; no independent clinical or user-comprehension review"
           }
         }
@@ -259,6 +285,13 @@
         ]
       },
       {
+        "id": "comprehensive-metabolic-panel",
+        "term": "comprehensive metabolic panel",
+        "aliases": [
+          "comprehensive metabolic panels"
+        ]
+      },
+      {
         "id": "computed-tomography",
         "term": "computed tomography",
         "aliases": [
@@ -275,6 +308,11 @@
       {
         "id": "contagious",
         "term": "contagious",
+        "aliases": []
+      },
+      {
+        "id": "creatinine",
+        "term": "creatinine",
         "aliases": []
       },
       {
@@ -370,6 +408,13 @@
         ]
       },
       {
+        "id": "electrolyte",
+        "term": "electrolyte",
+        "aliases": [
+          "electrolytes"
+        ]
+      },
+      {
         "id": "embolism",
         "term": "embolism",
         "aliases": []
@@ -401,6 +446,24 @@
         "aliases": [
           "evidence-based practice",
           "evidence-based treatment"
+        ]
+      },
+      {
+        "id": "false-negative-result",
+        "term": "false negative result",
+        "aliases": [
+          "false negative results",
+          "false-negative result",
+          "false-negative results"
+        ]
+      },
+      {
+        "id": "false-positive-result",
+        "term": "false positive result",
+        "aliases": [
+          "false positive results",
+          "false-positive result",
+          "false-positive results"
         ]
       },
       {
@@ -460,6 +523,17 @@
         "term": "hemoglobin",
         "aliases": [
           "haemoglobin"
+        ]
+      },
+      {
+        "id": "hemoglobin-a1c-test",
+        "term": "hemoglobin A1C test",
+        "aliases": [
+          "hemoglobin A1C (HbA1C) test",
+          "A1C test",
+          "A1C tests",
+          "HbA1c test",
+          "HbA1c tests"
         ]
       },
       {
@@ -923,6 +997,13 @@
         }
       },
       {
+        "id": "reference-range",
+        "term": "reference range",
+        "aliases": [
+          "reference ranges"
+        ]
+      },
+      {
         "id": "renal",
         "term": "renal",
         "aliases": []
@@ -979,6 +1060,13 @@
         "id": "toxic-exposure",
         "term": "toxic exposure",
         "aliases": []
+      },
+      {
+        "id": "triglyceride",
+        "term": "triglyceride",
+        "aliases": [
+          "triglycerides"
+        ]
       },
       {
         "id": "ultrasound",
@@ -2212,6 +2300,1473 @@
       "expectedOutput": "The hiking range is wide.",
       "expectedEntryIds": [],
       "note": "An everyday word, different substance, or ambiguous abbreviation is not an alias."
+    },
+    {
+      "id": "v05-pair-1",
+      "kind": "invented-regression",
+      "text": "A hormone carries a signal.",
+      "expectedOutput": "A chemical messenger carries a signal.",
+      "expectedEntryIds": [
+        "hormone"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-2",
+      "kind": "invented-regression",
+      "text": "These hormones affect cells.",
+      "expectedOutput": "These chemical messengers affect cells.",
+      "expectedEntryIds": [
+        "hormone"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-3",
+      "kind": "invented-regression",
+      "text": "The diagram shows a lipoprotein.",
+      "expectedOutput": "The diagram shows a fat-and-protein particle.",
+      "expectedEntryIds": [
+        "lipoprotein"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-4",
+      "kind": "invented-regression",
+      "text": "These lipoproteins carry fats.",
+      "expectedOutput": "These fat-and-protein particles carry fats.",
+      "expectedEntryIds": [
+        "lipoprotein"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-5",
+      "kind": "invented-regression",
+      "text": "The note names a carcinogen.",
+      "expectedOutput": "The note names a cancer-causing substance.",
+      "expectedEntryIds": [
+        "carcinogen"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-6",
+      "kind": "invented-regression",
+      "text": "Some carcinogens were studied.",
+      "expectedOutput": "Some cancer-causing substances were studied.",
+      "expectedEntryIds": [
+        "carcinogen"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-7",
+      "kind": "invented-regression",
+      "text": "The note reports hematuria.",
+      "expectedOutput": "The note reports blood in urine.",
+      "expectedEntryIds": [
+        "hematuria"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-8",
+      "kind": "invented-regression",
+      "text": "The note reports microscopic haematuria.",
+      "expectedOutput": "The note reports microscopic blood in urine.",
+      "expectedEntryIds": [
+        "hematuria"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-9",
+      "kind": "invented-regression",
+      "text": "The example concerns end-stage renal disease.",
+      "expectedOutput": "The example concerns end-stage kidney disease.",
+      "expectedEntryIds": [
+        "end-stage-renal-disease"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-10",
+      "kind": "invented-regression",
+      "text": "The example concerns end stage renal disease.",
+      "expectedOutput": "The example concerns end stage kidney disease.",
+      "expectedEntryIds": [
+        "end-stage-renal-disease"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-11",
+      "kind": "invented-regression",
+      "text": "The lesson describes ultrasonography.",
+      "expectedOutput": "The lesson describes ultrasound.",
+      "expectedEntryIds": [
+        "ultrasound"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-12",
+      "kind": "invented-regression",
+      "text": "No renal failure was recorded.",
+      "expectedOutput": "No kidney failure was recorded.",
+      "expectedEntryIds": [
+        "renal-failure"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-13",
+      "kind": "invented-regression",
+      "text": "The note mentions a renal disease.",
+      "expectedOutput": "The note mentions a kidney disease.",
+      "expectedEntryIds": [
+        "renal-disease"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-14",
+      "kind": "invented-regression",
+      "text": "The article compares renal diseases.",
+      "expectedOutput": "The article compares kidney diseases.",
+      "expectedEntryIds": [
+        "renal-disease"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-15",
+      "kind": "invented-regression",
+      "text": "The example discusses renal function.",
+      "expectedOutput": "The example discusses kidney function.",
+      "expectedEntryIds": [
+        "renal-function"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-pair-16",
+      "kind": "invented-regression",
+      "text": "Some chronic illnesses last for years.",
+      "expectedOutput": "Some long-term illnesses last for years.",
+      "expectedEntryIds": [
+        "chronic-disease"
+      ],
+      "note": "Explicit source-compared pair; preserves noun number, article, modifiers, and surrounding uncertainty. This is not participant evidence."
+    },
+    {
+      "id": "v05-boundary-hormonal",
+      "kind": "invented-regression",
+      "text": "The label uses hormonal wording.",
+      "expectedOutput": "The label uses hormonal wording.",
+      "expectedEntryIds": [],
+      "note": "The adjective hormonal is not an inferred hormone alias."
+    },
+    {
+      "id": "v05-boundary-lipo-subtype",
+      "kind": "invented-regression",
+      "text": "The test names high-density lipoprotein and low-density lipoproteins.",
+      "expectedOutput": "The test names high-density lipoprotein and low-density lipoproteins.",
+      "expectedEntryIds": [
+        "high-density-lipoprotein",
+        "low-density-lipoprotein"
+      ],
+      "note": "Specific full subtype entries take precedence over the general particle pair."
+    },
+    {
+      "id": "v05-boundary-lipo-a",
+      "kind": "invented-regression",
+      "text": "The test names lipoprotein(a) and lipoprotein (a).",
+      "expectedOutput": "The test names lipoprotein(a) and lipoprotein (a).",
+      "expectedEntryIds": [
+        "lipoprotein-a",
+        "lipoprotein-a"
+      ],
+      "note": "The named subtype is preserved, including both spacing forms."
+    },
+    {
+      "id": "v05-boundary-lipo-joined",
+      "kind": "invented-regression",
+      "text": "A lipoprotein-associated marker was discussed.",
+      "expectedOutput": "A lipoprotein-associated marker was discussed.",
+      "expectedEntryIds": [
+        "lipoprotein"
+      ],
+      "note": "Joined technical compounds retain the literal original."
+    },
+    {
+      "id": "v05-boundary-carcinogen-label",
+      "kind": "invented-regression",
+      "text": "The label reads \"possible carcinogen\".",
+      "expectedOutput": "The label reads \"possible carcinogen\".",
+      "expectedEntryIds": [
+        "carcinogen"
+      ],
+      "note": "A quoted label must retain its wording, including possible."
+    },
+    {
+      "id": "v05-boundary-hematuria-compound",
+      "kind": "invented-regression",
+      "text": "A hematuria-associated finding was discussed.",
+      "expectedOutput": "A hematuria-associated finding was discussed.",
+      "expectedEntryIds": [
+        "hematuria"
+      ],
+      "note": "A joined compound is not a reviewed noun-phrase sentence frame."
+    },
+    {
+      "id": "v05-boundary-end-stage-quoted",
+      "kind": "invented-regression",
+      "text": "The title reads \"end-stage renal disease\".",
+      "expectedOutput": "The title reads \"end-stage renal disease\".",
+      "expectedEntryIds": [
+        "end-stage-renal-disease"
+      ],
+      "note": "Quoted complete condition name is preserved."
+    },
+    {
+      "id": "v05-boundary-ultrasound-plain",
+      "kind": "invented-regression",
+      "text": "The note mentions ultrasound.",
+      "expectedOutput": "The note mentions ultrasound.",
+      "expectedEntryIds": [
+        "ultrasound"
+      ],
+      "note": "Already plain alternative is not rewritten."
+    },
+    {
+      "id": "v05-boundary-renal-adjective",
+      "kind": "invented-regression",
+      "text": "The note uses renal terminology.",
+      "expectedOutput": "The note uses renal terminology.",
+      "expectedEntryIds": [
+        "renal"
+      ],
+      "note": "Standalone adjective remains annotation-only."
+    },
+    {
+      "id": "v05-boundary-renal-failure-plain",
+      "kind": "invented-regression",
+      "text": "The note names kidney failure.",
+      "expectedOutput": "The note names kidney failure.",
+      "expectedEntryIds": [
+        "renal-failure"
+      ],
+      "note": "Already plain wording is preserved, without inferring chronicity."
+    },
+    {
+      "id": "v05-boundary-renal-disease-plain",
+      "kind": "invented-regression",
+      "text": "The article compares kidney diseases.",
+      "expectedOutput": "The article compares kidney diseases.",
+      "expectedEntryIds": [
+        "renal-disease"
+      ],
+      "note": "Already plain plural remains a disease, not failure."
+    },
+    {
+      "id": "v05-boundary-renal-function-quoted",
+      "kind": "invented-regression",
+      "text": "The heading reads \"renal function\".",
+      "expectedOutput": "The heading reads \"renal function\".",
+      "expectedEntryIds": [
+        "renal-function"
+      ],
+      "note": "A quoted technical heading keeps its original wording."
+    },
+    {
+      "id": "v05-boundary-chronic-joined",
+      "kind": "invented-regression",
+      "text": "A chronic-illnesses label was shown.",
+      "expectedOutput": "A chronic-illnesses label was shown.",
+      "expectedEntryIds": [],
+      "note": "An unlisted joined spelling is not an invented inflection."
+    },
+    {
+      "id": "v05-boundary-unqualified-lipids",
+      "kind": "invented-regression",
+      "text": "The labels read HDL, LDL, and VLDL.",
+      "expectedOutput": "The labels read HDL, LDL, and VLDL.",
+      "expectedEntryIds": [],
+      "note": "Short acronyms remain excluded despite the potential coverage gain."
+    },
+    {
+      "id": "v05-boundary-plaque-ordinary",
+      "kind": "invented-regression",
+      "text": "The school awarded a plaque.",
+      "expectedOutput": "The school awarded a plaque.",
+      "expectedEntryIds": [],
+      "note": "Bare plaque may mean an award, tooth deposit, or artery deposit."
+    },
+    {
+      "id": "v05-boundary-chlorine-not-chloride",
+      "kind": "invented-regression",
+      "text": "The label says chlorine.",
+      "expectedOutput": "The label says chlorine.",
+      "expectedEntryIds": [],
+      "note": "Chlorine gas is not the chloride entry."
+    },
+    {
+      "id": "v05-definition-metabolism",
+      "kind": "invented-regression",
+      "text": "The example names metabolism.",
+      "expectedOutput": "The example names metabolism.",
+      "expectedEntryIds": [
+        "metabolism"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-calcium",
+      "kind": "invented-regression",
+      "text": "The example names calcium.",
+      "expectedOutput": "The example names calcium.",
+      "expectedEntryIds": [
+        "calcium"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-sodium",
+      "kind": "invented-regression",
+      "text": "The example names sodium.",
+      "expectedOutput": "The example names sodium.",
+      "expectedEntryIds": [
+        "sodium"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-potassium",
+      "kind": "invented-regression",
+      "text": "The example names potassium.",
+      "expectedOutput": "The example names potassium.",
+      "expectedEntryIds": [
+        "potassium"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-bicarbonate",
+      "kind": "invented-regression",
+      "text": "The example names bicarbonate.",
+      "expectedOutput": "The example names bicarbonate.",
+      "expectedEntryIds": [
+        "bicarbonate"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-chloride",
+      "kind": "invented-regression",
+      "text": "The example names chloride.",
+      "expectedOutput": "The example names chloride.",
+      "expectedEntryIds": [
+        "chloride"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-total-protein",
+      "kind": "invented-regression",
+      "text": "The example names total protein.",
+      "expectedOutput": "The example names total protein.",
+      "expectedEntryIds": [
+        "total-protein"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-globulin",
+      "kind": "invented-regression",
+      "text": "The example names globulin.",
+      "expectedOutput": "The example names globulin.",
+      "expectedEntryIds": [
+        "globulin"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-enzyme",
+      "kind": "invented-regression",
+      "text": "The example names enzyme.",
+      "expectedOutput": "The example names enzyme.",
+      "expectedEntryIds": [
+        "enzyme"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-blood-urea-nitrogen",
+      "kind": "invented-regression",
+      "text": "The example names blood urea nitrogen.",
+      "expectedOutput": "The example names blood urea nitrogen.",
+      "expectedEntryIds": [
+        "blood-urea-nitrogen"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-prediabetes",
+      "kind": "invented-regression",
+      "text": "The example names prediabetes.",
+      "expectedOutput": "The example names prediabetes.",
+      "expectedEntryIds": [
+        "prediabetes"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    },
+    {
+      "id": "v05-definition-very-low-density-lipoprotein",
+      "kind": "invented-regression",
+      "text": "The example names very low-density lipoprotein.",
+      "expectedOutput": "The example names very low-density lipoprotein.",
+      "expectedEntryIds": [
+        "very-low-density-lipoprotein"
+      ],
+      "note": "This substance, process, or diagnosis needs explanation; no interchangeable inline phrase is approved."
+    }
+  ],
+  "historicalBaselines": [
+    {
+      "version": "0.3.0",
+      "entries": [
+        {
+          "id": "acute-illness",
+          "term": "acute illness",
+          "aliases": [
+            "acute disease",
+            "acute condition"
+          ]
+        },
+        {
+          "id": "adverse-event",
+          "term": "adverse event",
+          "aliases": [
+            "adverse events"
+          ]
+        },
+        {
+          "id": "anemia",
+          "term": "anemia",
+          "aliases": [
+            "anaemia"
+          ]
+        },
+        {
+          "id": "angina",
+          "term": "angina",
+          "aliases": [
+            "angina pectoris"
+          ]
+        },
+        {
+          "id": "antibody",
+          "term": "antibody",
+          "aliases": [
+            "antibodies"
+          ]
+        },
+        {
+          "id": "antigen",
+          "term": "antigen",
+          "aliases": [
+            "antigens"
+          ]
+        },
+        {
+          "id": "arrhythmia",
+          "term": "arrhythmia",
+          "aliases": [
+            "arrhythmias",
+            "cardiac arrhythmia"
+          ]
+        },
+        {
+          "id": "arthritis",
+          "term": "arthritis",
+          "aliases": []
+        },
+        {
+          "id": "asthma",
+          "term": "asthma",
+          "aliases": []
+        },
+        {
+          "id": "bacteria",
+          "term": "bacteria",
+          "aliases": [
+            "bacterium"
+          ]
+        },
+        {
+          "id": "benign-tumor",
+          "term": "benign tumor",
+          "aliases": [
+            "benign tumour",
+            "benign tumors",
+            "benign tumours"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "benign tumor",
+                "to": "noncancerous growth"
+              },
+              {
+                "from": "benign tumour",
+                "to": "noncancerous growth"
+              },
+              {
+                "from": "benign tumors",
+                "to": "noncancerous growths"
+              },
+              {
+                "from": "benign tumours",
+                "to": "noncancerous growths"
+              }
+            ],
+            "note": "Keep singular and plural growths distinct. Noncancerous does not mean harmless or that treatment is unnecessary.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "biopsy",
+          "term": "biopsy",
+          "aliases": [
+            "biopsies"
+          ]
+        },
+        {
+          "id": "blood-glucose",
+          "term": "blood glucose",
+          "aliases": [
+            "blood sugar"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "blood glucose",
+                "to": "blood sugar"
+              }
+            ],
+            "note": "Only the full blood-glucose phrase is replaced. The already plain alias blood sugar stays unchanged; no test result is interpreted.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "bradycardia",
+          "term": "bradycardia",
+          "aliases": [],
+          "inline": {
+            "replacements": [
+              {
+                "from": "bradycardia",
+                "to": "slow heart rate"
+              }
+            ],
+            "note": "This names the slow-rate finding without specifying a threshold, cause, severity, or treatment.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "bronchitis",
+          "term": "bronchitis",
+          "aliases": []
+        },
+        {
+          "id": "carcinogen",
+          "term": "carcinogen",
+          "aliases": [
+            "carcinogens"
+          ]
+        },
+        {
+          "id": "carcinoma",
+          "term": "carcinoma",
+          "aliases": [
+            "carcinomas"
+          ]
+        },
+        {
+          "id": "case-report",
+          "term": "case report",
+          "aliases": [
+            "case reports"
+          ]
+        },
+        {
+          "id": "case-control-study",
+          "term": "case-control study",
+          "aliases": [
+            "case-control studies"
+          ]
+        },
+        {
+          "id": "chemotherapy",
+          "term": "chemotherapy",
+          "aliases": [
+            "chemo"
+          ]
+        },
+        {
+          "id": "chronic-disease",
+          "term": "chronic disease",
+          "aliases": [
+            "chronic illness",
+            "chronic condition",
+            "chronic diseases",
+            "chronic conditions"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "chronic disease",
+                "to": "long-term disease"
+              },
+              {
+                "from": "chronic illness",
+                "to": "long-term illness"
+              },
+              {
+                "from": "chronic condition",
+                "to": "long-term condition"
+              },
+              {
+                "from": "chronic diseases",
+                "to": "long-term diseases"
+              },
+              {
+                "from": "chronic conditions",
+                "to": "long-term conditions"
+              }
+            ],
+            "note": "Each complete phrase keeps its noun and number. Long-term describes duration, not severity, permanence, or hopelessness; standalone chronic is excluded.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "chronic-obstructive-pulmonary-disease",
+          "term": "chronic obstructive pulmonary disease",
+          "aliases": [
+            "COPD"
+          ]
+        },
+        {
+          "id": "cirrhosis",
+          "term": "cirrhosis",
+          "aliases": []
+        },
+        {
+          "id": "complete-blood-count",
+          "term": "complete blood count",
+          "aliases": [
+            "full blood count",
+            "CBC"
+          ]
+        },
+        {
+          "id": "computed-tomography",
+          "term": "computed tomography",
+          "aliases": [
+            "computed tomography scan",
+            "CT scan",
+            "CAT scan"
+          ]
+        },
+        {
+          "id": "constipation",
+          "term": "constipation",
+          "aliases": []
+        },
+        {
+          "id": "contagious",
+          "term": "contagious",
+          "aliases": []
+        },
+        {
+          "id": "dehydration",
+          "term": "dehydration",
+          "aliases": []
+        },
+        {
+          "id": "diabetes-mellitus",
+          "term": "diabetes mellitus",
+          "aliases": [
+            "diabetes"
+          ]
+        },
+        {
+          "id": "dialysis",
+          "term": "dialysis",
+          "aliases": []
+        },
+        {
+          "id": "diarrhea",
+          "term": "diarrhea",
+          "aliases": [
+            "diarrhoea"
+          ]
+        },
+        {
+          "id": "dysphagia",
+          "term": "dysphagia",
+          "aliases": [],
+          "inline": {
+            "replacements": [
+              {
+                "from": "dysphagia",
+                "to": "swallowing difficulty"
+              }
+            ],
+            "note": "Keep the symptom as a noun phrase. It does not identify a cause or imply pain when swallowing.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "dyspnea",
+          "term": "dyspnea",
+          "aliases": [
+            "dyspnoea",
+            "shortness of breath"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "dyspnea",
+                "to": "shortness of breath"
+              },
+              {
+                "from": "dyspnoea",
+                "to": "shortness of breath"
+              }
+            ],
+            "note": "Use the established symptom phrase for either spelling. The already plain alias stays unchanged; this does not identify a cause.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "echocardiogram",
+          "term": "echocardiogram",
+          "aliases": [
+            "echocardiograms"
+          ]
+        },
+        {
+          "id": "edema",
+          "term": "edema",
+          "aliases": [
+            "oedema"
+          ]
+        },
+        {
+          "id": "electrocardiogram",
+          "term": "electrocardiogram",
+          "aliases": [
+            "electrocardiograms",
+            "ECG",
+            "EKG"
+          ]
+        },
+        {
+          "id": "embolism",
+          "term": "embolism",
+          "aliases": []
+        },
+        {
+          "id": "end-stage-renal-disease",
+          "term": "end-stage renal disease",
+          "aliases": [
+            "end stage renal disease",
+            "end-stage kidney disease",
+            "ESRD"
+          ]
+        },
+        {
+          "id": "epidemiology",
+          "term": "epidemiology",
+          "aliases": []
+        },
+        {
+          "id": "esophagus",
+          "term": "esophagus",
+          "aliases": [
+            "oesophagus"
+          ]
+        },
+        {
+          "id": "evidence-based-care",
+          "term": "evidence-based care",
+          "aliases": [
+            "evidence-based practice",
+            "evidence-based treatment"
+          ]
+        },
+        {
+          "id": "gastritis",
+          "term": "gastritis",
+          "aliases": []
+        },
+        {
+          "id": "gastroesophageal-reflux-disease",
+          "term": "gastroesophageal reflux disease",
+          "aliases": [
+            "gastro-oesophageal reflux disease",
+            "GERD"
+          ]
+        },
+        {
+          "id": "health-care-provider",
+          "term": "health care provider",
+          "aliases": [
+            "healthcare provider",
+            "health care providers",
+            "healthcare providers"
+          ]
+        },
+        {
+          "id": "health-disparities",
+          "term": "health disparities",
+          "aliases": [
+            "health disparity"
+          ]
+        },
+        {
+          "id": "health-screening",
+          "term": "health screening",
+          "aliases": [
+            "screening test",
+            "screening tests",
+            "cancer screening"
+          ]
+        },
+        {
+          "id": "hematocrit",
+          "term": "hematocrit",
+          "aliases": [
+            "haematocrit"
+          ]
+        },
+        {
+          "id": "hematuria",
+          "term": "hematuria",
+          "aliases": [
+            "haematuria"
+          ]
+        },
+        {
+          "id": "hemoglobin",
+          "term": "hemoglobin",
+          "aliases": [
+            "haemoglobin"
+          ]
+        },
+        {
+          "id": "hepatitis",
+          "term": "hepatitis",
+          "aliases": []
+        },
+        {
+          "id": "hyperglycemia",
+          "term": "hyperglycemia",
+          "aliases": [
+            "hyperglycaemia"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "hyperglycemia",
+                "to": "high blood sugar"
+              },
+              {
+                "from": "hyperglycaemia",
+                "to": "high blood sugar"
+              }
+            ],
+            "note": "Both spellings keep the direction high. No numeric cutoff, cause, diabetes diagnosis, or treatment is added.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "hypertension",
+          "term": "hypertension",
+          "aliases": [
+            "high blood pressure"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "hypertension",
+                "to": "high blood pressure"
+              }
+            ],
+            "note": "Use the established plain term only for hypertension. The already plain alias stays unchanged; this does not diagnose a reader from one measurement.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "hypoglycemia",
+          "term": "hypoglycemia",
+          "aliases": [
+            "hypoglycaemia"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "hypoglycemia",
+                "to": "low blood sugar"
+              },
+              {
+                "from": "hypoglycaemia",
+                "to": "low blood sugar"
+              }
+            ],
+            "note": "Both spellings keep the direction low. No numeric cutoff, cause, or treatment is added.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "hypotension",
+          "term": "hypotension",
+          "aliases": [
+            "low blood pressure"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "hypotension",
+                "to": "low blood pressure"
+              }
+            ],
+            "note": "Use the established plain term only for hypotension. The already plain alias stays unchanged; cause and significance still need context.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "hypoxemia",
+          "term": "hypoxemia",
+          "aliases": [
+            "hypoxaemia"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "hypoxemia",
+                "to": "low blood oxygen"
+              },
+              {
+                "from": "hypoxaemia",
+                "to": "low blood oxygen"
+              }
+            ],
+            "note": "Keep blood explicit for both spellings. This must not be substituted for low oxygen in body tissue or interpreted as a measurement.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "hypoxia",
+          "term": "hypoxia",
+          "aliases": [],
+          "inline": {
+            "replacements": [
+              {
+                "from": "hypoxia",
+                "to": "low tissue oxygen"
+              }
+            ],
+            "note": "Keep tissue explicit, distinct from blood oxygen. This names reduced oxygen supply without identifying a cause or severity.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "immune-system",
+          "term": "immune system",
+          "aliases": []
+        },
+        {
+          "id": "immunization",
+          "term": "immunization",
+          "aliases": [
+            "immunisation"
+          ]
+        },
+        {
+          "id": "immunosuppression",
+          "term": "immunosuppression",
+          "aliases": []
+        },
+        {
+          "id": "immunotherapy",
+          "term": "immunotherapy",
+          "aliases": []
+        },
+        {
+          "id": "incidence-rate",
+          "term": "incidence rate",
+          "aliases": []
+        },
+        {
+          "id": "incubation-period",
+          "term": "incubation period",
+          "aliases": []
+        },
+        {
+          "id": "infection",
+          "term": "infection",
+          "aliases": [
+            "infections"
+          ]
+        },
+        {
+          "id": "infection-transmission",
+          "term": "infection transmission",
+          "aliases": [
+            "disease transmission"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "infection transmission",
+                "to": "infection spread"
+              },
+              {
+                "from": "disease transmission",
+                "to": "disease spread"
+              }
+            ],
+            "note": "Only these complete infection-related phrases are replaced. Standalone transmission is excluded; the route and timing of spread are not inferred.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "infectious-disease",
+          "term": "infectious disease",
+          "aliases": [
+            "infectious diseases"
+          ]
+        },
+        {
+          "id": "inflammation",
+          "term": "inflammation",
+          "aliases": []
+        },
+        {
+          "id": "insulin",
+          "term": "insulin",
+          "aliases": []
+        },
+        {
+          "id": "ischemic-heart-disease",
+          "term": "ischemic heart disease",
+          "aliases": [
+            "ischaemic heart disease",
+            "coronary artery disease"
+          ]
+        },
+        {
+          "id": "jaundice",
+          "term": "jaundice",
+          "aliases": []
+        },
+        {
+          "id": "magnetic-resonance-imaging",
+          "term": "magnetic resonance imaging",
+          "aliases": [
+            "MRI",
+            "MRI scan"
+          ]
+        },
+        {
+          "id": "malignant-tumor",
+          "term": "malignant tumor",
+          "aliases": [
+            "malignant tumour",
+            "malignant tumors",
+            "malignant tumours"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "malignant tumor",
+                "to": "cancerous growth"
+              },
+              {
+                "from": "malignant tumour",
+                "to": "cancerous growth"
+              },
+              {
+                "from": "malignant tumors",
+                "to": "cancerous growths"
+              },
+              {
+                "from": "malignant tumours",
+                "to": "cancerous growths"
+              }
+            ],
+            "note": "Keep singular and plural growths distinct. This names cancerous behavior without declaring that spread has already occurred or supplying a stage.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "metastasis",
+          "term": "metastasis",
+          "aliases": [
+            "metastases"
+          ]
+        },
+        {
+          "id": "morbidity",
+          "term": "morbidity",
+          "aliases": []
+        },
+        {
+          "id": "mortality-rate",
+          "term": "mortality rate",
+          "aliases": [
+            "death rate"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "mortality rate",
+                "to": "death rate"
+              }
+            ],
+            "note": "Keep rate, rather than reducing it to a death count. The population and time period still come from the source text; death rate stays unchanged.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "myocardial-infarction",
+          "term": "myocardial infarction",
+          "aliases": [
+            "heart attack",
+            "myocardial infarctions",
+            "heart attacks"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "myocardial infarction",
+                "to": "heart attack"
+              },
+              {
+                "from": "myocardial infarctions",
+                "to": "heart attacks"
+              }
+            ],
+            "note": "Use the established singular and plural names. Already plain heart attack aliases stay unchanged; no statement about a reader having an emergency is inferred.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "nausea",
+          "term": "nausea",
+          "aliases": []
+        },
+        {
+          "id": "osteoporosis",
+          "term": "osteoporosis",
+          "aliases": []
+        },
+        {
+          "id": "peripheral-neuropathy",
+          "term": "peripheral neuropathy",
+          "aliases": []
+        },
+        {
+          "id": "platelet",
+          "term": "platelet",
+          "aliases": [
+            "platelets",
+            "thrombocyte",
+            "thrombocytes"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "thrombocyte",
+                "to": "platelet"
+              },
+              {
+                "from": "thrombocytes",
+                "to": "platelets"
+              }
+            ],
+            "note": "Only the technical synonyms are replaced, with number preserved. Platelet and platelets stay unchanged, especially in phrases such as low platelets.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "pneumonia",
+          "term": "pneumonia",
+          "aliases": []
+        },
+        {
+          "id": "prevalence",
+          "term": "prevalence",
+          "aliases": []
+        },
+        {
+          "id": "prognosis",
+          "term": "prognosis",
+          "aliases": [
+            "prognoses"
+          ]
+        },
+        {
+          "id": "proteinuria",
+          "term": "proteinuria",
+          "aliases": []
+        },
+        {
+          "id": "public-health",
+          "term": "public health",
+          "aliases": []
+        },
+        {
+          "id": "pulse-oximetry",
+          "term": "pulse oximetry",
+          "aliases": []
+        },
+        {
+          "id": "radiation-therapy",
+          "term": "radiation therapy",
+          "aliases": [
+            "radiotherapy"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "radiation therapy",
+                "to": "radiation treatment"
+              },
+              {
+                "from": "radiotherapy",
+                "to": "radiation treatment"
+              }
+            ],
+            "note": "Keep radiation as the treatment type. This does not change the treatment into a particular medicine, dose, route, or schedule.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "red-blood-cell",
+          "term": "red blood cell",
+          "aliases": [
+            "red blood cells",
+            "erythrocyte",
+            "erythrocytes"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "erythrocytes",
+                "to": "red blood cells"
+              }
+            ],
+            "note": "Only the plural technical synonym is eligible. Singular erythrocyte stays annotation-only because replacing it after an would require an article change.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "renal",
+          "term": "renal",
+          "aliases": []
+        },
+        {
+          "id": "respiratory",
+          "term": "respiratory",
+          "aliases": []
+        },
+        {
+          "id": "risk-factor",
+          "term": "risk factor",
+          "aliases": [
+            "risk factors"
+          ]
+        },
+        {
+          "id": "sleep-apnea",
+          "term": "sleep apnea",
+          "aliases": [
+            "sleep apnoea"
+          ]
+        },
+        {
+          "id": "spirometry",
+          "term": "spirometry",
+          "aliases": []
+        },
+        {
+          "id": "tachycardia",
+          "term": "tachycardia",
+          "aliases": [],
+          "inline": {
+            "replacements": [
+              {
+                "from": "tachycardia",
+                "to": "fast heart rate"
+              }
+            ],
+            "note": "This names the fast-rate finding without specifying a threshold, cause, severity, or treatment.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        },
+        {
+          "id": "thrombosis",
+          "term": "thrombosis",
+          "aliases": []
+        },
+        {
+          "id": "toxic-exposure",
+          "term": "toxic exposure",
+          "aliases": []
+        },
+        {
+          "id": "ultrasound",
+          "term": "ultrasound",
+          "aliases": [
+            "ultrasonography"
+          ]
+        },
+        {
+          "id": "urinary-tract-infection",
+          "term": "urinary tract infection",
+          "aliases": [
+            "urinary tract infections",
+            "UTI"
+          ]
+        },
+        {
+          "id": "vaccine",
+          "term": "vaccine",
+          "aliases": [
+            "vaccines"
+          ]
+        },
+        {
+          "id": "virus",
+          "term": "virus",
+          "aliases": [
+            "viruses"
+          ]
+        },
+        {
+          "id": "white-blood-cell",
+          "term": "white blood cell",
+          "aliases": [
+            "white blood cells",
+            "leukocyte",
+            "leukocytes"
+          ],
+          "inline": {
+            "replacements": [
+              {
+                "from": "leukocyte",
+                "to": "white blood cell"
+              },
+              {
+                "from": "leukocytes",
+                "to": "white blood cells"
+              }
+            ],
+            "note": "Only the technical synonyms are replaced, with number preserved. Already plain white blood cell phrases stay unchanged; a cell count is not interpreted.",
+            "review": {
+              "status": "source-checked",
+              "date": "2026-10-13",
+              "method": "editorial source comparison; no independent clinical or user-comprehension review"
+            }
+          }
+        }
+      ]
     }
   ]
 }

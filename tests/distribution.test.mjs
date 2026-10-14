@@ -9,7 +9,7 @@ import { buildExtension, root } from '../scripts/build.mjs';
 import { packageExtension } from '../scripts/package.mjs';
 import { buildSite } from '../scripts/build-site.mjs';
 
-const FILES = ['background.js', 'content.js', 'data/health.json', 'data/LICENSE', 'icons/128.png', 'icons/16.png', 'icons/32.png', 'icons/48.png', 'LICENSE', 'manifest.json', 'options.css', 'options.html', 'options.js', 'popup.css', 'popup.html', 'popup.js'];
+const FILES = ['guide.html', 'guide.css', 'guide.js', 'data/feedback-config.json', 'background.js', 'content.js', 'data/health.json', 'data/LICENSE', 'icons/128.png', 'icons/16.png', 'icons/32.png', 'icons/48.png', 'LICENSE', 'manifest.json', 'options.css', 'options.html', 'options.js', 'popup.css', 'popup.html', 'popup.js'];
 
 // Inspect central-directory records, following their offsets into local records.
 // Comparing each payload with the source dist catches corruption/truncation as
@@ -69,7 +69,7 @@ test('release ZIP is deterministic, complete, version-aligned and restricted to 
   assert.deepEqual(manifest.permissions, ['activeTab', 'scripting', 'storage']);
   for (const key of ['host_permissions', 'optional_host_permissions', 'content_scripts', 'externally_connectable', 'web_accessible_resources']) assert.equal(manifest[key], undefined, key);
   assert.equal(manifest.content_security_policy.extension_pages, "script-src 'self'; object-src 'none'; connect-src 'self'; base-uri 'none'");
-  for (const page of ['popup', 'options']) {
+  for (const page of ['popup', 'options', 'guide']) {
     const document = new JSDOM(archive.get(`${page}.html`).toString()).window.document;
     for (const element of document.querySelectorAll('script[src], link[rel=stylesheet]')) assert.ok(archive.has(element.getAttribute('src') || element.getAttribute('href')));
     assert.equal(document.querySelectorAll('script:not([src])').length, 0, 'extension CSP permits only packaged scripts');

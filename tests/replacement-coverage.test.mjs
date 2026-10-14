@@ -8,7 +8,7 @@ const lexicon = JSON.parse(await readFile(new URL('../data/health.json', import.
 
 test('every shipped replacement form reaches the page, switches back to its source, and restores exactly', (t) => {
   const pairs = lexicon.entries.flatMap((entry) => entry.inline?.replacements || []);
-  assert.equal(pairs.length, 40);
+  assert.equal(pairs.length, 56);
   const dom = new JSDOM('<!doctype html><html lang="en"><body></body></html>', { pretendToBeVisual: true });
   const { document } = dom.window;
   const paragraphs = pairs.map(({ from }) => {

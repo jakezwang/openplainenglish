@@ -1,5 +1,5 @@
-export const DEFAULT_PREFERENCES = Object.freeze({ language: 'en', density: 'comfortable', highlight: 'subtle', mode: 'plain' });
-const VALUES = Object.freeze({ language: ['en', 'zh-CN'], density: ['comfortable', 'compact'], highlight: ['subtle', 'strong'], mode: ['plain', 'annotate'] });
+export const DEFAULT_PREFERENCES = Object.freeze({ language: 'en', density: 'comfortable', highlight: 'subtle', mode: 'plain', includeFrames: false, includeShadowRoots: false, guideCompleted: false });
+const VALUES = Object.freeze({ language: ['en', 'zh-CN'], density: ['comfortable', 'compact'], highlight: ['subtle', 'strong'], mode: ['plain', 'annotate'], includeFrames: [false, true], includeShadowRoots: [false, true], guideCompleted: [false, true] });
 const object = (value) => {
   if (value === null || typeof value !== 'object' || Array.isArray(value)) return false;
   const prototype = Object.getPrototypeOf(value);

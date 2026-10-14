@@ -54,6 +54,7 @@ function installMockChrome() {
     runtime: {
       getURL(path) {
         if (path.startsWith('options.html')) return new URL(`./preview.html?view=options${path.slice('options.html'.length)}`, import.meta.url).href;
+        if (path === 'guide.html') return new URL('./guide.html', import.meta.url).href;
         return new URL(`../${path}`, import.meta.url).href;
       },
     },
@@ -130,16 +131,20 @@ function insertPreviewBanner() {
   document.body.prepend(banner);
   const style = document.createElement('style');
   style.textContent = `
-    #preview-banner{position:fixed;inset:0 0 auto 0;z-index:1000;min-height:40px;padding:9px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:#203c39;color:#fff;font:11px/1.5 Arial,sans-serif;letter-spacing:.15px;box-sizing:border-box}
-    #preview-banner>span:last-child{display:flex;gap:18px;white-space:nowrap}
+    #preview-banner{position:fixed;inset:0 0 auto 0;z-index:1000;min-height:40px;padding:9px 18px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 16px;background:#203c39;color:#fff;font:11px/1.5 Arial,sans-serif;letter-spacing:.15px;box-sizing:border-box}
+    #preview-banner>span:last-child{display:flex;flex-wrap:wrap;gap:8px 18px}
     #preview-banner a{color:#eef4e7;text-decoration:underline;text-underline-offset:3px}
-    body[data-preview-view=options]{padding-top:40px}
-    body[data-preview-view=options] .sidebar{top:40px;height:calc(100vh - 40px)}
-    body[data-preview-view=popup]{margin:76px auto 28px;box-shadow:0 8px 35px #203c391f;border:1px solid #d7ddd4;border-radius:4px}
+    body[data-preview-view=options]{padding-top:var(--preview-banner-height,40px)}
+    body[data-preview-view=options] .sidebar{top:var(--preview-banner-height,40px);height:calc(100vh - var(--preview-banner-height,40px))}
+    body[data-preview-view=popup]{margin:calc(var(--preview-banner-height,40px) + 30px) auto 28px;box-shadow:0 8px 35px #203c391f;border:1px solid #d7ddd4;border-radius:4px}
     @media(max-width:640px){#preview-banner{padding:8px 12px;font-size:9px;gap:8px}#preview-banner>span:last-child{gap:12px}body[data-preview-view=options] .sidebar{top:auto;height:auto}}
     @media(max-width:390px){body[data-preview-view=popup]{width:calc(100% - 24px)}}
   `;
   document.head.append(style);
+  const updateBannerHeight = () => document.documentElement.style.setProperty('--preview-banner-height', `${Math.ceil(banner.getBoundingClientRect().height)}px`);
+  updateBannerHeight();
+  if (typeof ResizeObserver === 'function') new ResizeObserver(updateBannerHeight).observe(banner);
+  else window.addEventListener('resize', updateBannerHeight);
 }
 
 async function boot() {

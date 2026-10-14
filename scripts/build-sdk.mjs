@@ -13,8 +13,8 @@ export async function buildSDK(output = path.join(root, 'artifacts/sdk')) {
   }
   await rm(output, { recursive: true, force: true });
   await mkdir(path.join(output, 'data/pilots'), { recursive: true });
-  await build({ absWorkingDir: root, entryPoints: { index: 'src/core/text.js', browser: 'src/content/controller.js' }, outdir: output, bundle: true, format: 'esm', target: 'es2022', legalComments: 'none' });
-  const pkg = { name: 'openplainenglish-core', version, description: 'Local phrase matching and reversible plain reading. Experimental; independently unreviewed.', type: 'module', license: 'MIT', exports: { '.': './index.js', './browser': './browser.js', './data/*': './data/*' }, files: ['index.js', 'browser.js', 'data', 'README.md', 'LICENSE'], engines: { node: '>=22' }, repository: { type: 'git', url: 'https://github.com/jakezwang/openplainenglish.git' } };
+  await build({ absWorkingDir: root, entryPoints: { index: 'src/core/text.js', browser: 'src/content/controller.js', sentences: 'src/core/sentences.js', documents: 'src/core/documents.js' }, outdir: output, bundle: true, format: 'esm', target: 'es2022', legalComments: 'none' });
+  const pkg = { name: 'openplainenglish-core', version, description: 'Local phrase matching and reversible plain reading. Experimental; independently unreviewed.', type: 'module', license: 'MIT', exports: { '.': './index.js', './browser': './browser.js', './sentences': './sentences.js', './documents': './documents.js', './data/*': './data/*' }, files: ['index.js', 'browser.js', 'sentences.js', 'documents.js', 'data', 'README.md', 'LICENSE'], engines: { node: '>=22' }, repository: { type: 'git', url: 'https://github.com/jakezwang/openplainenglish.git' } };
   await writeFile(path.join(output, 'package.json'), `${JSON.stringify(pkg, null, 2)}\n`);
   for (const file of ['LICENSE', 'data/LICENSE', 'data/health.json', 'data/pilots/public-service.json']) await cp(path.join(root, file), path.join(output, file));
   await cp(path.join(root, 'docs/SDK.md'), path.join(output, 'README.md'));

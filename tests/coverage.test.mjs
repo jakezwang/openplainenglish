@@ -11,12 +11,18 @@ test('frozen reading snapshots and exact-span labels remain valid, including unr
   const result = analyzeCorpus(corpus, lexicon);
   assert.equal(result.documentCount, 4);
   assert.equal(result.goldOccurrences, 122);
+  assert.equal(result.baselineVersion, '0.4.0');
+  assert.equal(result.baseline.goldCovered, 80);
+  assert.equal(result.baseline.inlineReplacements, 12);
+  assert.ok(result.current.inlineReplacements > result.baseline.inlineReplacements, 'new phrases improve actual in-place coverage on the same text');
+  assert.equal(result.historical.find((item) => item.version === '0.3.0').goldCovered, 39);
   assert.ok(result.current.goldCovered > result.baseline.goldCovered);
   assert.ok(result.current.goldCovered < result.goldOccurrences, 'do not erase remaining gaps from the denominator');
   assert.equal(result.behaviorSummary.passed, result.behaviorSummary.total);
   // A shorter hemoglobin match must not count as explaining the complete A1C test.
   const a1c = result.documents.find((doc) => doc.id === 'a1c');
-  assert.ok(a1c.baseline.missingGold.some((span) => span.entryId === 'hemoglobin-a1c-test'));
+  assert.ok(a1c.historical['0.3.0'].missingGold.some((span) => span.entryId === 'hemoglobin-a1c-test'));
+  assert.ok(!a1c.baseline.missingGold.some((span) => span.entryId === 'hemoglobin-a1c-test'));
   assert.ok(!a1c.current.missingGold.some((span) => span.entryId === 'hemoglobin-a1c-test'));
 });
 

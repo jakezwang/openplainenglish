@@ -30,7 +30,7 @@ Record an affirmative answer before checking the consent box. Do not precheck it
 
 Each participant sees each passage once, two passages per condition. Assign sequences 1–6 consecutively, before seeing answers. Sequences 1–3 use passages 1→6 with condition rotations O/D/P, D/P/O, P/O/D repeated twice. Sequences 4–6 reverse the passage order and use those same rotations. Across six participants, each passage appears twice per condition and in both directions. Do not switch sequences to improve a result.
 
-The conditions still differ in interaction cost, and passage difficulty, familiarity and learning can confound a small study. Record these limits. The exercise compares useful reading support, not dictionary vocabulary knowledge in isolation. Every scored passage has one eligible pair; this is deliberately a focused test, not a claim about arbitrary webpages or all 112 glossary entries.
+The conditions still differ in interaction cost, and passage difficulty, familiarity and learning can confound a small study. Record these limits. The exercise compares useful reading support, not dictionary vocabulary knowledge in isolation. Every scored passage has one eligible pair; this is deliberately a focused test, not a claim about arbitrary webpages or all 132 glossary entries.
 
 ## Session script (about 20–30 minutes)
 
@@ -77,3 +77,32 @@ Report comprehension scores and misconceptions by condition, with participant/pa
 Any new diagnosis, severity, causation or harmlessness misconception triggers wording review. A participant unable to restore the original independently triggers a control review. Repeated confusion warrants review even if mean scores improve. Re-test revisions with new participants where possible and disclose repeat exposure. Six volunteers support iteration, not statistical significance, representativeness, improved health outcomes or clinical validation.
 
 Publish a dated report only after actual sessions, naming version, recruitment, consent/retention process, conditions, scoring, sample sizes, deviations, results, changes and limitations. Until then, **participant results: not run**.
+
+## v0.5 offline analysis and blinded scoring preparation
+
+The [analysis CLI](../scripts/analyze-study.mjs) operates only on files explicitly supplied. It does not recruit participants, collect answers, infer scores from wording, call a model, or upload anything. The software fixtures in tests are synthetic and are never loaded as participant data. With no input, run `npm run analyze:study`: it returns `no-participant-data`, zero sessions and no effect estimate. **The project still has zero actual participant results.**
+
+After real consented sessions, keep exports in the agreed private directory and run:
+
+```sh
+npm run analyze:study -- --input /private/path/P01.json --input /private/path/P02.json --output /private/path/unscored-summary.json --scoring-packet /private/path/private-scoring-packet.json
+```
+
+The packet contains actual answers, question/passage IDs and stable response hashes. It omits participant codes, condition, sequence, timing and facilitator notes; answer wording can still reveal the condition. Give each independent human scorer a separate copy with the 0–2 rubric above before comparing decisions. Do not send these materials or recruit on someone else’s behalf without authorization. Retain raw-data deletion and disclosure commitments.
+
+Copy the packet’s `scoringTemplate` into a separate scoring JSON file. Replace placeholder reviewer codes with agreed pseudonyms and fill `score` (0, 1, 2) and `misconception` (true/false). Null fields remain unscored. Two distinct reviewer codes must agree on both fields; disagreements stay excluded from score summaries until a third reviewer’s adjudication records `responseKey`, `reviewerCode`, `score`, `misconception` and a nonempty `reason`. A changed answer changes its response key, preventing old scores from attaching silently. Software cannot verify that codes represent different people or that consent, blinding or expertise were genuine.
+
+```sh
+npm run analyze:study -- --input /private/path/P01.json --input /private/path/P02.json --scores /private/path/ratings.json --output /private/path/analysis.json
+```
+
+Predeclared analysis rules for this pilot:
+
+- Report submitted, skipped, interrupted, eligible and scored denominators separately. Skip is not a wrong answer. Interrupted tasks remain counted but are excluded from the primary descriptive score/time/confidence summaries. Preserve raw records and describe reasons; do not mark hard tasks interrupted after inspecting outcomes.
+- No automatic scoring: an answer without two agreed or adjudicated ratings has no comprehension score. Report unresolved disagreements and any misconception flagged by either reviewer, including flags later adjudicated differently.
+- Summarize conditions separately with mean, median and range; report misconception and confidence-4/5 misunderstanding counts against the scored denominator. Time includes reading, controls and answering, not pure reading speed.
+- Keep glossary versions separate and report sequence counts. Reject repeated participant codes rather than silently pooling duplicate exports or repeat exposure. If repeat-session research is intended, specify a new protocol first.
+- The plain-minus-annotation paired comparison uses only complete six-task sessions without skips or interruptions. Score comparisons additionally require all six scores. These are within-participant descriptive differences; no p-value, causal effect, clinical benefit or passing threshold is produced. A condition uses different passages, so balanced assignment and passage difficulty remain relevant.
+- The aggregate report omits answers, codes and free-text notes but includes source-file hashes for reproducibility. The optional scoring packet contains private answers and must not be published as a release asset. Inspect any output before sharing.
+
+Run `node --test tests/study-analysis.test.mjs` for validation, missing-data, disagreement, privacy-boundary and CLI regression checks. These checks establish software behavior only. A dated results report remains impossible until actual sessions and independent scoring occur.

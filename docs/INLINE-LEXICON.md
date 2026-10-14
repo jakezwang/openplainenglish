@@ -1,6 +1,6 @@
-# Inline replacement lexicons v0.4
+# Inline replacement lexicons v0.5
 
-The 112-entry default health glossary includes **21 entries with 40 explicit inline replacement pairs**. Every other entry or alias remains available for annotation without an inline rewrite. The `short` definition is never an automatic replacement: it can be a sentence fragment, begin with an article, or explain a broader concept than the original word.
+The 132-entry default health glossary includes **30 entries with 56 explicit inline replacement pairs**. Every other entry or alias remains available for annotation without an inline rewrite. The `short` definition is never an automatic replacement: it can be a sentence fragment, begin with an article, or explain a broader concept than the original word.
 
 This is local lexical replacement, not sentence rewriting or full-context understanding. The pairs are AI-assisted editorial choices compared with primary sources. No independent clinician or human reader has reviewed these new pairs, and no participant comprehension study has been run. `source-checked` is not a clinical approval or a promise that a substitution will fit every sentence.
 
@@ -12,7 +12,7 @@ CDC comparisons used the official service behind its page, `https://tools.cdc.go
 
 These choices preserve noun number and established meanings. They avoid adding diagnoses, numerical thresholds, treatment advice, cause, or certainty. Already plain aliases are not inline sources. No inflection, synonym, plural, acronym expansion, or article change is generated automatically.
 
-## Exact replacement ledger
+## v0.3 replacement ledger (retained)
 
 Each row inherits its entry's citations and has a dedicated editorial boundary note and inline review record. Spelling variants are explicit. These are eligible source strings, not permission to replace every alias of an entry.
 
@@ -71,7 +71,7 @@ Hypoxemia and hypoxia additionally have distinct fixtures: blood oxygen and tiss
 | anemia / hemoglobin / biopsy / gastritis | Their useful definitions require explanation or material distinctions, not an approved short interchangeable phrase in this release. |
 | ECG / EKG / COPD / MRI / UTI | Acronym interpretation and article pronunciation are too context-dependent for this set. |
 | high blood pressure / low blood pressure / blood sugar / heart attack / death rate / shortness of breath | Already plain aliases remain unchanged. |
-| chronic illnesses | This inflection is not in the existing entry's approved match strings. It is not invented from the singular. |
+| chronic-illnesses | This joined spelling is not an approved alias. The spaced plural chronic illnesses was explicitly added in v0.5. |
 
 Quoted terminology, names, technical compound phrases, subtypes, and unusual grammatical frames can still make an apparently useful replacement undesirable. The small allowlist cannot identify every such situation. The original phrase must remain recoverable, and readers must be able to choose annotation mode or turn assistance off. Inline metadata does not authorize changing forms, code, links, editable areas, or other excluded surfaces.
 
@@ -99,7 +99,7 @@ Run `node scripts/validate-lexicon.mjs` and `node --test tests/lexicon.test.mjs`
 
 The separate [pilot](../data/pilots/public-service.json) adds **8 entries / 14 explicit pairs**, checked against government-authored plain-language guidance on 2026-10-13. It is disabled unless selected and is not merged into the health lexicon. Sources: [CPSC Wordy vs. Clear](https://www.cpsc.gov/About-CPSC/Policies-Statements-and-Directives/plain-language-principles) for the first six rows, and [Digital.gov Familiar terms](https://digital.gov/guides/writing-understanding/familiar-terms) for the last two. [Rights and attribution](LEXICON.md#separate-public-service-pilot) apply.
 
-The review method is `editorial source comparison; no independent domain-expert or user-comprehension review`. The source tables recommend base-word alternatives. Explicit verb inflections are editorial applications of those alternatives; the source is not claimed to contain every inflected example. The new health entries remain annotation-only, so the default health pair total is unchanged.
+The review method is `editorial source comparison; no independent domain-expert or user-comprehension review`. The source tables recommend base-word alternatives. Explicit verb inflections are editorial applications of those alternatives; the source is not claimed to contain every inflected example. The v0.4 health additions were annotation-only; the v0.5 health changes below are separate from this pilot.
 
 | Explicit pair(s) | Invented positive sentence: before → after | Negative boundary checked |
 | --- | --- | --- |
@@ -113,3 +113,26 @@ The review method is `editorial source comparison; no independent domain-expert 
 | utilize / utilizes / utilized / utilizing → use / uses / used / using | The office utilized this form. → The office used this form. | The noun utilization stays unchanged; no tense is inferred. |
 
 The executable [pilot fixtures](../data/coverage/public-service-reading.json) contain one positive sentence for every one of the 14 pairs and 8 intentionally unchanged examples. This is an editorial regression set, not observed user behavior. In particular, shall is not replaced: it can express obligation or prediction. In order to is excluded because a sentence such as “Put these pages in order to help the next reader” has an ordering interpretation. Titles, quotations, official names, nested clauses and unusual uses can still need the exact original text. Local guards do not provide general sentence understanding.
+
+## v0.5 pair additions and rejected candidates
+
+The 16 added pairs were compared with official primary text on **2026-10-14**. The two general hormone/lipoprotein entries account for the fixed corpus’s increase from 12 to 16 eligible substitutions; other pairs are useful explicit phrases outside those four excerpts. Inflections are editorial applications of the source meaning, not claims that each exact sentence appears in the source.
+
+| Entry | Added source → display pair(s) | Boundary and source comparison |
+| --- | --- | --- |
+| carcinogen | `carcinogen` → `cancer-causing substance`<br>`carcinogens` → `cancer-causing substances` | Keep number and any existing uncertainty or exposure wording. This names a cancer-causing substance without asserting that a given exposure will cause cancer. [Source](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Carcinogen) |
+| chronic-disease | `chronic illnesses` → `long-term illnesses` | Each complete phrase keeps its noun and number. Long-term describes duration, not severity, permanence, or hopelessness; standalone chronic is excluded. [Source](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Chronic%20disease) |
+| end-stage-renal-disease | `end-stage renal disease` → `end-stage kidney disease`<br>`end stage renal disease` → `end stage kidney disease` | Change only renal to kidney in the complete phrase. Keep end-stage and its spelling; neither generic kidney disease nor the ESRD abbreviation is an inline source. [Source](https://www.cdc.gov/ccindex/everydaywords/index.html?word=End-stage%20renal%20disease) [Source](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/renal-failure) |
+| hematuria | `hematuria` → `blood in urine`<br>`haematuria` → `blood in urine` | Both spellings name blood in urine, not a specific cause. Keep modifiers such as visible or microscopic; do not infer severity. [Source](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hematuria) |
+| hormone | `hormone` → `chemical messenger`<br>`hormones` → `chemical messengers` | Keep singular and plural messenger forms. This general term does not identify a hormone, its level, or the cause of a symptom; named compounds may still need the original wording. [Source](https://medlineplus.gov/hormones.html) [Source](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hormone) |
+| lipoprotein | `lipoprotein` → `fat-and-protein particle`<br>`lipoproteins` → `fat-and-protein particles` | Keep particle number and the distinction from cholesterol itself. Full density subtype names and lipoprotein (a) have separate annotation-only entries that take precedence. [Source](https://medlineplus.gov/cholesterol.html) [Source](https://medlineplus.gov/lab-tests/lipoprotein-a-blood-test/) |
+| renal-disease | `renal disease` → `kidney disease`<br>`renal diseases` → `kidney diseases` | Only these complete noun phrases are replaced, preserving singular or plural. Disease is not changed to failure; standalone renal and already plain aliases stay unchanged. [Source](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Renal) [Source](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/renal-failure) |
+| renal-failure | `renal failure` → `kidney failure` | Keep the complete failure phrase and any surrounding acute or chronic modifier. Do not reduce kidney disease generally to failure or infer a stage. [Source](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/renal-failure) [Source](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Renal) |
+| renal-function | `renal function` → `kidney function` | Keep the noun function and any modifier or number. The complete phrase describes kidney performance without interpreting a laboratory value. [Source](https://www.cdc.gov/ccindex/everydaywords/index.html?word=Renal) [Source](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/renal-failure) |
+| ultrasound | `ultrasonography` → `ultrasound` | Use the established alternative name for the imaging procedure. The already plain word ultrasound stays unchanged; this does not interpret an image. [Source](https://www.cancer.gov/publications/dictionaries/cancer-terms/def/ultrasound) |
+
+The [health fixtures](../data/coverage/health-reading.json) include a complete positive sentence for every added pair, 16 preserved-boundary examples, and 12 additional definition-only examples. Examples include **No renal failure was recorded. → No kidney failure was recorded.**, **The note reports microscopic haematuria. → The note reports microscopic blood in urine.**, and **These lipoproteins carry fats. → These fat-and-protein particles carry fats.** Negation, modifiers, articles and number stay in place. Full density subtype names and both lipoprotein(a) spacing forms take precedence and remain annotation-only. Already plain kidney disease/failure/function and ultrasound aliases are unchanged.
+
+After inspecting [MedlinePlus arrhythmia](https://medlineplus.gov/arrhythmia.html), arrhythmia → irregular heartbeat was rejected: an arrhythmia can involve a regular but abnormal rate, and the everyday phrase can narrow the meaning. Edema, esophagus, enzyme and other tempting a/an-changing paraphrases remain excluded because the runtime does not infer article pronunciation. Short LDL/HDL/VLDL aliases and bare plaque are excluded despite the apparent coverage gain. Prediabetes is not shortened to diabetes; electrolyte names are not collapsed into salt; lipoproteins are not renamed cholesterol.
+
+These comparisons are editorial, not independent expert sign-off. The exact source wording, named compounds, technical uses and unusual sentences may still require originals. A dictionary note cannot make the runtime understand arbitrary context.

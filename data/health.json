@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.4.0",
+  "version": "0.5.0",
   "license": "CC0-1.0",
   "entries": [
     {
@@ -340,6 +340,27 @@
       }
     },
     {
+      "id": "bicarbonate",
+      "term": "bicarbonate",
+      "aliases": [],
+      "domain": "health",
+      "short": "a substance in body fluids that helps balance acids and bases",
+      "explanation": "Bicarbonate is an electrolyte: it carries an electrical charge in body fluids. It helps maintain the balance between acids and bases. Much of the carbon dioxide carried in blood is in this form.",
+      "context": "A bicarbonate blood result does not by itself identify why the level is high or low.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Carbon Dioxide (CO2) in Blood",
+          "url": "https://medlineplus.gov/lab-tests/carbon-dioxide-co2-in-blood/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "bilirubin",
       "term": "bilirubin",
       "aliases": [],
@@ -421,6 +442,27 @@
       }
     },
     {
+      "id": "blood-urea-nitrogen",
+      "term": "blood urea nitrogen",
+      "aliases": [],
+      "domain": "health",
+      "short": "the amount of nitrogen from urea in blood",
+      "explanation": "Urea forms when the body breaks down protein. The kidneys normally remove it from blood in urine. A blood urea nitrogen measurement is one piece of information about this process.",
+      "context": "This is not the same as a creatinine result or a diagnosis of kidney failure. The abbreviation BUN is not matched on its own.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: BUN (Blood Urea Nitrogen)",
+          "url": "https://medlineplus.gov/lab-tests/bun-blood-urea-nitrogen/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "bradycardia",
       "term": "bradycardia",
       "aliases": [],
@@ -477,6 +519,27 @@
       }
     },
     {
+      "id": "calcium",
+      "term": "calcium",
+      "aliases": [],
+      "domain": "health",
+      "short": "a mineral used by bones, teeth, nerves, muscles, and the heart",
+      "explanation": "Most calcium in the body is stored in bones and teeth. Calcium in blood also supports the work of nerves, muscles, and the heart.",
+      "context": "A blood calcium result is not the same as the amount of calcium in bones.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Calcium Blood Test",
+          "url": "https://medlineplus.gov/lab-tests/calcium-blood-test/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "carcinogen",
       "term": "carcinogen",
       "aliases": [
@@ -497,6 +560,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "carcinogen",
+            "to": "cancer-causing substance"
+          },
+          {
+            "from": "carcinogens",
+            "to": "cancer-causing substances"
+          }
+        ],
+        "note": "Keep number and any existing uncertainty or exposure wording. This names a cancer-causing substance without asserting that a given exposure will cause cancer.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-14",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -592,6 +673,27 @@
       }
     },
     {
+      "id": "chloride",
+      "term": "chloride",
+      "aliases": [],
+      "domain": "health",
+      "short": "a mineral that helps balance body fluids and acids",
+      "explanation": "Chloride is an electrically charged mineral in body fluids. It helps control fluid balance and the balance of acids and bases.",
+      "context": "Chloride is not chlorine gas. Its name alone does not interpret a blood-test result.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Chloride Blood Test",
+          "url": "https://medlineplus.gov/lab-tests/chloride-blood-test/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "cholesterol",
       "term": "cholesterol",
       "aliases": [],
@@ -619,7 +721,8 @@
         "chronic illness",
         "chronic condition",
         "chronic diseases",
-        "chronic conditions"
+        "chronic conditions",
+        "chronic illnesses"
       ],
       "domain": "health",
       "short": "a health condition that lasts a long time",
@@ -658,12 +761,16 @@
           {
             "from": "chronic conditions",
             "to": "long-term conditions"
+          },
+          {
+            "from": "chronic illnesses",
+            "to": "long-term illnesses"
           }
         ],
         "note": "Each complete phrase keeps its noun and number. Long-term describes duration, not severity, permanence, or hopelessness; standalone chronic is excluded.",
         "review": {
           "status": "source-checked",
-          "date": "2026-10-13",
+          "date": "2026-10-14",
           "method": "editorial source comparison; no independent clinical or user-comprehension review"
         }
       }
@@ -1165,6 +1272,52 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "end-stage renal disease",
+            "to": "end-stage kidney disease"
+          },
+          {
+            "from": "end stage renal disease",
+            "to": "end stage kidney disease"
+          }
+        ],
+        "note": "Change only renal to kidney in the complete phrase. Keep end-stage and its spelling; neither generic kidney disease nor the ESRD abbreviation is an inline source.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-14",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "enzyme",
+      "term": "enzyme",
+      "aliases": [
+        "enzymes"
+      ],
+      "domain": "health",
+      "short": "a substance that speeds up a chemical reaction",
+      "explanation": "Enzymes help chemical reactions happen faster. Many enzymes discussed in blood tests are proteins made by organs such as the liver.",
+      "context": "The particular enzyme and test matter; the general word does not identify an organ problem.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: enzyme",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/enzyme",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "MedlinePlus, National Library of Medicine: Comprehensive Metabolic Panel",
+          "url": "https://medlineplus.gov/lab-tests/comprehensive-metabolic-panel-cmp/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
       }
     },
     {
@@ -1331,6 +1484,29 @@
       }
     },
     {
+      "id": "globulin",
+      "term": "globulin",
+      "aliases": [
+        "globulins"
+      ],
+      "domain": "health",
+      "short": "one of a group of blood proteins with several jobs",
+      "explanation": "Globulins are proteins that help with tasks such as carrying substances, blood clotting, and fighting infection. Some are made by the liver and others by the immune system.",
+      "context": "Globulins are a group, not one single protein. A general globulin result does not identify a particular antibody.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Globulin Test",
+          "url": "https://medlineplus.gov/lab-tests/globulin-test/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "health-care-provider",
       "term": "health care provider",
       "aliases": [
@@ -1447,6 +1623,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "hematuria",
+            "to": "blood in urine"
+          },
+          {
+            "from": "haematuria",
+            "to": "blood in urine"
+          }
+        ],
+        "note": "Both spellings name blood in urine, not a specific cause. Keep modifiers such as visible or microscopic; do not infer severity.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-14",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1518,6 +1712,77 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "high-density-lipoprotein",
+      "term": "high-density lipoprotein",
+      "aliases": [
+        "high-density lipoproteins",
+        "high density lipoprotein",
+        "high density lipoproteins"
+      ],
+      "domain": "health",
+      "short": "a type of particle that helps return cholesterol to the liver",
+      "explanation": "High-density lipoprotein, often shortened to HDL, carries cholesterol from other parts of the body back to the liver, which can remove it.",
+      "context": "The label good cholesterol is a shorthand, not a guarantee of health. The abbreviation HDL is not matched on its own.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Cholesterol",
+          "url": "https://medlineplus.gov/cholesterol.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "hormone",
+      "term": "hormone",
+      "aliases": [
+        "hormones"
+      ],
+      "domain": "health",
+      "short": "a chemical messenger that affects cells or organs",
+      "explanation": "Hormones carry signals that help control body processes such as growth and the use of energy. Some hormones are also made as medicines.",
+      "context": "Different hormones have different jobs. The word alone does not identify a particular hormone or explain a symptom.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Hormones",
+          "url": "https://medlineplus.gov/hormones.html",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: hormone",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/hormone",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "hormone",
+            "to": "chemical messenger"
+          },
+          {
+            "from": "hormones",
+            "to": "chemical messengers"
+          }
+        ],
+        "note": "Keep singular and plural messenger forms. This general term does not identify a hormone, its level, or the cause of a symptom; named compounds may still need the original wording.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-14",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -2090,6 +2355,100 @@
       }
     },
     {
+      "id": "lipoprotein",
+      "term": "lipoprotein",
+      "aliases": [
+        "lipoproteins"
+      ],
+      "domain": "health",
+      "short": "a particle made of fats and proteins that carries fats through blood",
+      "explanation": "Lipoproteins combine fats with proteins so fats can travel in blood. Different types carry different amounts and kinds of fat.",
+      "context": "A lipoprotein particle is not the same thing as cholesterol itself. Specific named types keep their names.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Cholesterol",
+          "url": "https://medlineplus.gov/cholesterol.html",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "MedlinePlus, National Library of Medicine: Lipoprotein (a) Blood Test",
+          "url": "https://medlineplus.gov/lab-tests/lipoprotein-a-blood-test/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "lipoprotein",
+            "to": "fat-and-protein particle"
+          },
+          {
+            "from": "lipoproteins",
+            "to": "fat-and-protein particles"
+          }
+        ],
+        "note": "Keep particle number and the distinction from cholesterol itself. Full density subtype names and lipoprotein (a) have separate annotation-only entries that take precedence.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-14",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "lipoprotein-a",
+      "term": "lipoprotein (a)",
+      "aliases": [
+        "lipoprotein(a)"
+      ],
+      "domain": "health",
+      "short": "a particular type of cholesterol-carrying particle",
+      "explanation": "Lipoprotein (a) is a specific type of low-density lipoprotein. Its level can provide information that is not captured by a routine cholesterol result alone.",
+      "context": "This exact named subtype is kept for annotation rather than replaced by a general particle description.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Lipoprotein (a) Blood Test",
+          "url": "https://medlineplus.gov/lab-tests/lipoprotein-a-blood-test/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "low-density-lipoprotein",
+      "term": "low-density lipoprotein",
+      "aliases": [
+        "low-density lipoproteins",
+        "low density lipoprotein",
+        "low density lipoproteins"
+      ],
+      "domain": "health",
+      "short": "a type of particle that carries cholesterol through blood",
+      "explanation": "Low-density lipoprotein, often shortened to LDL, carries mainly cholesterol. A high level can contribute to cholesterol buildup in arteries.",
+      "context": "The particle and the cholesterol it carries are related but different. The short abbreviation LDL is not matched on its own.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Cholesterol",
+          "url": "https://medlineplus.gov/cholesterol.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "magnetic-resonance-imaging",
       "term": "magnetic resonance imaging",
       "aliases": [
@@ -2162,6 +2521,27 @@
           "date": "2026-10-13",
           "method": "editorial source comparison; no independent clinical or user-comprehension review"
         }
+      }
+    },
+    {
+      "id": "metabolism",
+      "term": "metabolism",
+      "aliases": [],
+      "domain": "health",
+      "short": "chemical processes that keep cells and the body working",
+      "explanation": "Metabolism includes chemical changes that supply energy and materials for cells and help remove waste. It is more than the rate at which a person burns calories.",
+      "context": "This word describes processes, not a diagnosis or a measurement of body weight.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: metabolism",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/metabolism",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
       }
     },
     {
@@ -2421,6 +2801,48 @@
       }
     },
     {
+      "id": "potassium",
+      "term": "potassium",
+      "aliases": [],
+      "domain": "health",
+      "short": "a mineral needed for nerves, muscles, and the heart to work",
+      "explanation": "Potassium is an electrically charged mineral in body fluids. Most of the body's potassium is inside cells, and the kidneys help control its level.",
+      "context": "The name identifies a substance. A high or low result needs its units, reference range, and other clinical information.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Potassium Blood Test",
+          "url": "https://medlineplus.gov/lab-tests/potassium-blood-test/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "prediabetes",
+      "term": "prediabetes",
+      "aliases": [],
+      "domain": "health",
+      "short": "blood sugar above the usual range but below the diabetes range",
+      "explanation": "Prediabetes means blood sugar is higher than normal but not high enough for a diabetes diagnosis. It can increase the chance of developing type 2 diabetes, but progression is not certain.",
+      "context": "This explanation gives no numerical cutoff and cannot classify a reader from a single result.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Hemoglobin A1C Test",
+          "url": "https://medlineplus.gov/lab-tests/hemoglobin-a1c-hba1c-test/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "prevalence",
       "term": "prevalence",
       "aliases": [],
@@ -2657,6 +3079,138 @@
       }
     },
     {
+      "id": "renal-disease",
+      "term": "renal disease",
+      "aliases": [
+        "renal diseases",
+        "kidney disease",
+        "kidney diseases"
+      ],
+      "domain": "health",
+      "short": "a disease affecting the kidneys",
+      "explanation": "Renal means related to the kidneys. A renal disease is a disease affecting these organs; the phrase covers different conditions.",
+      "context": "Kidney disease does not always mean kidney failure. Standalone renal remains an adjective for annotation.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Renal",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Renal",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: renal-failure",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/renal-failure",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "renal disease",
+            "to": "kidney disease"
+          },
+          {
+            "from": "renal diseases",
+            "to": "kidney diseases"
+          }
+        ],
+        "note": "Only these complete noun phrases are replaced, preserving singular or plural. Disease is not changed to failure; standalone renal and already plain aliases stay unchanged.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-14",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "renal-failure",
+      "term": "renal failure",
+      "aliases": [
+        "kidney failure"
+      ],
+      "domain": "health",
+      "short": "kidneys no longer doing enough work to meet the body's needs",
+      "explanation": "Kidney failure means the kidneys cannot adequately remove waste and extra water or maintain the balance of body chemicals. It can develop suddenly or over time.",
+      "context": "The phrase does not itself say whether the problem is sudden, lasting, or at a particular stage.",
+      "sources": [
+        {
+          "label": "National Cancer Institute: renal-failure",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/renal-failure",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "CDC Everyday Words: Renal",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Renal",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "renal failure",
+            "to": "kidney failure"
+          }
+        ],
+        "note": "Keep the complete failure phrase and any surrounding acute or chronic modifier. Do not reduce kidney disease generally to failure or infer a stage.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-14",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
+      }
+    },
+    {
+      "id": "renal-function",
+      "term": "renal function",
+      "aliases": [
+        "kidney function"
+      ],
+      "domain": "health",
+      "short": "how well the kidneys do their work",
+      "explanation": "Renal function means how well the kidneys remove waste and extra fluid and maintain the balance of body chemicals.",
+      "context": "The phrase is about kidney performance, not a diagnosis or one specific laboratory test.",
+      "sources": [
+        {
+          "label": "CDC Everyday Words: Renal",
+          "url": "https://www.cdc.gov/ccindex/everydaywords/index.html?word=Renal",
+          "license": "Public-Domain-US"
+        },
+        {
+          "label": "National Cancer Institute: renal-failure",
+          "url": "https://www.cancer.gov/publications/dictionaries/cancer-terms/def/renal-failure",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "renal function",
+            "to": "kidney function"
+          }
+        ],
+        "note": "Keep the noun function and any modifier or number. The complete phrase describes kidney performance without interpreting a laboratory value.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-14",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
+      }
+    },
+    {
       "id": "respiratory",
       "term": "respiratory",
       "aliases": [],
@@ -2720,6 +3274,27 @@
       "review": {
         "status": "source-checked",
         "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "sodium",
+      "term": "sodium",
+      "aliases": [],
+      "domain": "health",
+      "short": "a mineral that helps balance body fluids and supports nerves and muscles",
+      "explanation": "In body fluids, sodium carries an electrical charge. It helps control fluid balance and supports nerve and muscle activity.",
+      "context": "Sodium is one part of table salt; the words sodium and salt are not interchangeable.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Sodium Blood Test",
+          "url": "https://medlineplus.gov/lab-tests/sodium-blood-test/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
       }
     },
@@ -2801,6 +3376,27 @@
       }
     },
     {
+      "id": "total-protein",
+      "term": "total protein",
+      "aliases": [],
+      "domain": "health",
+      "short": "the combined amount of proteins in a sample",
+      "explanation": "In a blood test, total protein measures proteins together, mainly albumin and globulins. These proteins have different jobs, including moving substances and helping defend the body.",
+      "context": "The sample matters: a blood-test total is not a measure of how much protein someone eats.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Total Protein and Albumin/Globulin Ratio",
+          "url": "https://medlineplus.gov/lab-tests/total-protein-and-albumin-globulin-a-g-ratio/",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
       "id": "toxic-exposure",
       "term": "toxic exposure",
       "aliases": [],
@@ -2875,6 +3471,20 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "ultrasonography",
+            "to": "ultrasound"
+          }
+        ],
+        "note": "Use the established alternative name for the imaging procedure. The already plain word ultrasound stays unchanged; this does not interpret an image.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-14",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -2926,6 +3536,33 @@
       "review": {
         "status": "source-checked",
         "date": "2026-10-13",
+        "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      }
+    },
+    {
+      "id": "very-low-density-lipoprotein",
+      "term": "very low-density lipoprotein",
+      "aliases": [
+        "very low-density lipoproteins",
+        "very-low-density lipoprotein",
+        "very-low-density lipoproteins",
+        "very low density lipoprotein",
+        "very low density lipoproteins"
+      ],
+      "domain": "health",
+      "short": "a type of particle that mainly carries triglycerides through blood",
+      "explanation": "Very low-density lipoprotein, often shortened to VLDL, mainly carries triglycerides, a type of fat. LDL mainly carries cholesterol; these particles are not interchangeable.",
+      "context": "The abbreviation VLDL is not matched on its own, and this explanation does not interpret a test result.",
+      "sources": [
+        {
+          "label": "MedlinePlus, National Library of Medicine: Cholesterol",
+          "url": "https://medlineplus.gov/cholesterol.html",
+          "license": "Public-Domain-US"
+        }
+      ],
+      "review": {
+        "status": "source-checked",
+        "date": "2026-10-14",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
       }
     },

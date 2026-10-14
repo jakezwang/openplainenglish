@@ -72,11 +72,13 @@ $('first').addEventListener('click', async () => {
 });
 $('glossary-link').href = chrome.runtime.getURL('options.html');
 $('settings-link').href = chrome.runtime.getURL('options.html#preferences');
+for (const id of ['guide-link', 'first-guide-link']) $(id).href = chrome.runtime.getURL('guide.html');
 function applyPreferences(value) {
   preferences = normalizePreferences(value);
   $('popup-language').value = preferences.language;
   document.body.dataset.density = preferences.density;
   document.body.dataset.highlight = preferences.highlight;
+  $('first-use').hidden = preferences.guideCompleted;
   if (!state.enabled) selectedMode = preferences.mode;
   render();
 }

@@ -8,3 +8,5 @@ release/
 !.env.example
 artifacts/
 site/
+
+/vendor/

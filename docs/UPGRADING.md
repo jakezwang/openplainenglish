@@ -2,15 +2,15 @@
 
 Unpacked installations do not update automatically. Keep an exported backup before replacing files, removing an installation, or moving to another browser. A backup is a local JSON file, separate from the extension and from any public GitHub issue.
 
-## Moving to v0.4
+## Moving to v0.5
 
-**Plain reading** changes eligible health phrases in place; **Explain terms** keeps original words with explanations. **Restore original** turns the reader off. v0.4 adds one-occurrence restore, ignore-for-this-page controls and matching across supported inline formatting. These remain explicit phrase substitutions, not full-sentence rewriting. Reload existing pages after updating so an older injected reader is not left running.
+**Plain reading** changes eligible health phrases in place; **Explain terms** keeps original words with explanations. **Restore original** turns the reader off. v0.5 adds a practice guide, more source-checked pairs and optional accessible same-origin frame/open-root reading. Both scope options and guide completion default to false. Existing per-occurrence restoration and page-session ignore controls remain available. Reload existing pages after updating so an older injected reader is not left running.
 
 The extension now remembers interface language, density, highlighting and reading mode locally. An older installation without preferences starts with **English / Comfortable / Subtle / Plain reading**. Valid existing fields are retained; missing or invalid fields receive safe defaults. Chinese changes the interface, not the English glossary or your notes. Changing settings or selecting a mode while off does not activate page access. A fresh page load always starts disabled.
 
 Open **Reading preferences** in the glossary to change these settings. Shortcuts are Ctrl+Shift+L to toggle reading and Ctrl+Shift+U to restore; on macOS use Control, not Command. Browser conflicts may leave a shortcut unassigned. Inspect assignments at `chrome://extensions/shortcuts` or `edge://extensions/shortcuts`.
 
-The feedback backup schema is unchanged. Schema-version-1 exports from v0.1–v0.3 remain supported after preview and confirmation, and restored notes retain their original glossary version. No account or network service is required. Automated tests cover schema compatibility; native upgrade and file-picker import remain unverified, so keep a backup until you have checked your installation.
+The feedback backup schema is unchanged. Schema-version-1 exports from v0.1–v0.4 remain supported after preview and confirmation, and restored notes retain their original glossary version. No account or network service is required. Automated tests cover schema compatibility; native upgrade and file-picker import remain unverified, so keep a backup until you have checked your installation.
 
 ## Back up your drafts
 
@@ -24,7 +24,7 @@ The backup contains only draft ID, entry ID, term, category, your note, creation
 
 ## Update the extension
 
-1. Download the desired Chromium extension ZIP from [Releases](https://github.com/jakezwang/openplainenglish/releases), for example `openplainenglish-0.4.0.zip`, together with its checksum if you want to verify file integrity. The GitHub **Source code** archive is not the built extension.
+1. Download the desired Chromium extension ZIP from [Releases](https://github.com/jakezwang/openplainenglish/releases), for example `openplainenglish-0.5.0.zip`, together with its checksum if you want to verify file integrity. The GitHub **Source code** archive is not the built extension.
 2. Extract the ZIP and confirm `manifest.json` is at the extracted folder's root.
 3. Replace the files in your existing unpacked-extension folder with the new release. Keeping the same installation folder helps preserve the existing installation; keep the exported backup regardless.
 4. Open `chrome://extensions` or `edge://extensions` and choose **Reload** on OpenPlainEnglish. Confirm the expected version is shown.
@@ -32,7 +32,7 @@ The backup contains only draft ID, entry ID, term, category, your note, creation
 
 Loading a different folder or moving to another browser can create a separate installation with separate storage. Removing the old extension removes its local drafts and preferences. Keep the backup until you have checked the new installation and restored any missing drafts. Feedback in the website's explicitly labeled browser preview uses that website's separate storage; it does not migrate into the extension automatically.
 
-The separately named `openplainenglish-0.4.0-firefox-preview.zip` is an unsigned developer draft for Firefox 140 or later, not a Chromium update or a signed store installer. Native Firefox installation, upgrade and acceptance remain pending. The `openplainenglish-core-0.4.0.tgz` SDK is a separate developer library, not an extension installer; see the [SDK guide](SDK.md). The 8-entry public-service pilot belongs to the opt-in workshop/SDK and does not replace the extension's 112-entry health glossary.
+The separately named `openplainenglish-0.5.0-firefox-preview.zip` is an unsigned developer draft for Firefox 140 or later, not a Chromium update or a signed store installer. Native Firefox installation, upgrade and acceptance remain pending. The `openplainenglish-core-0.5.0.tgz` SDK is a separate developer library, not an extension installer; see the [SDK guide](SDK.md). The 8-entry public-service pilot belongs to the opt-in workshop/SDK and does not replace the extension's 132-entry health glossary.
 
 ## Restore a backup in v0.2 or later
 
