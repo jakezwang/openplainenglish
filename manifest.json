@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
   "name": "OpenPlainEnglish",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "minimum_chrome_version": "116",
-  "description": "Understand health terms where you read. Short, sourced explanations on demand, with a local open dictionary.",
+  "description": "Read health terms in plainer English on the page, compare original words, and restore the original text anytime.",
   "permissions": [
     "activeTab",
     "scripting",

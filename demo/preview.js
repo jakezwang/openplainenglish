@@ -6,7 +6,7 @@ import { createActions } from '../src/background/actions.js';
 const view = new URL(location.href).searchParams.get('view') === 'popup' ? 'popup' : 'options';
 const STORAGE_KEY = 'opeDemoFeedback';
 const listeners = new Set();
-let state = { enabled: false, count: 0, truncated: false };
+let state = { enabled: false, mode: 'plain', count: 0, replacedCount: 0, annotatedCount: 0, truncated: false };
 let lexicon;
 
 function readDrafts() {
@@ -42,10 +42,12 @@ function installMockChrome() {
     tabs: {
       async query() { return [{ id: 1, url: location.href }]; },
       async sendMessage(_id, message) {
-        if (message.type === 'OPE_ENABLE' || message.type === 'OPE_DISABLE') {
-          const enabled = message.type === 'OPE_ENABLE';
-          state = { enabled, count: enabled ? 7 : 0, truncated: false };
-          announce(enabled ? 'Preview only · 7 example matches' : 'Browser preview · Test data only');
+        if (['OPE_ENABLE', 'OPE_DISABLE', 'OPE_SET_MODE'].includes(message.type)) {
+          const enabled = message.type === 'OPE_SET_MODE' ? state.enabled : message.type === 'OPE_ENABLE';
+          const mode = message.mode === 'annotate' ? 'annotate' : message.mode === 'plain' ? 'plain' : state.mode;
+          // These are fixed UI examples, not measurements from an active page.
+          state = { enabled, mode, count: enabled ? 7 : 0, replacedCount: enabled && mode === 'plain' ? 4 : 0, annotatedCount: enabled ? mode === 'plain' ? 3 : 7 : 0, truncated: false };
+          announce(enabled ? mode === 'plain' ? 'UI preview · 4 example replacements, 3 example explanations' : 'UI preview · 7 example explanations, original wording' : 'Browser preview · Test data only');
         }
         if (message.type === 'OPE_OPEN_FIRST') announce('Preview only · In the extension, this opens the first marked term.');
         return { ok: true, state: { ...state }, opened: state.enabled };

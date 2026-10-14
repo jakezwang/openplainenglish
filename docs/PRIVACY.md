@@ -1,10 +1,10 @@
 # Privacy policy
 
-Effective date: 2026-10-13. This policy describes OpenPlainEnglish v0.2, an unpacked browser extension for Chrome and Edge, and its separately labeled online demo.
+Effective date: 2026-10-13. This policy describes OpenPlainEnglish v0.3, an unpacked browser extension for Chrome and Edge, and its separately labeled online demo.
 
 ## Page access
 
-The extension works on the current HTTP(S) tab after you invoke and enable it. It uses `activeTab` and `scripting` to read supported text nodes, find bundled glossary terms, and add removable markers and explanation controls. Activation applies to that page load; a new document or reload requires you to enable it again. The original page wording remains available. This processing takes place in the browser.
+The extension works on the current HTTP(S) tab after you invoke and enable it. It uses `activeTab` and `scripting` to read supported text nodes, find bundled glossary terms, and add removable replacements, markers and explanation controls. Plain reading uses packaged, reviewed replacement pairs; Explain terms keeps original words visible. The reader holds original matched text only in current-page memory to support comparison and restoration; it does not persist that text. Activation applies to that page load; a new document or reload requires you to enable it again. This processing takes place in the browser.
 
 OpenPlainEnglish does not automatically collect or store page text, page titles, browsing URLs, or browsing history. It does not upload page content. There is no analytics service, remote model, extension account, or runtime backend. Reading the bundled glossary uses an extension-local resource, not an external service.
 

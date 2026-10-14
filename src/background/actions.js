@@ -1,6 +1,10 @@
 import { createFeedback, mergeFeedbackRecords, parseFeedbackImport } from '../shared/feedback.js';
 
-const OFF = { enabled: false, count: 0, truncated: false };
+const OFF = { enabled: false, mode: 'plain', count: 0, replacedCount: 0, annotatedCount: 0, truncated: false };
+function readingMode(mode) {
+  if (!['plain', 'annotate'].includes(mode)) throw new TypeError('Choose Plain reading or Explain terms.');
+  return mode;
+}
 const FEEDBACK_KINDS = new Set(['unclear', 'inaccurate', 'suggestion']);
 export function isSupportedUrl(url = '') {
   try {
@@ -41,7 +45,7 @@ export function createActions(chrome, getLexicon) {
   async function state(tabId) {
     try {
       const response = await chrome.tabs.sendMessage(tabId, { type: 'OPE_GET_STATE' });
-      return response?.state || { ...OFF };
+      return { ...OFF, ...response?.state };
     } catch { return { ...OFF }; }
   }
   async function handle(message) {
@@ -55,13 +59,21 @@ export function createActions(chrome, getLexicon) {
         return { ok: true, state: await state(tab.id) };
       }
       case 'OPE_TOGGLE_ACTIVE': {
+        const mode = readingMode(message.mode ?? 'plain');
         const tab = await activeTab();
         const current = await state(tab.id);
         if (current.enabled) return await chrome.tabs.sendMessage(tab.id, { type: 'OPE_DISABLE' });
         const lexicon = await getLexicon();
         const injection = await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: ['content.js'] });
         const documentId = injection[0]?.documentId;
-        return await chrome.tabs.sendMessage(tab.id, { type: 'OPE_ENABLE', entries: lexicon.entries }, documentId ? { documentId } : undefined);
+        return await chrome.tabs.sendMessage(tab.id, { type: 'OPE_ENABLE', entries: lexicon.entries, mode }, documentId ? { documentId } : undefined);
+      }
+      case 'OPE_SET_MODE_ACTIVE': {
+        const mode = readingMode(message.mode);
+        const tab = await activeTab();
+        const current = await state(tab.id);
+        if (!current.enabled) return { ok: true, state: { ...current, mode } };
+        return await chrome.tabs.sendMessage(tab.id, { type: 'OPE_SET_MODE', mode });
       }
       case 'OPE_OPEN_FIRST_ACTIVE': {
         const tab = await activeTab();

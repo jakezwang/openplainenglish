@@ -7,9 +7,11 @@ OpenPlainEnglish has no runtime third-party dependencies or remote inference ser
 1. The toolbar popup asks the background service worker for the active tab's reader state. This does not inject the reader.
 2. Explicit activation loads the bundled lexicon and injects `content.js` into the active HTTP(S) tab. The enable message targets the document ID returned by injection, preventing navigation races.
 3. The isolated content script keeps one reader per document. The matcher prefers the longest literal term or alias and preserves UTF-16 offsets, Unicode boundaries and original whitespace.
-4. The controller wraps eligible text with keyboard-accessible markers. It skips interactive, editable, hidden, code and explicitly non-English regions. Each scan is bounded to 15,000 text nodes and 750 marks; text nodes over 50,000 characters are skipped.
+4. The controller defaults to `plain` mode. It replaces only exact reviewed `inline.replacements` pairs through the pure inline helper; other matches remain annotations. `annotate` mode keeps original wording for every match. Selecting a mode while disabled remembers the choice without activating. Both modes skip interactive, editable, hidden, code and explicitly non-English regions. Each scan is bounded to 15,000 text nodes and 750 marks; text nodes over 50,000 characters are skipped.
 5. A shadow-root dialog shows source-checked explanations. Dynamic text, visibility, language and interactive-role changes reconcile existing marks. Owned UI writes are ignored to avoid observer feedback loops.
-6. Disabling disconnects observation and removes markers while preserving current page text, including page edits made after activation. Navigation to a new document starts disabled.
+6. Private per-marker records retain original text and rendered node identity. Disabling or switching modes restores only untouched owned text; website edits are preserved rather than overwritten by stale originals. Pending mutations are considered even before the observer callback runs. Original text stays in current-page memory, never persistent storage. Navigation to a new document starts disabled.
+
+Reader state is `{ enabled, mode, count, replacedCount, annotatedCount, truncated }`. `count` is the sum of the two marked categories. Background actions validate mode before injection and reuse an active reader when changing mode. The matcher never feeds an explanation's `short` field into page replacement. See [replacement policy](INLINE-LEXICON.md).
 
 ## Feedback flow
 
@@ -23,7 +25,7 @@ Sharing requires a review dialog showing the exact issue body. Following the Git
 
 | Path | Responsibility |
 | --- | --- |
-| `src/core/` | Pure text matching |
+| `src/core/` | Pure text matching and reviewed inline replacement selection |
 | `src/content/` | Page annotation, dialog and content-script messages |
 | `src/background/` | Active-tab actions, lexicon loading and serialized draft storage |
 | `src/popup/` | Per-page controls |

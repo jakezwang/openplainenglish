@@ -1,6 +1,8 @@
-# Health lexicon v0.2
+# Health lexicon v0.3
 
 The bundled [health.json](../data/health.json) contains 100 entries for reading English health information. Each keeps the original term, a short meaning, an explanation, a context note, sources, and a review record. Topics include symptoms and conditions, blood and immune-system vocabulary, imaging and other tests, cancer treatment, and public-health research. It is a small editorial seed, not a complete medical dictionary.
+
+Version 0.3 adds a separate, conservative [inline replacement lexicon](INLINE-LEXICON.md): 21 entries contain 40 explicitly sourced replacement pairs. It does not convert the existing short definitions into substitutions. All other terms and aliases remain annotation-only. The original definitions, citations, and their review dates are unchanged by this addition.
 
 The explanations are original project wording, written with AI assistance after comparison with the cited primary sources. The [data license](../data/LICENSE) is CC0-1.0 for those original contributions. The code license is separate. No terminology was copied from MedSimplify, University of Michigan PLMD, NAIC, Plain English Campaign, or Open Food Facts.
 
@@ -32,7 +34,7 @@ Two sources in the early idea were attractive but were not used: [MedSimplify](h
 
 ## Editorial choices and remaining limitations
 
-- Original terms are kept. No entry is an instruction to replace the source text or reinterpret a medical record.
+- Original terms remain recoverable. Annotation explanations and optional inline replacement pairs are separate data: only an explicitly listed `from` string may use its corresponding `to` text. No entry authorizes interpreting a medical record or changing surrounding claims.
 - Broad ambiguous matches such as `positive`, `negative`, `discharge`, `stroke`, `acute`, `chronic`, and `screening` are excluded as standalone terms. Phrases such as `acute illness`, `screening test`, and `disease transmission` narrow the meaning. Ambiguous short acronyms such as `MI`, `BP`, `RA`, `MS`, and `IV` are not aliases.
 - Aliases are selected spellings, plurals, and established names, not automatically generated synonyms. Case folding is used for matching. A few useful abbreviations such as ECG, EKG, COPD, and MRI remain and can still be ambiguous outside health writing.
 - The matcher is a word/phrase matcher, not a medical language model. It cannot detect every metaphor, negation, historical mention, hypothetical statement, nonmedical sense, or subtype. An explanation on a page does not mean the reader has that condition. Matching a shorter term inside a more specific medical phrase may give only the general meaning.
@@ -53,9 +55,10 @@ The root object has `schemaVersion`, semantic release `version`, `license`, and 
 | `explanation` | Fuller plain-text explanation, at most 500 characters. |
 | `context` | Scope or a relevant distinction, at most 500 characters. |
 | `sources` | At least one `{label, url, license}` record; HTTPS primary-source host; no URL credentials/custom ports; no licensed MedlinePlus encyclopedia/drug-monograph paths. |
-| `review` | Only `source-checked` is accepted in v0.2, with a real ISO date and the exact limitation-bearing method above. |
+| `review` | Only `source-checked` is accepted, with a real ISO date and the exact limitation-bearing method above. |
+| `inline` (optional) | A dedicated `{replacements: [{from, to}], note, review}` record. Sources inherit the entry's validated citations; a separate inline review records comparison of the replacements. Each source is an existing term/alias; targets are plain text of at most 96 characters. No automatic substitution from `short`, inferred inflections, or identity pairs. See [the inline rules and ledger](INLINE-LEXICON.md). |
 
-Run `node scripts/validate-lexicon.mjs` and `node --test tests/lexicon.test.mjs`. The validator also exports `validateLexicon` (returns an array of errors) and `assertValidLexicon` (returns the data or throws). Tests exercise collisions, malformed structures, missing metadata, unsafe/unsupported source URLs, excessive lengths, unearned review claims, and several important semantic distinctions.
+Run `node scripts/validate-lexicon.mjs` and `node --test tests/lexicon.test.mjs`. The validator also exports `validateLexicon` (returns an array of errors) and `assertValidLexicon` (returns the data or throws). Tests exercise collisions, malformed structures, missing metadata, unsafe/unsupported source URLs, excessive lengths, unearned review claims, and several important semantic distinctions. Inline checks additionally reject duplicate or foreign source strings, identity pairs, missing nested review metadata, unsupported fields, markup, and control or hidden formatting characters. Invented sentence-pair fixtures protect selected grammatical and meaning distinctions without claiming full-context understanding.
 
 These are **offline structural and provenance checks**. They do not fetch URLs, confirm that a host still serves a definition, verify licenses for future pages, or certify medical correctness. Adding a host to the allowlist requires reviewing its actual source material and rights, not merely its domain suffix.
 

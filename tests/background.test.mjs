@@ -6,15 +6,16 @@ const lexicon = { version: '0.1.0', entries: [{ id: 'hypertension', term: 'hyper
 function mockBrowser() {
   const calls = [];
   const saved = { opeFeedback: [] };
-  let current = { enabled: false, count: 0, truncated: false };
+  let current = { enabled: false, mode: 'plain', count: 0, replacedCount: 0, annotatedCount: 0, truncated: false };
   const api = {
     runtime: { getURL: (path) => `chrome-extension://test/${path}` },
     tabs: {
       query: async () => [{ id: 7, url: 'https://example.org/health' }],
       sendMessage: async (id, message, options) => {
         calls.push({ id, message, options });
-        if (message.type === 'OPE_ENABLE') current = { enabled: true, count: 2, truncated: false };
-        if (message.type === 'OPE_DISABLE') current = { enabled: false, count: 0, truncated: false };
+        if (message.type === 'OPE_ENABLE') current = { enabled: true, mode: message.mode, count: 2, replacedCount: message.mode === 'plain' ? 1 : 0, annotatedCount: message.mode === 'plain' ? 1 : 2, truncated: false };
+        if (message.type === 'OPE_SET_MODE') current = { ...current, mode: message.mode, replacedCount: message.mode === 'plain' ? 1 : 0, annotatedCount: message.mode === 'plain' ? 1 : 2 };
+        if (message.type === 'OPE_DISABLE') current = { ...current, enabled: false, count: 0, replacedCount: 0, annotatedCount: 0 };
         return { ok: true, state: current };
       },
       create: async (options) => calls.push({ opened: options.url }),
@@ -45,8 +46,35 @@ test('opening the popup only reads state; enabling injects current-tab code and 
   const enable = calls.find((call) => call.message?.type === 'OPE_ENABLE');
   assert.equal(enable.options.documentId, 'current-document');
   assert.deepEqual(enable.message.entries, lexicon.entries);
+  assert.equal(enable.message.mode, 'plain');
   assert.equal((await actions.handle({ type: 'OPE_TOGGLE_ACTIVE' })).state.enabled, false);
   assert.equal(calls.filter((call) => call.injection).length, 1);
+});
+
+test('mode changes never activate an off page and reuse the enabled reader without reinjection', async () => {
+  const { actions, calls } = mockBrowser();
+  const off = await actions.handle({ type: 'OPE_SET_MODE_ACTIVE', mode: 'annotate' });
+  assert.equal(off.state.enabled, false);
+  assert.equal(off.state.mode, 'annotate');
+  assert.equal(calls.some((call) => call.injection || call.message.type === 'OPE_ENABLE'), false);
+  const initial = await actions.handle({ type: 'OPE_TOGGLE_ACTIVE', mode: 'annotate' });
+  assert.equal(initial.state.mode, 'annotate');
+  assert.equal(initial.state.replacedCount, 0);
+  const switched = await actions.handle({ type: 'OPE_SET_MODE_ACTIVE', mode: 'plain' });
+  assert.equal(switched.state.replacedCount, 1);
+  assert.equal(switched.state.annotatedCount, 1);
+  assert.equal(calls.filter((call) => call.injection).length, 1);
+  assert.deepEqual(calls.at(-1).message, { type: 'OPE_SET_MODE', mode: 'plain' });
+});
+
+test('invalid mode commands fail before accessing tabs, injecting or changing state', async () => {
+  const { actions, api, calls } = mockBrowser();
+  api.tabs.query = async () => assert.fail('invalid mode must not inspect the active tab');
+  for (const mode of [null, '', 'rewrite-everything', {}, 0]) {
+    await assert.rejects(actions.handle({ type: 'OPE_SET_MODE_ACTIVE', mode }), /Choose Plain reading/);
+    if (mode !== null) await assert.rejects(actions.handle({ type: 'OPE_TOGGLE_ACTIVE', mode }), /Choose Plain reading/);
+  }
+  assert.deepEqual(calls, []);
 });
 
 test('page without installed listener is off; unsupported page returns actionable error', async () => {

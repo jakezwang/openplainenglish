@@ -9,6 +9,8 @@ button:hover { background: #e8f0e8; }
 button:focus-visible, a:focus-visible { outline: 3px solid #ba580c; outline-offset: 3px; }
 .close { border: 0; font-size: 22px; line-height: 1; padding: 6px 8px; }
 .term { font-size: 14px; margin: 19px 0 4px; color: #52685f; overflow-wrap: anywhere; }
+.wording-note { margin: 10px 0; font-size: 12px; }
+.wording-note summary { cursor: pointer; color: #176549; }
 h2 { font-family: Georgia, serif; font-size: 27px; line-height: 1.2; font-weight: 500; margin: 0 0 16px; color: #153b31; overflow-wrap: anywhere; }
 p { margin: 10px 0; font-size: 14px; line-height: 1.6; }
 .context { border-left: 3px solid #9bbb9e; padding: 2px 0 2px 13px; margin: 16px 0; }
@@ -43,7 +45,7 @@ export function createPanel({ document, onFeedback }) {
       close();
     }
   }
-  function show(entry, element) {
+  function show(entry, element, presentation = {}) {
     close({ restoreFocus: false });
     anchor = element;
     currentEntry = entry;
@@ -74,7 +76,14 @@ export function createPanel({ document, onFeedback }) {
     closeButton.setAttribute('aria-label', 'Close explanation');
     closeButton.addEventListener('click', () => close());
     top.append(closeButton);
-    panel.append(top, el('p', entry.term, 'term'));
+    panel.append(top, el('span', 'Original words', 'label'), el('p', presentation.originalText ?? entry.term, 'term original-words'));
+    if (presentation.replaced) panel.append(el('span', 'Plain wording on this page', 'label'), el('p', presentation.displayText, 'reading-words'));
+    if (presentation.reason && !presentation.replaced) panel.append(el('p', presentation.reason, 'presentation-note'));
+    if (presentation.note) {
+      const wordingNote = el('details', null, 'wording-note');
+      wordingNote.append(el('summary', 'About this wording'), el('p', presentation.note));
+      panel.append(wordingNote);
+    }
     const heading = el('h2', entry.short);
     heading.id = 'ope-meaning';
     const description = el('p', entry.explanation);

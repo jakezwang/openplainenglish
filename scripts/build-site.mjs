@@ -17,7 +17,9 @@ export async function buildSite(output = path.join(root, 'site')) {
   }
   // Relative URLs work at both a custom-domain root and a /repository/ prefix.
   const html = await readFile(path.join(root, 'demo/index.html'), 'utf8');
-  await writeFile(path.join(output, 'index.html'), html.replace('<head>', '<head>\n  <base href="./demo/">'));
+  // Fragment links must stay on this root document despite the asset base URL.
+  const rootHtml = html.replace('<head>', '<head>\n  <base href="./demo/">').replaceAll('href="#', 'href="../#');
+  await writeFile(path.join(output, 'index.html'), rootHtml);
   await writeFile(path.join(output, '.nojekyll'), '');
   await writeFile(path.join(output, '404.html'), '<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Page not found · OpenPlainEnglish</title><h1>That page is not here.</h1><p><a href="https://jakezwang.github.io/openplainenglish/">Return to the reading demo</a></p></html>\n');
   console.log(`Built static reading demo → ${path.relative(root, output)}`);

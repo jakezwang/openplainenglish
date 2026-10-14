@@ -2,11 +2,11 @@
 
 让专业语言更容易理解，让普通人也能平等地获取信息。
 
-OpenPlainEnglish 是一个开源的英文医疗阅读辅助工具。你主动开启后，它会在网页中标记词库里的医疗术语，点击即可查看简短释义、完整解释、适用语境和来源。原文保留，处理在本机完成。目前词库包含 100 个英文医疗词条。
+OpenPlainEnglish 是一个开源的英文医疗阅读辅助工具。v0.3 加入**整页就地白话替换**：你主动开启后，经过单独核对的术语会直接变成更常见的表达，例如 `hypertension → high blood pressure`。点击可对照原词、查看释义与来源，也可以一键恢复。没有合适替换的词保留原文并提供解释。目前词库包含 100 个英文医疗词条，处理在本机完成。
 
 [安装 OpenPlainEnglish](https://jakezwang.github.io/openplainenglish/demo/install.html) · [在线演示](https://jakezwang.github.io/openplainenglish/) · [English README](README.md) · [更新与反馈恢复](docs/UPGRADING.md)
 
-![本地网页演示：标记医疗术语，点击后显示解释](docs/images/reader-demo.jpg)
+![白话阅读演示：直接替换网页中的术语，并显示原词对照](docs/images/online-demo-v0.3.jpg)
 
 *截图来自网页演示。网页演示及模拟浏览器接口的预览，不能证明真实扩展的安装、权限和消息处理已通过验收；请查看相应版本的验证记录。*
 
@@ -25,9 +25,12 @@ OpenPlainEnglish 是一个开源的英文医疗阅读辅助工具。你主动开
 ## 使用
 
 1. 打开普通的 HTTP 或 HTTPS 英文网页，点击工具栏中的 OpenPlainEnglish。
-2. 点击 **Explain this page**，为当前页面开启解释。
-3. 点击带标记的词，或用 Tab 聚焦后按 Enter／空格，查看释义和来源。Escape 关闭解释。
-4. 点击 **Turn off explanations** 关闭，移除标记。刷新页面或进入新的页面文档后，需要重新开启。
+2. 默认选择 **Plain reading（白话阅读）**，点击 **Read in plain English**。界面分别显示替换了多少处、多少处保留原词并提供解释。
+3. 点击带标记的词，或用 Tab 聚焦后按 Enter／空格，查看原词、替换表达、释义和来源。Escape 关闭解释。
+4. 选择 **Explain terms（点击释义）** 可立即回到保留原词的阅读方式。关闭状态下选模式不会自动开启。
+5. 点击 **Restore original（恢复原文）** 关闭。工具未被网页修改的替换会恢复成原先的文字，网站自己更新的内容会保留。刷新页面或进入新的页面文档后，需要重新开启。
+
+替换使用专门核对的词形与短语，不会把整段词典定义塞进正文。它不是全文翻译或句子改写工具，也不能理解所有语境。可替换的具体词形、例句、排除原因见[替换词库说明](docs/INLINE-LEXICON.md)。词库搜索也支持白话表达。
 
 **Explore the glossary** 可以搜索完整词库。工具不会解释图片、PDF、浏览器内部页面、本地文件、iframe 或 shadow root 中的文字；跨多个 HTML 元素的短语可能无法识别。表单、编辑区、链接、按钮、代码、隐藏内容和明确标记为非英文的段落会跳过。大页面可能只标记一部分，界面会说明。
 

@@ -4,9 +4,14 @@ import { createReader } from './controller.js';
 if (!globalThis.__openPlainEnglishInstalled) {
   globalThis.__openPlainEnglishInstalled = true;
   let reader;
+  const offState = (mode = 'plain') => ({ enabled: false, mode, count: 0, replacedCount: 0, annotatedCount: 0, truncated: false });
   chrome.runtime.onMessage.addListener((message, sender, respond) => {
     if (sender?.id !== chrome.runtime.id || typeof message?.type !== 'string' || !message.type.startsWith('OPE_')) return false;
     try {
+      if (['OPE_ENABLE', 'OPE_SET_MODE'].includes(message.type) && !['plain', 'annotate'].includes(message.mode ?? (message.type === 'OPE_ENABLE' ? 'plain' : undefined))) {
+        respond({ ok: false, error: 'Choose Plain reading or Explain terms.' });
+        return false;
+      }
       if (message.type === 'OPE_ENABLE') {
         if (!['text/html', 'application/xhtml+xml'].includes(document.contentType)) {
           respond({ ok: false, error: 'The reader works on web pages. PDF documents, images and other file viewers are not supported yet.' });
@@ -19,10 +24,11 @@ if (!globalThis.__openPlainEnglishInstalled) {
             chrome.runtime.sendMessage({ type: 'OPE_OPEN_FEEDBACK', entryId: entry.id, kind }).catch(() => {});
           },
         });
-        respond({ ok: true, state: reader.enable() });
-      } else if (message.type === 'OPE_DISABLE') respond({ ok: true, state: reader?.disable() || { enabled: false, count: 0, truncated: false } });
-      else if (message.type === 'OPE_GET_STATE') respond({ ok: true, state: reader?.getState() || { enabled: false, count: 0, truncated: false } });
-      else if (message.type === 'OPE_OPEN_FIRST') respond({ ok: true, opened: reader?.openFirst() || false, state: reader?.getState() || { enabled: false, count: 0, truncated: false } });
+        respond({ ok: true, state: reader.enable({ mode: message.mode ?? 'plain' }) });
+      } else if (message.type === 'OPE_SET_MODE') respond({ ok: true, state: reader?.setMode(message.mode) || offState(message.mode) });
+      else if (message.type === 'OPE_DISABLE') respond({ ok: true, state: reader?.disable() || offState() });
+      else if (message.type === 'OPE_GET_STATE') respond({ ok: true, state: reader?.getState() || offState() });
+      else if (message.type === 'OPE_OPEN_FIRST') respond({ ok: true, opened: reader?.openFirst() || false, state: reader?.getState() || offState() });
       else return false;
     } catch {
       respond({ ok: false, error: 'The reader could not load this glossary. Reload the extension and try again.' });

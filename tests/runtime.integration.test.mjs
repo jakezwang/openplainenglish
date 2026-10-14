@@ -29,7 +29,7 @@ async function eventually(condition) {
 
 function runtime(t) {
   const id = 'openplainenglish-test';
-  const page = new JSDOM('<!doctype html><html lang="en"><body><p>Hypertension and asthma are health terms.</p></body></html>', { url: 'https://public.example/reading', runScripts: 'outside-only', pretendToBeVisual: true });
+  const page = new JSDOM('<!doctype html><html lang="en"><body><p>Hypertension and biopsy are health terms.</p></body></html>', { url: 'https://public.example/reading', runScripts: 'outside-only', pretendToBeVisual: true });
   const popup = new JSDOM(popupHTML, { url: `https://${id}.invalid/popup.html`, runScripts: 'outside-only', pretendToBeVisual: true });
   const closePopup = popup.window.close.bind(popup.window);
   const stored = { opeFeedback: [] };
@@ -93,6 +93,11 @@ test('bundled popup activation reaches content, explanation feedback and backgro
   document.getElementById('toggle').click();
   await eventually(() => document.getElementById('toggle').getAttribute('aria-pressed') === 'true');
   assert.equal(app.page.window.document.querySelectorAll('[data-ope-term]').length, 2);
+  assert.equal(app.page.window.document.querySelector('p').textContent, 'High blood pressure and biopsy are health terms.');
+  const active = await app.send({ type: 'OPE_GET_ACTIVE_STATE' });
+  assert.equal(active.state.mode, 'plain');
+  assert.equal(active.state.replacedCount, 1);
+  assert.equal(active.state.annotatedCount, 1);
   assert.equal(app.injections(), 1);
   assert.equal(app.fetched.length, 1);
   document.getElementById('first').click();
@@ -109,7 +114,42 @@ test('bundled popup activation reaches content, explanation feedback and backgro
   assert.equal(JSON.stringify(app.stored).includes('private'), false);
   await app.send({ type: 'OPE_TOGGLE_ACTIVE' });
   assert.equal(app.page.window.document.querySelector('[data-ope-owned]'), null);
-  assert.equal(app.page.window.document.querySelector('p').textContent, 'Hypertension and asthma are health terms.');
+  assert.equal(app.page.window.document.querySelector('p').textContent, 'Hypertension and biopsy are health terms.');
+});
+
+test('bundled mode controls switch the actual page in place and restore the exact current source text', async (t) => {
+  const app = runtime(t);
+  const popup = app.popup.window.document;
+  const paragraph = app.page.window.document.querySelector('p');
+  const source = paragraph.textContent;
+  await eventually(() => !popup.getElementById('toggle').disabled);
+  popup.getElementById('mode-annotate').click();
+  assert.equal(app.injections(), 0, 'choosing a mode while off does not access page content');
+  assert.equal(paragraph.textContent, source);
+  popup.getElementById('toggle').click();
+  await eventually(() => popup.getElementById('toggle').getAttribute('aria-pressed') === 'true');
+  assert.equal(paragraph.textContent, source);
+  assert.equal((await app.send({ type: 'OPE_GET_ACTIVE_STATE' })).state.mode, 'annotate');
+  popup.getElementById('mode-plain').click();
+  await eventually(() => paragraph.textContent.startsWith('High blood pressure'));
+  assert.equal(app.injections(), 1);
+  const beforeInvalid = paragraph.innerHTML;
+  assert.equal((await app.send({ type: 'OPE_SET_MODE_ACTIVE', mode: 'translate-all' })).ok, false);
+  assert.equal(paragraph.innerHTML, beforeInvalid);
+  popup.getElementById('mode-annotate').click();
+  await eventually(() => paragraph.textContent === source);
+  popup.getElementById('mode-plain').click();
+  await eventually(() => paragraph.textContent.startsWith('High blood pressure'));
+  const changed = app.page.window.document.createElement('p');
+  changed.textContent = 'hypertension appears in newly loaded text.';
+  paragraph.after(changed);
+  await eventually(() => changed.textContent === 'high blood pressure appears in newly loaded text.');
+  // Site changes before the observer callback must win over the stored original.
+  paragraph.querySelector('[data-ope-term]').textContent = 'Updated by the website';
+  await app.send({ type: 'OPE_TOGGLE_ACTIVE' });
+  assert.equal(paragraph.textContent, 'Updated by the website and biopsy are health terms.');
+  assert.equal(changed.textContent, 'hypertension appears in newly loaded text.');
+  assert.equal(app.page.window.document.querySelector('[data-ope-owned]'), null);
 });
 
 test('bundled message listeners reject foreign/malformed calls and recover after invalid enable data', async (t) => {
@@ -131,4 +171,8 @@ test('bundled message listeners reject foreign/malformed calls and recover after
   listener({ type: 'OPE_ENABLE', entries: lexicon.entries }, { id: 'openplainenglish-test' }, (result) => { response = result; });
   assert.equal(response.ok, true);
   assert.equal(response.state.count, 2);
+  const activeText = app.page.window.document.querySelector('p').textContent;
+  listener({ type: 'OPE_SET_MODE', mode: 'unsafe' }, { id: 'openplainenglish-test' }, (result) => { response = result; });
+  assert.equal(response.ok, false);
+  assert.equal(app.page.window.document.querySelector('p').textContent, activeText);
 });

@@ -6,16 +6,19 @@
 
 Understand health information without losing the original words.
 
-OpenPlainEnglish is an open-source extension for Chromium-based desktop browsers such as Chrome and Edge. It explains selected health terms on the page you are reading and requires Chromium 116 or newer. Turn it on when you need it, open a marked term for an explanation, and turn it off to remove the marks. The original wording stays available throughout.
+OpenPlainEnglish is an open-source extension for Chromium-based desktop browsers such as Chrome and Edge, requiring Chromium 116 or newer. Turn on **Plain reading** to replace selected health terms with reviewed everyday wording directly in the page. Click a marked phrase to compare it with the original and inspect its explanation and sources. **Restore original** returns untouched replacements to the exact original text. You can also choose **Explain terms** to keep every original word visible.
 
-让专业语言更容易理解，让普通人也能平等地获取信息。首版提供 100 个英文医疗词条，保留原词、就地解释，本地处理；反馈先保存在设备上，由你决定是否公开分享。
+让专业语言更容易理解，让普通人也能平等地获取信息。v0.3 提供整页就地白话替换、原词对照和一键恢复；100 个英文医疗词条中，只有另行核对过的替换短语会改写正文，其余保留原词并提供解释。处理在本机完成。
 
-![OpenPlainEnglish online demo with the dehydration explanation open](docs/images/online-demo-v0.2.jpg)
+![Plain reading with an original-word comparison in the online demo](docs/images/online-demo-v0.3.jpg)
 
-*Public demo verified in Chrome. See the [v0.2.0 verification record](docs/RELEASE-0.2.0.md) for checked behavior and remaining gaps. Actual extension installation and runtime are still awaiting manual verification.*
+*Web demo of the shared reader. See the [v0.3.0 verification record](docs/RELEASE-0.3.0.md) for checked behavior and remaining gaps. Actual extension installation and runtime are still awaiting manual verification.*
 
-## What v0.2 does
+## What v0.3 does
 
+- Replaces supported terms in place using separately reviewed word-form pairs; keeps other terms available as clickable explanations. See the [replacement guide](docs/INLINE-LEXICON.md) for exact coverage and exclusions.
+- Switches between **Plain reading** and **Explain terms** without reloading. Selecting a mode while off does not activate page processing.
+- Shows the original matched wording alongside each replacement and restores untouched text exactly. Website edits made while reading are preserved.
 - Marks terms from a bundled glossary of 100 English health entries, including useful phrases and aliases.
 - Shows a short meaning, a fuller explanation, context, cited sources, and the entry's review status.
 - Works locally on the current HTTP(S) page after you explicitly enable it.
@@ -24,7 +27,7 @@ OpenPlainEnglish is an open-source extension for Chromium-based desktop browsers
 
 This is an early reading aid. The initial explanations were authored with AI assistance and are **source-checked**, meaning their wording was compared with the cited material. They have not been independently clinically reviewed or tested for comprehension, and no measured improvement in understanding is claimed. They do not interpret your symptoms, records, test results, or treatment choices. A word's meaning also depends on its context.
 
-The dictionary matches written terms and aliases; it does not infer whether a statement applies to you, interpret negation, or resolve every ambiguity. v0.2 covers English health terminology. Legal, insurance, food, translation, and OCR features are outside this release.
+The dictionary matches written terms and aliases; it does not infer whether a statement applies to you, interpret negation, or resolve every ambiguity. Replacements are bounded editorial pairs, not a whole-sentence rewrite or a grammar engine. Unreviewed forms and unusual mixed capitalization retain their original wording. v0.3 covers English health terminology. Legal, insurance, food, translation, and OCR features are outside this release.
 
 The first release supports ordinary web-page text. Browser internal pages, extension stores, local files, PDF files and the browser's PDF viewer, scanned images, embedded documents, iframes, and shadow roots are outside its supported scope. Matching happens within each text node, so a phrase split across separate HTML elements may not be marked. Forms, editable areas, links, buttons, code, hidden content, and explicitly non-English passages are skipped. Very large pages may receive only partial marking; the interface reports this limit.
 
@@ -45,15 +48,15 @@ This release is distributed as an unpacked extension, with no browser-store inst
 ## Read a page
 
 1. Open an ordinary HTTP(S) page and choose OpenPlainEnglish from the toolbar.
-2. Enable explanations for that page. The popup reports the number of marked terms.
-3. Click a marked term, or focus it with the keyboard and activate it, to read its explanation. You can also open the first explanation from the popup.
-4. Close the explanation to return to reading. Disable explanations from the popup to remove the marks.
+2. Choose **Plain reading** and **Read in plain English**. The popup separately counts replaced phrases and terms kept for explanation.
+3. Click a marked phrase, or focus it with the keyboard and activate it, to compare the original, read its explanation and check sources. You can also open the first explanation from the popup.
+4. Switch to **Explain terms** to read the original text with explanation markers. Choose **Restore original** to remove all reader changes.
 
 Activation applies to the current page load. Reloading or navigating to a new document starts with explanations disabled; enable them again if needed. The glossary and saved feedback are available from the extension's management page. A source link opens the cited website only when you choose it. Feedback starts as a local draft; opening a prepared GitHub issue requires your action, and publishing it requires GitHub's submission step.
 
 ## Privacy and permissions
 
-The extension has no analytics, remote model, account, or runtime service. Matching and explanations use bundled data. It does not automatically collect page text, page titles, browsing URLs, or browsing history. The newest 100 feedback drafts stay in the browser's local extension storage; saving beyond that limit removes the oldest draft. Export drafts you want to retain. v0.2 can restore v0.1 and v0.2 JSON exports after preview and confirmation, with duplicate IDs preserved and overflow clearly reported. There is no account sync. See [upgrading and restoring drafts](docs/UPGRADING.md).
+The extension has no analytics, remote model, account, or runtime service. Matching, replacements and explanations use bundled data. Original matched text is held only in the current reader's memory for restoration, not saved or uploaded. It does not automatically collect page text, page titles, browsing URLs, or browsing history. The newest 100 feedback drafts stay in the browser's local extension storage; saving beyond that limit removes the oldest draft. Export drafts you want to retain. v0.3 can restore earlier v1 JSON exports after preview and confirmation, with duplicate IDs preserved and overflow clearly reported. There is no account sync. See [upgrading and restoring drafts](docs/UPGRADING.md).
 
 | Permission | Purpose |
 | --- | --- |
@@ -73,7 +76,7 @@ npm run check
 npm run package
 ```
 
-Load `dist/` through **Load unpacked** to test your build. `npm run package` creates `release/openplainenglish-0.2.0.zip` and its `.sha256` checksum. Development dependencies are used for building and testing; the extension runtime has no third-party dependencies.
+Load `dist/` through **Load unpacked** to test your build. `npm run package` creates `release/openplainenglish-0.3.0.zip` and its `.sha256` checksum. Development dependencies are used for building and testing; the extension runtime has no third-party dependencies.
 
 For the public-information demo:
 
@@ -81,7 +84,7 @@ For the public-information demo:
 npm run dev
 ```
 
-Open the local URL printed by that command. Its **Enable reader** control exercises the shared reader without installing an extension. To test the installed extension on this page, leave the demo reader off and use the extension toolbar instead.
+Open the local URL printed by that command. Its **Read in plain English** control exercises the shared reader without installing an extension. To test the installed extension on this page, leave the demo reader off and use the extension toolbar instead.
 
 The links `demo/preview.html?view=options` and `demo/preview.html?view=popup` preview the real glossary and popup interfaces with clearly labeled mock browser APIs. They reuse the background action code while storing test drafts separately in browser localStorage. These previews help inspect layout and interaction; they do not verify extension installation, permissions, service-worker execution, or real tab access. The demo and adapters are excluded from the extension package. See [testing instructions](docs/TESTING.md) for the release checklist.
 

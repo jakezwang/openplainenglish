@@ -2,6 +2,12 @@
 
 Unpacked installations do not update automatically. Keep an exported backup before replacing files, removing an installation, or moving to another browser. A backup is a local JSON file, separate from the extension and from any public GitHub issue.
 
+## Moving to v0.3
+
+The default mode is now **Plain reading**: eligible terms become reviewed everyday phrases in place. Choose **Explain terms** if you prefer to keep the original words visible. **Restore original** turns the reader off. Mode selection does not grant page access or turn the reader on; a fresh page load starts disabled. Reload existing pages after updating so an older injected reader is not left running.
+
+The feedback backup schema is unchanged. v0.1 and v0.2 v1 exports remain importable after preview and confirmation, and restored notes retain their original glossary version. No data migration, account or network service is required.
+
 ## Back up your drafts
 
 1. Open the extension's glossary page, then **Your feedback**.

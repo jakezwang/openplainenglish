@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 export const MAX_SHORT_LENGTH = 96;
+export const MAX_INLINE_LENGTH = 96;
 export const REVIEW_METHOD = 'editorial source comparison; no independent clinical or user-comprehension review';
 const SOURCE_LICENSES = new Set(['Public-Domain-US']);
 const SOURCE_HOSTS = new Set(['www.cdc.gov', 'archive.cdc.gov', 'stacks.cdc.gov', 'www.cancer.gov', 'medlineplus.gov', 'www.fda.gov']);
@@ -21,7 +22,7 @@ export function validateLexicon(lexicon) {
     }
     if (value !== value.trim()) fail(path, 'must not have surrounding whitespace');
     if ([...value].length > max) fail(path, `must be at most ${max} characters`);
-    if (/[\u0000-\u001f\u007f]/u.test(value)) fail(path, 'must not contain control characters');
+    if (/[\p{Cc}\p{Cf}]/u.test(value)) fail(path, 'must not contain control or hidden formatting characters');
     if (/[<>]/u.test(value)) fail(path, 'must be plain text, not markup');
     return true;
   };
@@ -35,6 +36,18 @@ export function validateLexicon(lexicon) {
   }
   const ids = new Map();
   const phrases = new Map();
+  function review(value, path) {
+    if (!plainObject(value)) {
+      fail(path, 'must include review metadata');
+      return;
+    }
+    if (value.status !== 'source-checked') fail(`${path}.status`, 'unsupported review status; only source-checked is supported');
+    const date = value.date;
+    if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/u.test(date) || Number.isNaN(Date.parse(date)) || new Date(date).toISOString().slice(0, 10) !== date) {
+      fail(`${path}.date`, 'must be a real date in YYYY-MM-DD format');
+    }
+    if (value.method !== REVIEW_METHOD) fail(`${path}.method`, 'must state the editorial method and lack of independent clinical/user review');
+  }
   function registerPhrase(value, path) {
     if (!string(value, path, 100)) return;
     const key = normalize(value);
@@ -81,14 +94,40 @@ export function validateLexicon(lexicon) {
         fail(`${path}.url`, 'must be a valid absolute URL');
       }
     });
-    if (!plainObject(entry.review)) fail(`${base}.review`, 'must include review metadata');
-    else {
-      if (entry.review.status !== 'source-checked') fail(`${base}.review.status`, 'unsupported review status; v0.1 only uses source-checked');
-      const date = entry.review.date;
-      if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/u.test(date) || Number.isNaN(Date.parse(date)) || new Date(date).toISOString().slice(0, 10) !== date) {
-        fail(`${base}.review.date`, 'must be a real date in YYYY-MM-DD format');
+    review(entry.review, `${base}.review`);
+    if (Object.hasOwn(entry, 'inline')) {
+      const path = `${base}.inline`;
+      if (!plainObject(entry.inline)) {
+        fail(path, 'must be an object when provided');
+        continue;
       }
-      if (entry.review.method !== REVIEW_METHOD) fail(`${base}.review.method`, 'must state the editorial method and lack of independent clinical/user review');
+      if (Object.keys(entry.inline).some((key) => !['replacements', 'note', 'review'].includes(key))) fail(path, 'contains unsupported inline fields');
+      string(entry.inline.note, `${path}.note`);
+      review(entry.inline.review, `${path}.review`);
+      if (plainObject(entry.inline.review) && Object.keys(entry.inline.review).some((key) => !['status', 'date', 'method'].includes(key))) fail(`${path}.review`, 'contains unsupported inline review fields');
+      const replacements = entry.inline.replacements;
+      if (!Array.isArray(replacements) || replacements.length === 0 || replacements.length > 64) {
+        fail(`${path}.replacements`, 'must contain 1 to 64 explicit replacement pairs');
+        continue;
+      }
+      const allowed = new Set([entry.term, ...(Array.isArray(entry.aliases) ? entry.aliases : [])].filter((value) => typeof value === 'string').map(normalize));
+      const used = new Set();
+      for (const [i, pair] of replacements.entries()) {
+        const pairPath = `${path}.replacements[${i}]`;
+        if (!plainObject(pair)) {
+          fail(pairPath, 'must be a replacement object');
+          continue;
+        }
+        if (Object.keys(pair).some((key) => !['from', 'to'].includes(key))) fail(pairPath, 'contains unsupported replacement fields');
+        const fromValid = string(pair.from, `${pairPath}.from`, 100);
+        const toValid = string(pair.to, `${pairPath}.to`, MAX_INLINE_LENGTH);
+        if (!fromValid) continue;
+        const from = normalize(pair.from);
+        if (!allowed.has(from)) fail(`${pairPath}.from`, 'must belong to this entry term or aliases');
+        if (used.has(from)) fail(`${pairPath}.from`, 'duplicate inline source after normalization');
+        used.add(from);
+        if (toValid && from === normalize(pair.to)) fail(`${pairPath}.to`, 'must not be an identity replacement');
+      }
     }
   }
   return errors;

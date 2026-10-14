@@ -19,7 +19,11 @@ The checker performs GET requests only. It never edits the lexicon, changes revi
 
 A completed audit exits successfully even if some sources are unavailable; inspect the report's status counts and individual records. CLI/configuration failures exit nonzero. Live network availability is deliberately separate from offline tests and should not be a blocking CI assertion.
 
-## Recorded result
+## v0.3 repeat audit
+
+The same 105 cited URLs were checked again for lexicon **0.3.0** at `2026-10-13T23:58:30.826Z`, using default concurrency 4. All 105 were available and all 91 supplemental probes returned term evidence; no retry was needed. Input SHA-256: `69cdd086f57ae441512e597e2c4c8f8342b9b412ae2aa5705cb35370241dcfae`. The release attachment is `source-audit-v0.3.0.json`. The separate [inline editorial comparison](INLINE-LEXICON.md) records the new replacement pairs; URL availability alone did not approve them.
+
+## v0.2 recorded result
 
 - Completed at `2026-10-13T13:57:19.109Z`.
 - Lexicon version: `0.2.0`.

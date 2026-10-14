@@ -37,9 +37,9 @@ function error(message) {
   $('page-error').focus();
 }
 
-function feedbackLink(entry, label = 'Could this be clearer?') {
+function feedbackLink(entry, label = 'Could this be clearer?', kind = 'unclear') {
   const link = node('a', 'entry-feedback', label);
-  link.href = `#feedback?entry=${encodeURIComponent(entry.id)}&kind=unclear`;
+  link.href = `#feedback?entry=${encodeURIComponent(entry.id)}&kind=${kind}`;
   link.setAttribute('aria-label', `${label} Give feedback on ${entry.term}`);
   return link;
 }
@@ -58,10 +58,31 @@ function sourceLink(source) {
   }
 }
 
+function inlinePairs(entry) {
+  if (entry.inline?.review?.status !== 'source-checked' || !Array.isArray(entry.inline?.replacements)) return [];
+  const fold = (value) => value.toLowerCase().trim().replace(/\s+/gu, ' ');
+  const known = new Set([entry.term, ...(entry.aliases || [])].map(fold));
+  return entry.inline.replacements.filter((pair) => pair && typeof pair.from === 'string' && typeof pair.to === 'string'
+    && pair.from.length <= 240 && pair.to.length <= 240 && pair.to.trim() && known.has(fold(pair.from)) && fold(pair.from) !== fold(pair.to));
+}
+
 function entryCard(entry) {
   const article = node('article', 'entry');
   const header = node('div', 'entry-header');
   header.append(node('h2', '', entry.term), node('p', 'entry-short', entry.short));
+  const replacements = inlinePairs(entry);
+  const inline = node('div', 'entry-inline');
+  if (replacements.length) {
+    inline.append(node('p', 'inline-label', 'In plain reading'));
+    const pairs = node('ul', 'inline-pairs');
+    for (const pair of replacements) {
+      const item = node('li');
+      item.append(node('span', 'inline-from', pair.from), node('span', 'inline-arrow', '→'), node('span', 'inline-to', pair.to));
+      pairs.append(item);
+    }
+    inline.append(pairs);
+    if (typeof entry.inline.note === 'string' && entry.inline.note) inline.append(node('p', 'inline-note', entry.inline.note));
+  } else inline.append(node('p', 'inline-note', 'Explanation only. This term keeps its original wording in plain reading.'));
   const details = node('details');
   const summary = node('summary', '', 'Meaning, context & source');
   summary.setAttribute('aria-label', `Meaning, context and source for ${entry.term}`);
@@ -83,16 +104,16 @@ function entryCard(entry) {
   body.append(node('p', 'review-status', checked
     ? `Source-checked${entry.review.date ? ` · ${entry.review.date}` : ''}. Not independently clinically reviewed or comprehension tested.`
     : 'Review status not confirmed.'));
-  body.append(feedbackLink(entry));
+  body.append(feedbackLink(entry, replacements.length ? 'Improve this wording' : 'Suggest a plain-reading phrase', replacements.length ? 'unclear' : 'suggestion'));
   details.append(summary, body);
-  article.append(header, details);
+  article.append(header, inline, details);
   return article;
 }
 
 function renderGlossary() {
   const query = $('search').value.trim().toLocaleLowerCase();
   const matching = lexicon.entries.filter((entry) =>
-    [entry.term, entry.short, ...(entry.aliases || [])].some((value) => value.toLocaleLowerCase().includes(query)));
+    [entry.term, entry.short, ...(entry.aliases || []), ...inlinePairs(entry).flatMap((pair) => [pair.from, pair.to])].some((value) => value.toLocaleLowerCase().includes(query)));
   const fragment = document.createDocumentFragment();
   for (const entry of matching) fragment.append(entryCard(entry));
   $('glossary-list').replaceChildren(fragment);

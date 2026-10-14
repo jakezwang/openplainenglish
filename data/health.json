@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "license": "CC0-1.0",
   "entries": [
     {
@@ -264,6 +264,32 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "benign tumor",
+            "to": "noncancerous growth"
+          },
+          {
+            "from": "benign tumour",
+            "to": "noncancerous growth"
+          },
+          {
+            "from": "benign tumors",
+            "to": "noncancerous growths"
+          },
+          {
+            "from": "benign tumours",
+            "to": "noncancerous growths"
+          }
+        ],
+        "note": "Keep singular and plural growths distinct. Noncancerous does not mean harmless or that treatment is unnecessary.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -310,6 +336,20 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "blood glucose",
+            "to": "blood sugar"
+          }
+        ],
+        "note": "Only the full blood-glucose phrase is replaced. The already plain alias blood sugar stays unchanged; no test result is interpreted.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -331,6 +371,20 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "bradycardia",
+            "to": "slow heart rate"
+          }
+        ],
+        "note": "This names the slow-rate finding without specifying a threshold, cause, severity, or treatment.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -493,6 +547,36 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "chronic disease",
+            "to": "long-term disease"
+          },
+          {
+            "from": "chronic illness",
+            "to": "long-term illness"
+          },
+          {
+            "from": "chronic condition",
+            "to": "long-term condition"
+          },
+          {
+            "from": "chronic diseases",
+            "to": "long-term diseases"
+          },
+          {
+            "from": "chronic conditions",
+            "to": "long-term conditions"
+          }
+        ],
+        "note": "Each complete phrase keeps its noun and number. Long-term describes duration, not severity, permanence, or hopelessness; standalone chronic is excluded.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -737,6 +821,20 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "dysphagia",
+            "to": "swallowing difficulty"
+          }
+        ],
+        "note": "Keep the symptom as a noun phrase. It does not identify a cause or imply pain when swallowing.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -761,6 +859,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "dyspnea",
+            "to": "shortness of breath"
+          },
+          {
+            "from": "dyspnoea",
+            "to": "shortness of breath"
+          }
+        ],
+        "note": "Use the established symptom phrase for either spelling. The already plain alias stays unchanged; this does not identify a cause.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1192,6 +1308,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "hyperglycemia",
+            "to": "high blood sugar"
+          },
+          {
+            "from": "hyperglycaemia",
+            "to": "high blood sugar"
+          }
+        ],
+        "note": "Both spellings keep the direction high. No numeric cutoff, cause, diabetes diagnosis, or treatment is added.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1220,6 +1354,20 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "hypertension",
+            "to": "high blood pressure"
+          }
+        ],
+        "note": "Use the established plain term only for hypertension. The already plain alias stays unchanged; this does not diagnose a reader from one measurement.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1243,6 +1391,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "hypoglycemia",
+            "to": "low blood sugar"
+          },
+          {
+            "from": "hypoglycaemia",
+            "to": "low blood sugar"
+          }
+        ],
+        "note": "Both spellings keep the direction low. No numeric cutoff, cause, or treatment is added.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1271,6 +1437,20 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "hypotension",
+            "to": "low blood pressure"
+          }
+        ],
+        "note": "Use the established plain term only for hypotension. The already plain alias stays unchanged; cause and significance still need context.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1299,6 +1479,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "hypoxemia",
+            "to": "low blood oxygen"
+          },
+          {
+            "from": "hypoxaemia",
+            "to": "low blood oxygen"
+          }
+        ],
+        "note": "Keep blood explicit for both spellings. This must not be substituted for low oxygen in body tissue or interpreted as a measurement.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1325,6 +1523,20 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "hypoxia",
+            "to": "low tissue oxygen"
+          }
+        ],
+        "note": "Keep tissue explicit, distinct from blood oxygen. This names reduced oxygen supply without identifying a cause or severity.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1514,6 +1726,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "infection transmission",
+            "to": "infection spread"
+          },
+          {
+            "from": "disease transmission",
+            "to": "disease spread"
+          }
+        ],
+        "note": "Only these complete infection-related phrases are replaced. Standalone transmission is excluded; the route and timing of spread are not inferred.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1673,6 +1903,32 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "malignant tumor",
+            "to": "cancerous growth"
+          },
+          {
+            "from": "malignant tumour",
+            "to": "cancerous growth"
+          },
+          {
+            "from": "malignant tumors",
+            "to": "cancerous growths"
+          },
+          {
+            "from": "malignant tumours",
+            "to": "cancerous growths"
+          }
+        ],
+        "note": "Keep singular and plural growths distinct. This names cancerous behavior without declaring that spread has already occurred or supplying a stage.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1745,6 +2001,20 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "mortality rate",
+            "to": "death rate"
+          }
+        ],
+        "note": "Keep rate, rather than reducing it to a death count. The population and time period still come from the source text; death rate stays unchanged.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1770,6 +2040,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "myocardial infarction",
+            "to": "heart attack"
+          },
+          {
+            "from": "myocardial infarctions",
+            "to": "heart attacks"
+          }
+        ],
+        "note": "Use the established singular and plural names. Already plain heart attack aliases stay unchanged; no statement about a reader having an emergency is inferred.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -1858,6 +2146,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "thrombocyte",
+            "to": "platelet"
+          },
+          {
+            "from": "thrombocytes",
+            "to": "platelets"
+          }
+        ],
+        "note": "Only the technical synonyms are replaced, with number preserved. Platelet and platelets stay unchanged, especially in phrases such as low platelets.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -2014,6 +2320,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "radiation therapy",
+            "to": "radiation treatment"
+          },
+          {
+            "from": "radiotherapy",
+            "to": "radiation treatment"
+          }
+        ],
+        "note": "Keep radiation as the treatment type. This does not change the treatment into a particular medicine, dose, route, or schedule.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -2039,6 +2363,20 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "erythrocytes",
+            "to": "red blood cells"
+          }
+        ],
+        "note": "Only the plural technical synonym is eligible. Singular erythrocyte stays annotation-only because replacing it after an would require an article change.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -2169,6 +2507,20 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "tachycardia",
+            "to": "fast heart rate"
+          }
+        ],
+        "note": "This names the fast-rate finding without specifying a threshold, cause, severity, or treatment.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     },
     {
@@ -2339,6 +2691,24 @@
         "status": "source-checked",
         "date": "2026-10-13",
         "method": "editorial source comparison; no independent clinical or user-comprehension review"
+      },
+      "inline": {
+        "replacements": [
+          {
+            "from": "leukocyte",
+            "to": "white blood cell"
+          },
+          {
+            "from": "leukocytes",
+            "to": "white blood cells"
+          }
+        ],
+        "note": "Only the technical synonyms are replaced, with number preserved. Already plain white blood cell phrases stay unchanged; a cell count is not interpreted.",
+        "review": {
+          "status": "source-checked",
+          "date": "2026-10-13",
+          "method": "editorial source comparison; no independent clinical or user-comprehension review"
+        }
       }
     }
   ]

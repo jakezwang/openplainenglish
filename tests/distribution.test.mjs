@@ -82,6 +82,7 @@ test('public demo builds under a repository URL prefix without shipping extensio
   await buildSite(temporary);
   const html = await readFile(path.join(temporary, 'index.html'), 'utf8');
   const document = new JSDOM(html, { url: 'https://example.org/openplainenglish/' }).window.document;
+  assert.equal(document.querySelector('a[href$="#reading-demo"]').href, 'https://example.org/openplainenglish/#reading-demo', 'the demo jump stays on the root document');
   for (const attribute of ['script[src]', 'link[rel=stylesheet]']) {
     const element = document.querySelector(attribute);
     const url = new URL(element.src || element.href);

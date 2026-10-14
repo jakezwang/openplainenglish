@@ -1,4 +1,5 @@
 import { createMatcher } from '../core/matcher.js';
+import { assertReadingMode, getInlinePresentation } from '../core/inline.js';
 import { createPanel } from './panel.js';
 
 const SKIP = 'script,style,noscript,form,label,textarea,input,select,option,button,summary,a,code,pre,kbd,samp,svg,math,canvas,iframe,video,audio,[contenteditable]:not([contenteditable="false" i]),[role="button"],[role="link"],[role="textbox"],[aria-hidden="true"],[hidden],[inert],[data-ope-owned]';
@@ -19,64 +20,104 @@ export function createReader({ document, entries, onFeedback, onStateChange, max
   if (!Number.isInteger(maxMarks) || maxMarks < 1 || !Number.isInteger(maxNodes) || maxNodes < 1) throw new TypeError('Reader work limits must be positive integers.');
   const view = document.defaultView;
   const matcher = createMatcher(entries);
-  const entryMap = new Map(entries.map((entry) => [entry.id, entry]));
   const panel = createPanel({ document, onFeedback });
-  const marks = new Set();
+  // Matched originals stay private; page attributes are never restoration data.
+  const marks = new Map();
+  const pendingRoots = new Set();
   let enabled = false;
+  let mode = 'plain';
   let truncated = false;
   let style;
   let timer;
   let nodesRead = 0;
   let processing = false;
   let visibilityCache = new WeakMap();
-  const pendingRoots = new Set();
+
+  function inDocument(mark) { return mark.ownerDocument === document && mark.isConnected; }
+  function unchanged(mark, record = marks.get(mark)) {
+    return Boolean(record && mark.childNodes.length === 1 && mark.firstChild === record.node && record.node.data === record.presentation.displayText);
+  }
+  function usable(mark, record = marks.get(mark)) {
+    return Boolean(record && inDocument(mark) && unchanged(mark, record) && mark.dataset.opeOwned === 'term' && mark.dataset.opeTerm === record.entry.id);
+  }
+  function getState() {
+    let count = 0;
+    let replacedCount = 0;
+    for (const [mark, record] of marks) if (usable(mark, record)) { count++; if (record.presentation.replaced) replacedCount++; }
+    return { enabled, mode, count, replacedCount, annotatedCount: count - replacedCount, truncated };
+  }
+  function notify() { onStateChange?.(getState()); }
+  function observe() {
+    if (enabled && document.documentElement) observer.observe(document.documentElement, {
+      childList: true, subtree: true, characterData: true, attributes: true,
+      attributeFilter: ['class', 'style', 'hidden', 'aria-hidden', 'lang', 'contenteditable', 'inert', 'role', 'open', 'data-ope-term', 'data-ope-owned'],
+    });
+  }
+  function suspended(operation) {
+    processing = true;
+    observer.disconnect();
+    try { return operation(); }
+    finally { processing = false; observe(); }
+  }
+  function restoreMark(mark) {
+    const record = marks.get(mark);
+    if (!record) return null;
+    const parent = mark.parentNode;
+    // Restore only the still-owned text node. Hosts may wrap it or add siblings;
+    // those structural changes remain intact. New/reworded nodes are host-owned.
+    const retained = mark.contains(record.node) && record.node.data === record.presentation.displayText;
+    if (retained) record.node.data = record.presentation.originalText;
+    const children = [...mark.childNodes];
+    marks.delete(mark);
+    if (parent) mark.replaceWith(...children);
+    else {
+      // Restore a host-held detached marker without reinserting a removed node.
+      mark.removeAttribute('data-ope-term');
+      mark.removeAttribute('data-ope-owned');
+      if (mark.getAttribute('role') === 'button') mark.removeAttribute('role');
+      if (mark.getAttribute('tabindex') === '0') mark.removeAttribute('tabindex');
+      if (mark.getAttribute('aria-haspopup') === 'dialog') mark.removeAttribute('aria-haspopup');
+      if (mark.getAttribute('aria-label') === record.ariaLabel) mark.removeAttribute('aria-label');
+      if (mark.title === record.title) mark.removeAttribute('title');
+    }
+    return parent;
+  }
+  function restoreAll() {
+    panel.close({ restoreFocus: false });
+    const parents = new Set();
+    for (const mark of [...marks.keys()]) { const parent = restoreMark(mark); if (parent) parents.add(parent); }
+    for (const parent of parents) parent.normalize();
+  }
+
   const observer = new view.MutationObserver((mutations) => {
     if (!enabled || processing) return;
     const invalidated = new Set();
     for (const mutation of mutations) {
       const targetElement = mutation.target.nodeType === 1 ? mutation.target : mutation.target.parentElement;
-      const changedMark = targetElement?.closest('[data-ope-term]');
-      if (changedMark && marks.has(changedMark)) {
-        invalidated.add(changedMark);
-        continue;
-      }
-      if (mutation.type === 'characterData') {
-        if (mutation.target.parentElement?.closest('[data-ope-owned]')) continue;
-        pendingRoots.add(mutation.target);
-      } else if (mutation.type === 'attributes') {
-        if (!targetElement?.closest('[data-ope-owned]')) pendingRoots.add(mutation.target);
-      } else {
-        if (mutation.target.nodeType === 1 && mutation.target.closest('[data-ope-owned]')) continue;
-        for (const node of mutation.addedNodes) {
-          if (!(node.nodeType === 1 && node.hasAttribute('data-ope-owned'))) pendingRoots.add(node);
-        }
+      const changedMark = targetElement?.closest('[data-ope-term]') || (marks.has(targetElement) ? targetElement : null);
+      if (changedMark && marks.has(changedMark)) { invalidated.add(changedMark); continue; }
+      if (targetElement?.closest('[data-ope-owned]')) continue;
+      if (mutation.type === 'characterData') pendingRoots.add(mutation.target.parentElement || mutation.target);
+      else if (mutation.type === 'attributes') pendingRoots.add(mutation.target);
+      else {
+        const changed = [...mutation.addedNodes, ...mutation.removedNodes];
+        if (changed.some((node) => node.nodeType === 3 || marks.has(node))) pendingRoots.add(mutation.target);
+        else for (const node of mutation.addedNodes) if (!(node.nodeType === 1 && node.hasAttribute('data-ope-owned'))) pendingRoots.add(node);
       }
     }
-    if (invalidated.size) {
-      observer.disconnect();
-      panel.close({ restoreFocus: false });
-      for (const mark of invalidated) {
-        const parent = mark.parentElement;
-        const children = [...mark.childNodes];
-        marks.delete(mark);
-        mark.replaceWith(...children);
-        if (parent) { parent.normalize(); pendingRoots.add(parent); }
-      }
-      observe();
-    }
-    // Release disconnected markers so infinite-scroll pages do not leak memory.
     let removed = false;
-    for (const mark of marks) if (!mark.isConnected) { marks.delete(mark); panel.close({ restoreFocus: false }); removed = true; }
-    // A consumer may render status text inside its own excluded region. Do not
-    // notify for those writes, or status rendering can create an observer loop.
+    if (invalidated.size || [...marks.keys()].some((mark) => !inDocument(mark))) suspended(() => {
+      panel.close({ restoreFocus: false });
+      const parents = new Set();
+      for (const mark of invalidated) { const parent = restoreMark(mark); if (parent) { parents.add(parent); pendingRoots.add(parent); } }
+      for (const mark of [...marks.keys()]) if (!inDocument(mark)) { restoreMark(mark); removed = true; }
+      for (const parent of parents) parent.normalize();
+    });
+    // Status writes in the consumer's excluded region must not recurse.
     if (!pendingRoots.size) { if (removed) notify(); return; }
     if (!timer) timer = view.setTimeout(flush, 80);
   });
-  function observe() {
-    if (document.documentElement) observer.observe(document.documentElement, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['class', 'style', 'hidden', 'aria-hidden', 'lang', 'contenteditable', 'inert', 'role', 'open'] });
-  }
-  function getState() { return { enabled, count: [...marks].filter((mark) => mark.isConnected).length, truncated }; }
-  function notify() { onStateChange?.(getState()); }
+
   function visible(element) {
     function computed(node) {
       if (!visibilityCache.has(node)) visibilityCache.set(node, view.getComputedStyle(node));
@@ -90,10 +131,8 @@ export function createReader({ document, entries, onFeedback, onStateChange, max
   function eligible(node) {
     const parent = node.parentElement;
     if (!parent || !node.textContent?.trim() || parent.closest(SKIP) || parent.closest('details:not([open])')) return false;
-    // Do not add English annotations to explicitly non-English passages.
     const lang = parent.closest('[lang]')?.getAttribute('lang');
-    if (lang && !/^en(?:-|$)/i.test(lang)) return false;
-    return visible(parent);
+    return !(lang && !/^en(?:-|$)/i.test(lang)) && visible(parent);
   }
   function decorate(node) {
     if (marks.size >= maxMarks || nodesRead >= maxNodes) { truncated = true; return; }
@@ -108,17 +147,21 @@ export function createReader({ document, entries, onFeedback, onStateChange, max
     for (const match of found) {
       if (marks.size >= maxMarks) { truncated = true; break; }
       fragment.append(document.createTextNode(text.slice(offset, match.start)));
+      const presentation = getInlinePresentation(match.entry, match.matchedText, mode, { before: text.slice(0, match.start), after: text.slice(match.end) });
       const mark = document.createElement('span');
+      const renderedNode = document.createTextNode(presentation.displayText);
       mark.dataset.opeOwned = 'term';
       mark.dataset.opeTerm = match.entry.id;
-      mark.textContent = match.matchedText;
+      mark.append(renderedNode);
       mark.tabIndex = 0;
       mark.setAttribute('role', 'button');
       mark.setAttribute('aria-haspopup', 'dialog');
-      mark.setAttribute('aria-label', `${match.matchedText}: ${match.entry.short}. Open explanation`);
-      mark.title = match.entry.short;
+      const ariaLabel = presentation.replaced ? `${presentation.displayText}. Original words: ${presentation.originalText}. Open explanation.` : `${presentation.originalText}: ${match.entry.short}. Open explanation.`;
+      const title = presentation.replaced ? `${presentation.originalText} → ${presentation.displayText}. Open explanation.` : `${presentation.originalText}. ${presentation.reason} Open explanation.`;
+      mark.setAttribute('aria-label', ariaLabel);
+      mark.title = title;
       fragment.append(mark);
-      marks.add(mark);
+      marks.set(mark, { entry: match.entry, node: renderedNode, presentation, ariaLabel, title });
       offset = match.end;
     }
     fragment.append(document.createTextNode(text.slice(offset)));
@@ -141,42 +184,38 @@ export function createReader({ document, entries, onFeedback, onStateChange, max
     }
     for (const [index, textNode] of nodes.entries()) {
       decorate(textNode);
-      if (marks.size >= maxMarks || nodesRead >= maxNodes) {
-        if (index + 1 < nodes.length) truncated = true;
-        break;
-      }
+      if (marks.size >= maxMarks || nodesRead >= maxNodes) { if (index + 1 < nodes.length) truncated = true; break; }
     }
   }
+  function beginScan() { nodesRead = 0; visibilityCache = new WeakMap(); }
   function flush() {
     timer = undefined;
     if (!enabled) return;
-    processing = true;
-    observer.disconnect();
-    nodesRead = 0;
-    visibilityCache = new WeakMap();
-    const candidates = new Set([...pendingRoots].map((root) => root === document.documentElement ? document.body : root).filter((root) => root?.isConnected));
-    const roots = [...candidates].filter((root) => {
-      for (let parent = root.parentElement; parent; parent = parent.parentElement) if (candidates.has(parent)) return false;
-      return true;
-    });
-    for (const root of roots) {
-      // Attributes can turn a previously readable region into a hidden or editable
-      // area. Reconcile those existing marks before scanning its current content.
-      const restoredParents = new Set();
-      if (root.nodeType === 1) for (const mark of [...marks]) {
-        if (root.contains(mark)) { panel.close({ restoreFocus: false }); marks.delete(mark); restoredParents.add(mark.parentElement); mark.replaceWith(...mark.childNodes); }
+    suspended(() => {
+      beginScan();
+      const candidates = new Set([...pendingRoots].map((root) => root === document.documentElement ? document.body : root).filter((root) => root?.isConnected));
+      const roots = [...candidates].filter((root) => {
+        for (let parent = root.parentElement; parent; parent = parent.parentElement) if (candidates.has(parent)) return false;
+        return true;
+      });
+      for (const root of roots) {
+        const parents = new Set();
+        if (root.nodeType === 1) for (const mark of [...marks.keys()]) if (root.contains(mark)) {
+          panel.close({ restoreFocus: false });
+          const parent = restoreMark(mark);
+          if (parent) parents.add(parent);
+        }
+        for (const parent of parents) parent.normalize();
+        scan(root);
       }
-      for (const parent of restoredParents) parent?.normalize();
-      scan(root);
-    }
-    pendingRoots.clear();
-    processing = false;
-    observe();
+      pendingRoots.clear();
+    });
     notify();
   }
   function openMark(mark) {
-    const entry = entryMap.get(mark?.dataset.opeTerm);
-    if (entry && marks.has(mark)) panel.show(entry, mark);
+    const record = marks.get(mark);
+    const pending = [...pendingRoots].some((root) => root.nodeType === 1 && root.contains(mark));
+    if (!pending && usable(mark, record)) panel.show(record.entry, mark, record.presentation);
   }
   function click(event) {
     const mark = event.target.closest?.('[data-ope-term]');
@@ -190,12 +229,23 @@ export function createReader({ document, entries, onFeedback, onStateChange, max
     event.preventDefault();
     openMark(mark);
   }
-  function enable() {
-    if (enabled) return getState();
+  function cancelPending() { if (timer) view.clearTimeout(timer); timer = undefined; pendingRoots.clear(); }
+  function setMode(nextMode) {
+    assertReadingMode(nextMode);
+    if (mode === nextMode) return getState();
+    mode = nextMode;
+    if (enabled) suspended(() => { cancelPending(); restoreAll(); truncated = false; beginScan(); scan(document.body); });
+    notify();
+    return getState();
+  }
+  function enable(options = {}) {
+    if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('Reader options must specify a valid mode.');
+    const nextMode = options.mode === undefined ? mode : assertReadingMode(options.mode);
+    if (enabled) return setMode(nextMode);
+    mode = nextMode;
     enabled = true;
     truncated = false;
-    nodesRead = 0;
-    visibilityCache = new WeakMap();
+    beginScan();
     style = document.createElement('style');
     style.dataset.opeOwned = 'styles';
     style.textContent = MARK_STYLE;
@@ -210,21 +260,10 @@ export function createReader({ document, entries, onFeedback, onStateChange, max
   function disable() {
     enabled = false;
     observer.disconnect();
-    if (timer) view.clearTimeout(timer);
-    timer = undefined;
-    pendingRoots.clear();
-    panel.close({ restoreFocus: false });
+    cancelPending();
+    restoreAll();
     document.removeEventListener('click', click);
     document.removeEventListener('keydown', keydown);
-    const parents = new Set();
-    for (const mark of marks) {
-      if (!mark.isConnected) continue;
-      parents.add(mark.parentNode);
-      // Preserve edits made by the page since annotation; never restore a stale snapshot.
-      mark.replaceWith(...mark.childNodes);
-    }
-    for (const parent of parents) parent?.normalize();
-    marks.clear();
     style?.remove();
     style = undefined;
     truncated = false;
@@ -232,9 +271,9 @@ export function createReader({ document, entries, onFeedback, onStateChange, max
     return getState();
   }
   function openFirst() {
-    const first = [...marks].find((mark) => mark.isConnected);
+    const first = [...marks.keys()].find((mark) => usable(mark));
     if (first) { first.scrollIntoView?.({ block: 'center', behavior: 'instant' }); openMark(first); }
     return Boolean(first);
   }
-  return { enable, disable, getState, openFirst, destroy() { disable(); panel.destroy(); } };
+  return { enable, disable, setMode, getState, openFirst, destroy() { disable(); panel.destroy(); } };
 }

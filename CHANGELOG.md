@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0 — 2026-10-13 (preview)
+
+- Add whole-page Plain reading with separately reviewed in-place replacement pairs; retain Explain terms as an alternative mode.
+- Keep exact original wording for comparison and restoration; preserve host-page edits, dynamically reconcile new content and avoid repeated replacement loops.
+- Expose replacement and explanation counts, mode controls, original-word comparisons and replacement-aware glossary search across the popup and online demo.
+- Validate replacement forms, provenance, review metadata and runtime eligibility separately from dictionary definitions.
+- Extend bundled message integration and DOM regression coverage for mode changes, restoration, page mutations and unsupported replacement forms.
+- Update Chinese onboarding, upgrade instructions, privacy boundaries, store submission text and the versioned preview download. Store registration and native installation verification remain pending.
+
 ## 0.2.0 — 2026-10-13 (preview)
 
 - Restore feedback from v1 JSON backups with local validation, an inspectable preview, confirmation, deduplication and explicit 100-draft overflow reporting.

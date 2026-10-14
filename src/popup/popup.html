@@ -7,15 +7,16 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <header><span class="brand-mark" aria-hidden="true">Aa</span><span>OpenPlainEnglish</span><span class="edition">01</span></header>
+  <header><span class="brand-mark" aria-hidden="true">Aa</span><span>OpenPlainEnglish</span><span class="edition">READ</span></header>
   <main>
     <p class="eyebrow">A little clarity, right here.</p>
-    <h1>Understand the words.<br>Keep your place.</h1>
-    <p class="intro">Short explanations for health terms, alongside the words you’re already reading.</p>
+    <h1>Make the page<br>easier to read.</h1>
+    <p class="intro">Swap reviewed health phrases for everyday words across this page. Keep the originals within reach.</p>
+    <fieldset class="mode-picker" id="mode-picker" disabled><legend>Reading mode</legend><label><input id="mode-plain" type="radio" name="mode" value="plain" checked><span>Plain reading</span></label><label><input id="mode-annotate" type="radio" name="mode" value="annotate"><span>Explain terms</span></label></fieldset>
     <div class="page-state"><span class="state-dot" id="state-dot" aria-hidden="true"></span><p id="state-label" role="status" aria-live="polite">Checking this page…</p></div>
-    <button id="toggle" class="primary" type="button" disabled>Explain this page <span aria-hidden="true">↗</span></button>
-    <button id="first" class="secondary" type="button" hidden>Go to the first explanation <span aria-hidden="true">→</span></button>
-    <p id="detail" class="detail">You choose when to turn it on. Your original text stays available.</p>
+    <button id="toggle" class="primary" type="button" disabled>Read in plain English <span aria-hidden="true">↗</span></button>
+    <button id="first" class="secondary" type="button" hidden>View a term & its original <span aria-hidden="true">→</span></button>
+    <p id="detail" class="detail">Uses reviewed phrase substitutions. Restore originals any time.</p>
     <p id="error" class="error" role="alert" hidden></p>
   </main>
   <footer>

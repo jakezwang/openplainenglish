@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>OpenPlainEnglish — A little clarity</title>
-  <meta name="description" content="Try a local reading companion that explains health terms without replacing the original words. Open source, with cited sources and reader feedback.">
+  <meta name="description" content="Read a page in plainer English: replace reviewed health phrases in place, inspect original words and sources, and restore the original page anytime.">
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./demo.js"></script>
 </head>
@@ -16,22 +16,24 @@
   <main>
     <section class="intro" data-ope-owned="demo-intro">
       <p class="eyebrow"><span class="dot"></span> Everyday understanding, for everyone</p>
-      <h1>A little clarity.<br>Right where you <em>read.</em></h1>
-      <p class="standfirst">Professional words shouldn't stand between you and understanding. Add short, sourced explanations without leaving the page.</p>
+      <h1>A clearer page.<br>Just keep <em>reading.</em></h1>
+      <p class="standfirst">Turn unfamiliar health phrases into everyday English, right in the text. One click applies reviewed substitutions across the page; another restores the originals.</p>
       <div class="intro-actions"><a class="install-link" href="./install.html">Get OpenPlainEnglish <span lang="zh-CN">/ 安装扩展</span> ↗</a><a href="#reading-demo">Try it here, no installation ↓</a></div>
     </section>
     <div class="workspace" id="reading-demo">
       <aside class="controls" data-ope-owned="demo-controls">
-        <span class="label">Try the reading companion</span>
-        <h2>Your words.<br>A clearer view.</h2>
-        <p>Turn on the reader, then select an underlined health term in the sample article.</p>
+        <span class="label">Try plain reading</span>
+        <h2>The same page.<br>More familiar words.</h2>
+        <p>Choose plain reading to change reviewed phrases throughout this sample. Select a marked phrase to check its original and source.</p>
+        <fieldset class="mode-picker" id="mode-picker" disabled><legend>Reading mode</legend><label><input id="mode-plain" type="radio" name="mode" value="plain" checked><span>Plain reading</span></label><label><input id="mode-annotate" type="radio" name="mode" value="annotate"><span>Explain terms</span></label></fieldset>
         <button id="toggle" class="primary" disabled>Loading dictionary…</button>
         <p id="status" role="status" aria-live="polite">Getting the local dictionary ready.</p>
         <div class="control-rule"></div>
         <p class="privacy"><span aria-hidden="true">◈</span> Stays on this device</p>
         <p class="small">No account. No cloud processing.<br>Original wording always stays available.</p>
+        <p class="small mode-note" id="mode-note">Reviewed phrases change; other known terms keep their wording and offer explanations. This is not a full-page rewrite.</p>
         <button id="add" class="secondary">Add another paragraph</button>
-        <a class="small" href="./preview.html?view=options">Browse the dictionary ↗</a>
+        <a class="small" href="./preview.html?view=options">See the word changes ↗</a>
         <a class="small" href="./install.html">Install the extension / 安装 ↗</a>
         <a class="small" href="https://github.com/jakezwang/openplainenglish/blob/main/README.zh-CN.md" lang="zh-CN">中文入门说明 ↗</a>
         <p class="small note">This demo uses the same reader as the extension. To try the installed extension here, leave the demo reader off.</p>
@@ -39,13 +41,13 @@
       <article id="article">
         <div class="article-meta"><span>THE READING ROOM</span><span>Sample article · 2 min</span></div>
         <h2>Making sense of<br>health information</h2>
-        <p class="lead">A familiar word can make an unfamiliar subject feel a little closer.</p>
-        <p>When you read about health, you might come across terms such as hypertension, dehydration, or gastritis. A clear explanation can help you understand what a term means before you continue reading.</p>
+        <p class="lead">Try plain reading, then compare this same article with its original.</p>
+        <p>When you read about health, you might come across terms such as hypertension, blood glucose, or chronic disease. Everyday words can make the text easier to follow without stopping at every unfamiliar phrase.</p>
         <p>Medical language describes many different things: a symptom such as dyspnea, a condition such as anemia, or a test such as a biopsy. The distinction matters. A definition explains a word; it does not tell you whether you have a condition.</p>
         <blockquote>Understanding starts with being able to ask: “What does that mean?”</blockquote>
         <h3>Keep the detail within reach</h3>
         <p>You may see osteoporosis in an article about bones, or cholesterol in information about a blood test. Plain language can offer a starting point, while the original term helps you find more information and discuss it with a health professional.</p>
-        <p>Words such as prognosis and asymptomatic may be useful to explain too. Select any highlighted term to see a short meaning, its context, and the source used to check it.</p>
+        <p>Words such as prognosis and asymptomatic may be useful to explain too. Some words remain marked for an explanation. Select a marked phrase to see its original, meaning, context and source.</p>
         <p class="article-footnote">This fictional article is for trying the reading tool. It is not personal health advice.</p>
       </article>
     </div>

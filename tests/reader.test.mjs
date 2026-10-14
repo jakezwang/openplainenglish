@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { JSDOM } from 'jsdom';
 import { createReader } from '../src/content/controller.js';
+import { INLINE_REVIEW_METHOD } from '../src/core/inline.js';
 
 const entries = [
   {
@@ -46,7 +47,7 @@ test('enable is explicit and repeatable; disable restores wording and existing p
   const article = document.getElementById('reading');
   const originalText = article.textContent;
   const originalHTML = article.innerHTML;
-  assert.deepEqual(reader.getState(), { enabled: false, count: 0, truncated: false });
+  assert.deepEqual(reader.getState(), { enabled: false, mode: 'plain', count: 0, replacedCount: 0, annotatedCount: 0, truncated: false });
   assert.equal(marks(document).length, 0);
   assert.equal(reader.enable().count, 3);
   const firstMarks = marks(document);
@@ -54,7 +55,7 @@ test('enable is explicit and repeatable; disable restores wording and existing p
   reader.enable();
   assert.deepEqual(marks(document), firstMarks, 'enabling twice must not add duplicate marks');
   assert.equal(document.querySelectorAll('style[data-ope-owned]').length, 1);
-  assert.deepEqual(reader.disable(), { enabled: false, count: 0, truncated: false });
+  assert.deepEqual(reader.disable(), { enabled: false, mode: 'plain', count: 0, replacedCount: 0, annotatedCount: 0, truncated: false });
   assert.equal(article.innerHTML, originalHTML);
   assert.equal(document.querySelector('[data-ope-owned]'), null);
   assert.equal(reader.enable().count, 3);
@@ -126,7 +127,7 @@ test('disable preserves edits made by the page and removes its document listener
   const mark = marks(document)[0];
   mark.textContent = 'updated page wording';
   mark.click();
-  assert.ok(panel(document));
+  assert.equal(panel(document), undefined, 'changed wording must not open a stale explanation');
   reader.disable();
   assert.equal(document.querySelector('p').textContent, 'updated page wording');
   assert.equal(panel(document), undefined);
@@ -154,7 +155,7 @@ test('large-page work is bounded and reported without dropping original text', (
 
 test('a node budget also limits pages without many matching terms', (t) => {
   const { document, reader } = fixture(t, '<p>ordinary</p><p>ordinary</p><p>ordinary</p><p>pain</p>', { maxNodes: 2 });
-  assert.deepEqual(reader.enable(), { enabled: true, count: 0, truncated: true });
+  assert.deepEqual(reader.enable(), { enabled: true, mode: 'plain', count: 0, replacedCount: 0, annotatedCount: 0, truncated: true });
   assert.equal(marks(document).length, 0);
 });
 
@@ -162,7 +163,7 @@ test('an exceptionally long text node is skipped and reported without changing i
   const longText = 'pain '.repeat(11000);
   const { document, reader } = fixture(t, '<article></article>');
   document.querySelector('article').textContent = longText;
-  assert.deepEqual(reader.enable(), { enabled: true, count: 0, truncated: true });
+  assert.deepEqual(reader.enable(), { enabled: true, mode: 'plain', count: 0, replacedCount: 0, annotatedCount: 0, truncated: true });
   assert.equal(document.querySelector('article').textContent, longText);
 });
 
@@ -361,10 +362,199 @@ test('invalid glossary data is rejected before any page elements or listeners ar
 
 test('the mark limit reports unvisited nodes even when the separate node budget is not reached', (t) => {
   const { reader } = fixture(t, '<p>pain</p><p>pain</p><p>pain</p>', { maxMarks: 2, maxNodes: 100 });
-  assert.deepEqual(reader.enable(), { enabled: true, count: 2, truncated: true });
+  assert.deepEqual(reader.enable(), { enabled: true, mode: 'plain', count: 2, replacedCount: 0, annotatedCount: 2, truncated: true });
 });
 
 test('exactly filling a node or mark budget does not claim truncation when the page is complete', (t) => {
   const { reader } = fixture(t, '<p>pain</p><p>asthma</p>', { maxMarks: 2, maxNodes: 2 });
-  assert.deepEqual(reader.enable(), { enabled: true, count: 2, truncated: false });
+  assert.deepEqual(reader.enable(), { enabled: true, mode: 'plain', count: 2, replacedCount: 0, annotatedCount: 2, truncated: false });
+});
+
+const pressureEntry = {
+  ...entries[0], id: 'hypertension', term: 'hypertension', aliases: ['high blood pressure'],
+  short: 'An explanatory sentence, not an inline replacement.',
+  inline: {
+    replacements: [{ from: 'hypertension', to: 'high blood pressure' }],
+    note: 'Only the technical term is changed; the already plain alias is kept.',
+    review: { status: 'source-checked', date: '2026-10-13', method: INLINE_REVIEW_METHOD },
+  },
+};
+
+test('plain reading counts replacements and annotation-only forms and restores every original spelling', (t) => {
+  const original = 'Hypertension; hypertension; HYPERTENSION; HYpertension; high blood pressure; pain.';
+  const { document, reader } = fixture(t, `<p>${original}</p>`, { entries: [pressureEntry, entries[0]] });
+  assert.deepEqual(reader.enable(), { enabled: true, mode: 'plain', count: 6, replacedCount: 3, annotatedCount: 3, truncated: false });
+  assert.equal(document.querySelector('p').textContent, 'High blood pressure; high blood pressure; HIGH BLOOD PRESSURE; HYpertension; high blood pressure; pain.');
+  for (let cycle = 0; cycle < 3; cycle++) {
+    reader.setMode('annotate');
+    assert.equal(document.querySelector('p').textContent, original);
+    assert.equal(reader.getState().replacedCount, 0);
+    assert.equal(reader.getState().annotatedCount, 6);
+    reader.setMode('plain');
+    assert.equal(reader.getState().replacedCount, 3);
+  }
+  reader.disable();
+  assert.equal(document.querySelector('p').textContent, original);
+  assert.equal(document.querySelector('[data-ope-owned]'), null);
+});
+
+test('mode selection while off is remembered and invalid mode changes are atomic', (t) => {
+  const { document, reader } = fixture(t, '<p>hypertension</p>', { entries: [pressureEntry] });
+  reader.setMode('annotate');
+  assert.equal(reader.getState().mode, 'annotate');
+  assert.equal(document.querySelector('[data-ope-owned]'), null);
+  assert.equal(reader.enable().mode, 'annotate');
+  assert.equal(document.querySelector('p').textContent, 'hypertension');
+  reader.enable({ mode: 'plain' });
+  assert.equal(document.querySelector('p').textContent, 'high blood pressure');
+  const html = document.body.innerHTML;
+  const state = reader.getState();
+  for (const operation of [() => reader.setMode('rewrite'), () => reader.enable({ mode: 'rewrite' }), () => reader.enable(null)]) {
+    assert.throws(operation, TypeError);
+    assert.equal(document.body.innerHTML, html);
+    assert.deepEqual(reader.getState(), state);
+  }
+  reader.disable();
+  assert.equal(reader.enable().mode, 'plain');
+  assert.equal(reader.getState().replacedCount, 1);
+});
+
+test('same-node explicit plural phrases retain original whitespace through rescans and mode changes', async (t) => {
+  const infarction = {
+    ...entries[0], id: 'infarction', term: 'myocardial infarction', aliases: ['myocardial infarctions', 'heart attack', 'heart attacks'],
+    inline: { replacements: [{ from: 'myocardial infarction', to: 'heart attack' }, { from: 'myocardial infarctions', to: 'heart attacks' }], note: 'Singular and plural forms are reviewed separately.', review: pressureEntry.inline.review },
+  };
+  const original = 'Myocardial\n\t  infarction and myocardial infarctions.';
+  const { document, reader } = fixture(t, `<p>${original}</p>`, { entries: [infarction] });
+  reader.enable();
+  assert.equal(document.querySelector('p').textContent, 'Heart attack and heart attacks.');
+  document.querySelector('p').className = 'new-style';
+  await new Promise((resolve) => setTimeout(resolve, 110));
+  assert.equal(reader.getState().replacedCount, 2, 'a rescan must use originals rather than promote rendered plain aliases to source text');
+  reader.setMode('annotate');
+  assert.equal(document.querySelector('p').textContent, original);
+  reader.setMode('plain');
+  reader.disable();
+  assert.equal(document.querySelector('p').textContent, original);
+});
+
+test('immediate disable preserves host text edits and new same-value nodes', (t) => {
+  for (const edit of ['data', 'same-value', 'paragraph']) {
+    const { document, reader } = fixture(t, '<p>hypertension</p>', { entries: [pressureEntry] });
+    reader.enable();
+    const mark = marks(document)[0];
+    if (edit === 'data') mark.firstChild.data = 'new host wording';
+    else if (edit === 'same-value') mark.textContent = mark.textContent;
+    else document.querySelector('p').textContent = 'The host replaced this paragraph.';
+    mark.click();
+    assert.equal(panel(document), undefined, 'a host-modified marker must not show stale original metadata');
+    reader.disable();
+    const expected = edit === 'data' ? 'new host wording' : edit === 'same-value' ? 'high blood pressure' : 'The host replaced this paragraph.';
+    assert.equal(document.querySelector('p').textContent, expected);
+    assert.equal(document.querySelector('[data-ope-term]'), null);
+  }
+});
+
+test('host wrappers and appended nodes survive while an untouched private text node is restored', (t) => {
+  const { document, reader } = fixture(t, '<p>hypertension</p>', { entries: [pressureEntry] });
+  reader.enable();
+  const mark = marks(document)[0];
+  const emphasis = document.createElement('em');
+  emphasis.className = 'host-format';
+  emphasis.append(mark.firstChild);
+  const addition = document.createElement('small');
+  addition.textContent = ' (host note)';
+  mark.append(emphasis, addition);
+  reader.disable();
+  assert.equal(document.querySelector('p').innerHTML, '<em class="host-format">hypertension</em><small> (host note)</small>');
+  assert.equal(document.querySelector('em'), emphasis);
+  assert.equal(document.querySelector('small'), addition);
+});
+
+test('removed and moved markers never reinsert stale site text or leave replacements in excluded regions', async (t) => {
+  const { document, reader } = fixture(t, '<p id="reading">hypertension</p><form id="form"></form>', { entries: [pressureEntry] });
+  reader.enable();
+  const mark = marks(document)[0];
+  document.getElementById('form').append(mark);
+  reader.disable();
+  assert.equal(document.getElementById('reading').textContent, '');
+  assert.equal(document.getElementById('form').textContent, 'hypertension');
+  document.getElementById('reading').textContent = 'hypertension';
+  reader.enable();
+  const held = marks(document)[0];
+  held.remove();
+  await eventually(() => reader.getState().count === 0);
+  assert.equal(document.getElementById('reading').textContent, '');
+  assert.equal(held.textContent, 'hypertension');
+  assert.equal(held.hasAttribute('data-ope-owned'), false);
+  reader.disable();
+  assert.equal(document.getElementById('reading').textContent, '');
+});
+
+test('adjacent host edits re-evaluate compound and word boundaries before continuing plain reading', async (t) => {
+  const { document, reader } = fixture(t, '<p>hypertension level</p>', { entries: [pressureEntry] });
+  reader.enable();
+  const paragraph = document.querySelector('p');
+  paragraph.lastChild.data = '-related condition';
+  await eventually(() => reader.getState().replacedCount === 0 && paragraph.textContent === 'hypertension-related condition');
+  assert.equal(reader.getState().annotatedCount, 1);
+  paragraph.lastChild.data = ' level';
+  await eventually(() => reader.getState().replacedCount === 1);
+  paragraph.prepend(document.createTextNode('pre'));
+  await eventually(() => reader.getState().count === 0);
+  assert.equal(paragraph.textContent, 'prehypertension level');
+  reader.disable();
+  assert.equal(paragraph.textContent, 'prehypertension level');
+});
+
+test('dynamic new content and metadata edits preserve originals through immediate mode switches', async (t) => {
+  const { document, reader } = fixture(t, '<p>hypertension</p>', { entries: [pressureEntry] });
+  reader.enable();
+  const first = marks(document)[0];
+  first.dataset.opeTerm = 'forged-entry';
+  first.click();
+  assert.equal(panel(document), undefined);
+  await eventually(() => reader.getState().replacedCount === 1 && marks(document)[0].dataset.opeTerm === pressureEntry.id);
+  const added = document.createElement('p');
+  added.textContent = 'Hypertension';
+  document.body.append(added);
+  reader.setMode('annotate');
+  assert.equal(reader.getState().count, 2);
+  assert.equal(document.querySelector('p').textContent, 'hypertension');
+  assert.equal(added.textContent, 'Hypertension');
+  reader.setMode('plain');
+  assert.equal(reader.getState().replacedCount, 2);
+  reader.disable();
+  assert.equal(added.textContent, 'Hypertension');
+});
+
+test('plain marks show exact original case in the panel and keep selection and feedback boundaries', (t) => {
+  const feedback = [];
+  const { document, reader } = fixture(t, '<p>HYPERTENSION</p>', { entries: [pressureEntry], onFeedback: (...args) => feedback.push(args) });
+  reader.enable();
+  const mark = marks(document)[0];
+  assert.match(mark.title, /HYPERTENSION.*HIGH BLOOD PRESSURE/);
+  assert.match(mark.getAttribute('aria-label'), /Original words: HYPERTENSION/);
+  const range = document.createRange();
+  range.selectNodeContents(mark);
+  document.getSelection().addRange(range);
+  mark.click();
+  assert.equal(panel(document), undefined);
+  assert.equal(document.getSelection().toString(), 'HIGH BLOOD PRESSURE');
+  document.getSelection().removeAllRanges();
+  mark.click();
+  const shadow = panel(document);
+  assert.equal(shadow.querySelector('.original-words').textContent, 'HYPERTENSION');
+  assert.equal(shadow.querySelector('.reading-words').textContent, 'HIGH BLOOD PRESSURE');
+  assert.equal(shadow.querySelector('details.wording-note').open, false);
+  [...shadow.querySelectorAll('button')].find((button) => /inaccurate/i.test(button.textContent)).click();
+  assert.deepEqual(feedback, [[pressureEntry, 'inaccurate']]);
+});
+
+test('replacement and annotation totals obey the shared mark limit in either mode', (t) => {
+  const { document, reader } = fixture(t, '<p>hypertension</p><p>pain</p><p>hypertension</p>', { entries: [pressureEntry, entries[0]], maxMarks: 2 });
+  assert.deepEqual(reader.enable(), { enabled: true, mode: 'plain', count: 2, replacedCount: 1, annotatedCount: 1, truncated: true });
+  assert.deepEqual(reader.setMode('annotate'), { enabled: true, mode: 'annotate', count: 2, replacedCount: 0, annotatedCount: 2, truncated: true });
+  reader.disable();
+  assert.equal(document.body.textContent, 'hypertensionpainhypertension');
 });
